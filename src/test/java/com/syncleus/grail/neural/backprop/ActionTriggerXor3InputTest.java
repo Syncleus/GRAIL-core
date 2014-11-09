@@ -140,28 +140,6 @@ public class ActionTriggerXor3InputTest {
         final PrioritySerialTrigger backpropTrigger = backpropTriggers.next();
         Assert.assertTrue(!backpropTriggers.hasNext());
         backpropTrigger.trigger();
-        /*
-        final Iterator<BackpropNeuron> hiddenNeurons = graph.getVertices("layer", "hidden", BackpropNeuron.class).iterator();
-        hiddenNeurons.next().backpropagate();
-        hiddenNeurons.next().backpropagate();
-        hiddenNeurons.next().backpropagate();
-        Assert.assertTrue(!hiddenNeurons.hasNext());
-        graph.commit();
-
-        final Iterator<BackpropNeuron> inputNeurons = graph.getVertices("layer", "input", BackpropNeuron.class).iterator();
-        inputNeurons.next().backpropagate();
-        inputNeurons.next().backpropagate();
-        inputNeurons.next().backpropagate();
-        Assert.assertTrue(!inputNeurons.hasNext());
-        graph.commit();
-
-        final Iterator<BackpropNeuron> biasNeurons = graph.getVertices("layer", "bias", BackpropNeuron.class).iterator();
-        biasNeurons.next().backpropagate();
-        biasNeurons.next().backpropagate();
-        biasNeurons.next().backpropagate();
-        biasNeurons.next().backpropagate();
-        Assert.assertTrue(!biasNeurons.hasNext());
-        */
         graph.commit();
     }
 
@@ -189,22 +167,6 @@ public class ActionTriggerXor3InputTest {
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
         return outputNeuron.getSignal();
-
-        /*
-        final Iterator<BackpropNeuron> hiddenNeurons = graph.getVertices("layer", "hidden", BackpropNeuron.class).iterator();
-        hiddenNeurons.next().propagate();
-        hiddenNeurons.next().propagate();
-        hiddenNeurons.next().propagate();
-        Assert.assertTrue(!hiddenNeurons.hasNext());
-        graph.commit();
-
-        final Iterator<BackpropNeuron> outputNeurons = graph.getVertices("layer", "output", BackpropNeuron.class).iterator();
-        final BackpropNeuron outputNeuron = outputNeurons.next();
-        Assert.assertTrue(!outputNeurons.hasNext());
-        outputNeuron.propagate();
-        graph.commit();
-        return outputNeuron.getSignal();
-        */
     }
 
     private static BackpropNeuron createNeuron(final FramedGraph<?> graph, final String layer) {
