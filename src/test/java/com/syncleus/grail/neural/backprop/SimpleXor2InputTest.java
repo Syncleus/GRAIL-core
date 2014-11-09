@@ -7,6 +7,8 @@ import org.junit.*;
 import java.util.*;
 
 public class SimpleXor2InputTest {
+    private static final ActivationFunction ACTIVATION_FUNCTION = new HyperbolicTangentActivationFunction();
+
     @Test
     public void testXor() {
         final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
@@ -22,6 +24,10 @@ public class SimpleXor2InputTest {
         final BackpropNeuron newOutputNeuron = SimpleXor2InputTest.createNeuron(graph, "output");
         newOutputNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
         newOutputNeuron.setLearningRate(0.09);
+        final BackpropNeuron biasNeuron = SimpleXor2InputTest.createNeuron(graph, "bias");
+        biasNeuron.setSignal(1.0);
+        biasNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
+        biasNeuron.setLearningRate(0.09);
 
         //connect all input neurons to hidden neurons
         for( BackpropNeuron inputNeuron : newInputNeurons ) {
@@ -41,25 +47,19 @@ public class SimpleXor2InputTest {
             hiddenNeuron.setLearningRate(0.09);
 
             //create bias neuron
-            final BackpropNeuron biasNeuron = SimpleXor2InputTest.createNeuron(graph, "bias");
-            biasNeuron.setSignal(1.0);
-            biasNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
-            biasNeuron.setLearningRate(0.09);
             graph.addEdge(null, biasNeuron.asVertex(), hiddenNeuron.asVertex(), "signals", BackpropSynapse.class);
         }
         //create bias neuron for output neuron
-        final BackpropNeuron biasNeuron = SimpleXor2InputTest.createNeuron(graph, "bias");
-        biasNeuron.setSignal(1.0);
-        biasNeuron.setLearningRate(0.09);
-        biasNeuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
         graph.addEdge(null, biasNeuron.asVertex(), newOutputNeuron.asVertex(), "signals", BackpropSynapse.class);
         graph.commit();
 
-        for(int i = 0; i < 1000; i++) {
+        for(int i = 0; i < 10000; i++) {
             SimpleXor2InputTest.train(graph, -1.0, 1.0, 1.0);
             SimpleXor2InputTest.train(graph, 1.0, -1.0, 1.0);
             SimpleXor2InputTest.train(graph, 1.0, 1.0, -1.0);
             SimpleXor2InputTest.train(graph, -1.0, -1.0, -1.0);
+            if( i%50 == 0 && SimpleXor2InputTest.calculateError(graph) < 0.1 )
+                break;
         }
         Assert.assertTrue(SimpleXor2InputTest.propagate(graph, 1.0, 1.0) < 0.0);
         Assert.assertTrue(SimpleXor2InputTest.propagate(graph, -1.0, -1.0) < 0.0);
@@ -67,7 +67,21 @@ public class SimpleXor2InputTest {
         Assert.assertTrue(SimpleXor2InputTest.propagate(graph, -1.0, 1.0) > 0.0);
     }
 
-    private static final ActivationFunction activationFunction = new SineActivationFunction();
+    private static double calculateError(FramedTransactionalGraph<?> graph) {
+        double actual = SimpleXor2InputTest.propagate(graph, 1.0, 1.0);
+        double error = Math.abs(actual + 1.0) / 2.0;
+
+        actual = SimpleXor2InputTest.propagate(graph, -1.0, -1.0);
+        error += Math.abs(actual + 1.0) / 2.0;
+
+        actual = SimpleXor2InputTest.propagate(graph, 1.0, -1.0);
+        error += Math.abs(actual - 1.0) / 2.0;
+
+        actual = SimpleXor2InputTest.propagate(graph, -1.0, 1.0);
+        error += Math.abs(actual - 1.0) / 2.0;
+
+        return error/4.0;
+    }
 
     private static void train(final FramedTransactionalGraph<?> graph, final double input1, final double input2, final double expected) {
         SimpleXor2InputTest.propagate(graph, input1, input2);
@@ -75,7 +89,7 @@ public class SimpleXor2InputTest {
         final Iterator<BackpropNeuron> outputNeurons = graph.getVertices("layer", "output", BackpropNeuron.class).iterator();
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
-        outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * activationFunction.activateDerivative(outputNeuron.getActivity()) );
+        outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * ACTIVATION_FUNCTION.activateDerivative(outputNeuron.getActivity()));
         graph.commit();
 
         final Iterator<BackpropNeuron> hiddenNeurons = graph.getVertices("layer", "hidden", BackpropNeuron.class).iterator();
@@ -93,10 +107,6 @@ public class SimpleXor2InputTest {
         graph.commit();
 
         final Iterator<BackpropNeuron> biasNeurons = graph.getVertices("layer", "bias", BackpropNeuron.class).iterator();
-        biasNeurons.next().backpropagate();
-        biasNeurons.next().backpropagate();
-        biasNeurons.next().backpropagate();
-        biasNeurons.next().backpropagate();
         biasNeurons.next().backpropagate();
         Assert.assertTrue(!biasNeurons.hasNext());
         graph.commit();

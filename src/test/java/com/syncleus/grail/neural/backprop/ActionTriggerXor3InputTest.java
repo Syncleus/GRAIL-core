@@ -10,6 +10,8 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.*;
 
 public class ActionTriggerXor3InputTest {
+    private static final ActivationFunction ACTIVATION_FUNCTION = new SineActivationFunction();
+
     @Test
     public void testXor() {
         final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
@@ -27,6 +29,8 @@ public class ActionTriggerXor3InputTest {
         newHiddenNeurons.add(ActionTriggerXor3InputTest.createNeuron(graph, "hidden"));
         newHiddenNeurons.add(ActionTriggerXor3InputTest.createNeuron(graph, "hidden"));
         final BackpropNeuron newOutputNeuron = ActionTriggerXor3InputTest.createNeuron(graph, "output");
+        final BackpropNeuron biasNeuron = ActionTriggerXor3InputTest.createNeuron(graph, "bias");
+        biasNeuron.setSignal(1.0);
 
         //connect all input neurons to hidden neurons
         for( final BackpropNeuron inputNeuron : newInputNeurons ) {
@@ -39,13 +43,9 @@ public class ActionTriggerXor3InputTest {
             graph.addEdge(null, hiddenNeuron.asVertex(), newOutputNeuron.asVertex(), "signals", BackpropSynapse.class);
 
             //create bias neuron
-            final BackpropNeuron biasNeuron = ActionTriggerXor3InputTest.createNeuron(graph, "bias");
-            biasNeuron.setSignal(1.0);
             graph.addEdge(null, biasNeuron.asVertex(), hiddenNeuron.asVertex(), "signals", BackpropSynapse.class);
         }
         //create bias neuron for output neuron
-        final BackpropNeuron biasNeuron = ActionTriggerXor3InputTest.createNeuron(graph, "bias");
-        biasNeuron.setSignal(1.0);
         graph.addEdge(null, biasNeuron.asVertex(), newOutputNeuron.asVertex(), "signals", BackpropSynapse.class);
 
         //
@@ -82,6 +82,10 @@ public class ActionTriggerXor3InputTest {
             newEdge.setTriggerPriority(0);
             newEdge.setTriggerAction("backpropagate");
         }
+        //also connect it to all the bias neurons
+        final PrioritySerialTriggerEdge biasTriggerBackpropEdge = graph.addEdge(null, backpropInputTrigger.asVertex(), biasNeuron.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
+        biasTriggerBackpropEdge.setTriggerPriority(0);
+        biasTriggerBackpropEdge.setTriggerAction("backpropagate");
 
         //create backpropagation trigger for the hidden layer
         final PrioritySerialTrigger backpropHiddenTrigger = ActionTriggerXor3InputTest.createPrioritySerialTrigger(graph);
@@ -93,7 +97,7 @@ public class ActionTriggerXor3InputTest {
             newEdge.setTriggerAction("backpropagate");
         }
 
-        //finally chain the hidden layers back propagation to the input layers trigger
+        //chain the hidden layers back propagation to the input layers trigger
         final PrioritySerialTriggerEdge chainTriggerBackpropEdge = graph.addEdge(null, backpropHiddenTrigger.asVertex(), backpropInputTrigger.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
         chainTriggerBackpropEdge.setTriggerPriority(1000);
         chainTriggerBackpropEdge.setTriggerAction("actionTrigger");
@@ -105,7 +109,7 @@ public class ActionTriggerXor3InputTest {
         // Graph is constructed, just need to train and test our network now.
         //
 
-        for(int i = 0; i < 1000; i++) {
+        for(int i = 0; i < 10000; i++) {
             ActionTriggerXor3InputTest.train(graph, 1.0, 1.0, 1.0, -1.0);
             ActionTriggerXor3InputTest.train(graph, -1.0, 1.0, 1.0, -1.0);
             ActionTriggerXor3InputTest.train(graph, 1.0, -1.0, 1.0, -1.0);
@@ -114,6 +118,8 @@ public class ActionTriggerXor3InputTest {
             ActionTriggerXor3InputTest.train(graph, -1.0, 1.0, -1.0, 1.0);
             ActionTriggerXor3InputTest.train(graph, 1.0, -1.0, -1.0, 1.0);
             ActionTriggerXor3InputTest.train(graph, -1.0, -1.0, -1.0, -1.0);
+            if( i%50 == 0 && ActionTriggerXor3InputTest.calculateError(graph) < 0.1 )
+                break;
         }
         Assert.assertTrue(ActionTriggerXor3InputTest.propagate(graph, 1.0, 1.0, 1.0) < 0.0);
         Assert.assertTrue(ActionTriggerXor3InputTest.propagate(graph, -1.0, 1.0, 1.0) < 0.0);
@@ -125,7 +131,33 @@ public class ActionTriggerXor3InputTest {
         Assert.assertTrue(ActionTriggerXor3InputTest.propagate(graph, -1.0, -1.0, -1.0) < 0.0);
     }
 
-    private static final ActivationFunction activationFunction = new SineActivationFunction();
+    private static double calculateError(FramedTransactionalGraph<?> graph) {
+        double actual = ActionTriggerXor3InputTest.propagate(graph, 1.0, 1.0, 1.0);
+        double error = Math.abs(actual + 1.0) / Math.abs(actual);
+
+        actual = ActionTriggerXor3InputTest.propagate(graph, -1.0, 1.0, 1.0);
+        error += Math.abs(actual + 1.0) / 2.0;
+
+        actual = ActionTriggerXor3InputTest.propagate(graph, 1.0, -1.0, 1.0);
+        error += Math.abs(actual + 1.0) / 2.0;
+
+        actual = ActionTriggerXor3InputTest.propagate(graph, 1.0, 1.0, -1.0);
+        error += Math.abs(actual + 1.0) / 2.0;
+
+        actual = ActionTriggerXor3InputTest.propagate(graph, 1.0, -1.0, -1.0);
+        error += Math.abs(actual - 1.0) / 2.0;
+
+        actual = ActionTriggerXor3InputTest.propagate(graph, -1.0, 1.0, -1.0);
+        error += Math.abs(actual - 1.0) / 2.0;
+
+        actual = ActionTriggerXor3InputTest.propagate(graph, -1.0, -1.0, 1.0);
+        error += Math.abs(actual - 1.0) / 2.0;
+
+        actual = ActionTriggerXor3InputTest.propagate(graph, -1.0, -1.0, -1.0);
+        error += Math.abs(actual + 1.0) / 2.0;
+
+        return error / 8.0;
+    }
 
     private static void train(final FramedTransactionalGraph<?> graph, final double input1, final double input2, final double input3, final double expected) {
         ActionTriggerXor3InputTest.propagate(graph, input1, input2, input3);
@@ -133,7 +165,7 @@ public class ActionTriggerXor3InputTest {
         final Iterator<BackpropNeuron> outputNeurons = graph.getVertices("layer", "output", BackpropNeuron.class).iterator();
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
-        outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * activationFunction.activateDerivative(outputNeuron.getActivity()) );
+        outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * ACTIVATION_FUNCTION.activateDerivative(outputNeuron.getActivity()));
         graph.commit();
 
         final Iterator<PrioritySerialTrigger> backpropTriggers = graph.getVertices("triggerPointer", "backpropagate", PrioritySerialTrigger.class).iterator();

@@ -7,7 +7,10 @@ import org.junit.*;
 import java.util.*;
 
 public class SimpleOrTest {
-   @Test
+
+    private static final ActivationFunction ACTIVATION_FUNCTION = new SineActivationFunction();
+
+    @Test
     public void testOr() {
         final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
 
@@ -26,11 +29,13 @@ public class SimpleOrTest {
         graph.addEdge(null, biasNeuron.asVertex(), newOutputNeuron.asVertex(), "signals", BackpropSynapse.class);//.asEdge().setProperty("type", "BackpropSynapse");
         graph.commit();
 
-        for(int i = 0; i < 1000; i++) {
+        for(int i = 0; i < 10000; i++) {
             SimpleOrTest.train(graph, -1.0, 1.0, 1.0);
             SimpleOrTest.train(graph, 1.0, -1.0, 1.0);
             SimpleOrTest.train(graph, 1.0, 1.0, 1.0);
             SimpleOrTest.train(graph, -1.0, -1.0, -1.0);
+            if( i%50 == 0 && SimpleOrTest.calculateError(graph) < 0.2 )
+                break;
         }
 
         Assert.assertTrue("expected >0.0, got: " + SimpleOrTest.propagate(graph, 1.0, 1.0), SimpleOrTest.propagate(graph, 1.0, 1.0) > 0.0);
@@ -39,7 +44,21 @@ public class SimpleOrTest {
         Assert.assertTrue("expected >0.0, got: " + SimpleOrTest.propagate(graph, -1.0, 1.0), SimpleOrTest.propagate(graph, -1.0, 1.0) > 0.0);
     }
 
-    private static final ActivationFunction activationFunction = new SineActivationFunction();
+    private static double calculateError(FramedTransactionalGraph<?> graph) {
+        double actual = SimpleOrTest.propagate(graph, 1.0, 1.0);
+        double error = Math.abs(actual - 1.0) / 2.0;
+
+        actual = SimpleOrTest.propagate(graph, -1.0, -1.0);
+        error += Math.abs(actual + 1.0) / 2.0;
+
+        actual = SimpleOrTest.propagate(graph, 1.0, -1.0);
+        error += Math.abs(actual - 1.0) / 2.0;
+
+        actual = SimpleOrTest.propagate(graph, -1.0, 1.0);
+        error += Math.abs(actual - 1.0) / 2.0;
+
+        return error/4.0;
+    }
 
     private static void train(final FramedTransactionalGraph<?> graph, final double input1, final double input2, final double expected) {
         SimpleOrTest.propagate(graph, input1, input2);
@@ -47,7 +66,7 @@ public class SimpleOrTest {
         final Iterator<BackpropNeuron> outputNeurons = graph.getVertices("layer", "output", BackpropNeuron.class).iterator();
         final BackpropNeuron outputNeuron = outputNeurons.next();
         Assert.assertTrue(!outputNeurons.hasNext());
-        outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * activationFunction.activateDerivative(outputNeuron.getActivity()) );
+        outputNeuron.setDeltaTrain((expected - outputNeuron.getSignal()) * ACTIVATION_FUNCTION.activateDerivative(outputNeuron.getActivity()));
         graph.commit();
 
         final Iterator<BackpropNeuron> inputNeurons = graph.getVertices("layer", "input", BackpropNeuron.class).iterator();
