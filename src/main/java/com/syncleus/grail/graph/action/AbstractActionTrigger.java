@@ -4,13 +4,13 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class AbstractActionTrigger implements ActionTrigger {
-    private final static Map<Class<?>, Map<String, Method>> ACTION_METHOD_CACHE = new HashMap<>();
+    private final static Map<Class<?>, Map<String, Set<Method>>> ACTION_METHOD_CACHE = new HashMap<>();
 
-    protected static final Map<String, Method> populateCache(final Class<?> parentClass) {
-        Map<String, Method> actionMethods = AbstractActionTrigger.ACTION_METHOD_CACHE.get(parentClass);
+    protected static final Map<String, Set<Method>> populateCache(final Class<?> parentClass) {
+        Map<String, Set<Method>> actionMethods = AbstractActionTrigger.ACTION_METHOD_CACHE.get(parentClass);
         if( actionMethods != null )
             return actionMethods;
-        actionMethods = new HashMap<String, Method>();
+        actionMethods = new HashMap<String, Set<Method>>();
         AbstractActionTrigger.ACTION_METHOD_CACHE.put(parentClass, actionMethods);
 
         for(Class<?> triggerClass : parentClass.getInterfaces() ) {
@@ -20,11 +20,18 @@ public abstract class AbstractActionTrigger implements ActionTrigger {
                 if (actionAnnotation != null ) {
                     if (triggerMethod.getParameterCount() > 0)
                         throw new IllegalStateException("A method annotated with @Action required parameters");
-                    actionMethods.put(actionAnnotation.value(), triggerMethod);
+
+                    Set<Method> methods = actionMethods.get(actionAnnotation.value());
+                    if( methods == null ) {
+                        methods = new HashSet<Method>();
+                        actionMethods.put(actionAnnotation.value(), methods);
+                    }
+
+                    methods.add(triggerMethod);
                 }
             }
         }
 
-        return actionMethods;
+        return Collections.unmodifiableMap(actionMethods);
     }
 }

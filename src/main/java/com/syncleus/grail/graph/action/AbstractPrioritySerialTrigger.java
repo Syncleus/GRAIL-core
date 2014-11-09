@@ -20,20 +20,22 @@ public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigge
 
             final Class<?> parentClass = triggerObject.getClass();
 
-            Map<String, Method> actionMethods = AbstractPrioritySerialTrigger.populateCache(parentClass);
+            Map<String, Set<Method>> actionMethods = AbstractPrioritySerialTrigger.populateCache(parentClass);
 
-            final Method triggerMethod = actionMethods.get(actionName);
-            if( triggerMethod == null )
+            final Set<Method> triggerMethods = actionMethods.get(actionName);
+            if( triggerMethods == null || triggerMethods.size() <= 0 )
                 throw new IllegalStateException("A ActionTrigger was configured to trigger an action which does not exist on the current object");
 
-            try {
-                triggerMethod.invoke(triggerObject, null);
-            }
-            catch (final IllegalAccessException caught) {
-                throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
-            }
-            catch (final InvocationTargetException caught) {
-                throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
+            for( final Method triggerMethod : triggerMethods ) {
+                try {
+                    triggerMethod.invoke(triggerObject, null);
+                }
+                catch (final IllegalAccessException caught) {
+                    throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
+                }
+                catch (final InvocationTargetException caught) {
+                    throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
+                }
             }
         }
     }
