@@ -63,7 +63,7 @@ public class TypedAdjacencyHandlerTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testGetSonsNoArgument() {
+    public void testGetSonsNoArgumentGet() {
         final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
         final FramedGraphFactory factory = new GrailGraphFactory(Collections.<Module>emptyList(), TypedAdjacencyHandlerTest.EXCEPTION_TEST_TYPES);
 
@@ -78,7 +78,21 @@ public class TypedAdjacencyHandlerTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testGetSonsExtraArgument() {
+    public void testGetSonsNoArgumentAdd() {
+        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final FramedGraphFactory factory = new GrailGraphFactory(Collections.<Module>emptyList(), TypedAdjacencyHandlerTest.EXCEPTION_TEST_TYPES);
+
+        final FramedGraph<?> framedGraph = factory.create(godGraph);
+
+        final Iterable<ExceptionGod> gods = (Iterable<ExceptionGod>) framedGraph.getVertices("name", "jupiter", ExceptionGod.class);
+        final ExceptionGod father = gods.iterator().next();
+        Assert.assertEquals(father.getName(), "jupiter");
+
+        father.addSon();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testGetSonsExtraArgumentGet() {
         final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
         final FramedGraphFactory factory = new GrailGraphFactory(Collections.<Module>emptyList(), TypedAdjacencyHandlerTest.EXCEPTION_TEST_TYPES);
 
@@ -93,7 +107,7 @@ public class TypedAdjacencyHandlerTest {
     }
 
     @Test(expected = IllegalStateException.class)
-    public void testGetSonsWrongArgument() {
+    public void testGetSonsWrongArgumentGet() {
         final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
         final FramedGraphFactory factory = new GrailGraphFactory(Collections.<Module>emptyList(), TypedAdjacencyHandlerTest.EXCEPTION_TEST_TYPES);
 
@@ -105,6 +119,34 @@ public class TypedAdjacencyHandlerTest {
 
         final Iterable<? extends ExceptionGod> children = father.getSons("bad stuff will now happen");
         Assert.assertTrue(!children.iterator().hasNext());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testGetSonsWrongArgumentAdd() {
+        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final FramedGraphFactory factory = new GrailGraphFactory(Collections.<Module>emptyList(), TypedAdjacencyHandlerTest.EXCEPTION_TEST_TYPES);
+
+        final FramedGraph<?> framedGraph = factory.create(godGraph);
+
+        final Iterable<ExceptionGod> gods = (Iterable<ExceptionGod>) framedGraph.getVertices("name", "jupiter", ExceptionGod.class);
+        final ExceptionGod father = gods.iterator().next();
+        Assert.assertEquals(father.getName(), "jupiter");
+
+        father.addSon("bad stuff will now happen");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testGetSonsExtraArgumentAdd() {
+        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final FramedGraphFactory factory = new GrailGraphFactory(Collections.<Module>emptyList(), TypedAdjacencyHandlerTest.EXCEPTION_TEST_TYPES);
+
+        final FramedGraph<?> framedGraph = factory.create(godGraph);
+
+        final Iterable<ExceptionGod> gods = (Iterable<ExceptionGod>) framedGraph.getVertices("name", "jupiter", ExceptionGod.class);
+        final ExceptionGod father = gods.iterator().next();
+        Assert.assertEquals(father.getName(), "jupiter");
+
+        father.addSon("bad stuff will now happen", "even worse");
     }
 
     @Test(expected = IllegalStateException.class)

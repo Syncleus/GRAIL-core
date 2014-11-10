@@ -40,6 +40,15 @@ public interface ExceptionGod {
     @TypedAdjacency(label="Father", direction = Direction.IN)
     <N extends ExceptionGod> Iterable<? extends N> getSons(String badStuff);
 
+    @TypedAdjacency(label="father", direction=Direction.IN)
+    <N extends God> N addSon();
+
+    @TypedAdjacency(label="father", direction=Direction.IN)
+    <N extends God> N addSon(String badArg);
+
+    @TypedAdjacency(label="father", direction=Direction.IN)
+    <N extends God> N addSon(String badArg, String worseArg);
+
     @TypedAdjacency(label="Father", direction = Direction.IN)
     <N extends ExceptionGod> Iterable<? extends N> badSons(Class<? extends N> type);
 
