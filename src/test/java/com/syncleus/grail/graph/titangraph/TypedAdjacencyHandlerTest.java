@@ -48,6 +48,23 @@ public class TypedAdjacencyHandlerTest {
     }
 
     @Test
+    public void testGetSonsExtended() {
+        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final FramedGraphFactory factory = new GrailGraphFactory(Collections.<Module>emptyList(), TypedAdjacencyHandlerTest.TEST_TYPES);
+
+        final FramedGraph<?> framedGraph = factory.create(godGraph);
+
+        final Iterable<God> gods = (Iterable<God>) framedGraph.getVertices("name", "jupiter", God.class);
+        final God father = gods.iterator().next();
+        Assert.assertEquals(father.getName(), "jupiter");
+
+        final Iterable<? extends God> children = father.getSons(GodExtended.class);
+        final God child = children.iterator().next();
+        Assert.assertEquals(child.getName(), "hercules");
+        Assert.assertTrue(child instanceof GodExtended);
+    }
+
+    @Test
     public void testGetSonsNoLabel() {
         final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
         final FramedGraphFactory factory = new GrailGraphFactory(Collections.<Module>emptyList(), TypedAdjacencyHandlerTest.EXCEPTION_TEST_TYPES);

@@ -89,8 +89,8 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
     }
 
     private Iterable getNodes(final Class type, final Direction direction, final String label, final FramedGraph<?> framedGraph, final Vertex vertex) {
-        final TypeValue typeValue = TypedAdjacencyMethodHandler.determineTypeValue(type);
-        final TypeField typeField = TypedAdjacencyMethodHandler.determineTypeField(type);
+        final TypeValue typeValue = ReflectionUtility.determineTypeValue(type);
+        final TypeField typeField = ReflectionUtility.determineTypeField(type);
         final Set<String> allAllowedValues = this.hierarchy.get(typeValue.value());
         switch(direction) {
         case BOTH:
@@ -105,8 +105,8 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
     }
 
     private Object getNode(final Class type, final Direction direction, final String label, final FramedGraph<?> framedGraph, final Vertex vertex) {
-        final TypeValue typeValue = TypedAdjacencyMethodHandler.determineTypeValue(type);
-        final TypeField typeField = TypedAdjacencyMethodHandler.determineTypeField(type);
+        final TypeValue typeValue = ReflectionUtility.determineTypeValue(type);
+        final TypeField typeField = ReflectionUtility.determineTypeField(type);
         final Set<String> allAllowedValues = this.hierarchy.get(typeValue.value());
         switch(direction) {
             case BOTH:
@@ -120,8 +120,8 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
     }
 
     private static Object addNode(final Class type, final Direction direction, final String label, final FramedGraph<?> framedGraph, final Vertex vertex) {
-        TypedAdjacencyMethodHandler.determineTypeValue(type);
-        TypedAdjacencyMethodHandler.determineTypeField(type);
+        ReflectionUtility.determineTypeValue(type);
+        ReflectionUtility.determineTypeField(type);
 
         final Vertex newVertex = framedGraph.addVertex(null);
         final Object newNode = framedGraph.frame(newVertex, type);
@@ -146,43 +146,5 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
     private static void checkReturnType(final Method method, final Class type) {
         if( ! method.getReturnType().isAssignableFrom(type) )
             throw new IllegalArgumentException("The type is not a subtype of the return type.");
-    }
-
-    private static TypeValue determineTypeValue(final Class<?> type) {
-        final TypeValue typeValue = type.getDeclaredAnnotation(TypeValue.class);
-        if( typeValue == null )
-            throw new IllegalArgumentException("The specified type does not have a TypeValue annotation");
-        return typeValue;
-    }
-
-    private static TypeField determineTypeField(final Class<?> type) {
-        TypeField typeField = type.getAnnotation(TypeField.class);
-        if( typeField == null ) {
-            final Class<?>[] parents = type.getInterfaces();
-            for( final Class<?> parent : parents ) {
-                typeField = TypedAdjacencyMethodHandler.determineTypeFieldRecursive(parent);
-                if( typeField != null )
-                    return typeField;
-            }
-
-            //we know typeField must still be null since we didnt return a value yet
-            throw new IllegalArgumentException("The specified type does not have a parent with a typeField annotation.");
-        }
-
-        return typeField;
-    }
-
-    private static TypeField determineTypeFieldRecursive(final Class<?> type) {
-        TypeField typeField = type.getAnnotation(TypeField.class);
-        if( typeField == null ) {
-            final Class<?>[] parents = type.getInterfaces();
-            for( final Class<?> parent : parents ) {
-                typeField = TypedAdjacencyMethodHandler.determineTypeFieldRecursive(parent);
-                if( typeField != null )
-                    return typeField;
-            }
-            return null;
-        }
-        return typeField;
     }
 }

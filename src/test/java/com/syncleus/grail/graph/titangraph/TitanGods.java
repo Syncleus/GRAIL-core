@@ -136,7 +136,7 @@ public class TitanGods {
         neptune.addEdge("brother", jupiter);
         neptune.addEdge("brother", pluto);
 
-        ElementHelper.setProperties(hercules.addEdge("father", jupiter), "classType", "Father");
+        ElementHelper.setProperties(hercules.addEdge("father", jupiter), "classType", "FatherEdgeExtended");
         hercules.addEdge("lives", sky).setProperty("reason", "loves heights");
         ElementHelper.setProperties(hercules.addEdge("battled", nemean), "time", 1, "place", Geoshape.point(38.1f, 23.7f));
         ElementHelper.setProperties(hercules.addEdge("battled", hydra), "time", 2, "place", Geoshape.point(37.7f, 23.9f));
