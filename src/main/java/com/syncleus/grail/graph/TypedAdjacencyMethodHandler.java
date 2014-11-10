@@ -1,8 +1,25 @@
+/******************************************************************************
+ *                                                                             *
+ *  Copyright: (c) Syncleus, Inc.                                              *
+ *                                                                             *
+ *  You may redistribute and modify this source code under the terms and       *
+ *  conditions of the Open Source Community License - Type C version 1.0       *
+ *  or any later version as published by Syncleus, Inc. at www.syncleus.com.   *
+ *  There should be a copy of the license included with this file. If a copy   *
+ *  of the license is not included you are granted no right to distribute or   *
+ *  otherwise use this file except through a legal and valid license. You      *
+ *  should also contact Syncleus, Inc. at the information below if you cannot  *
+ *  find a license:                                                            *
+ *                                                                             *
+ *  Syncleus, Inc.                                                             *
+ *  2604 South 12th Street                                                     *
+ *  Philadelphia, PA 19148                                                     *
+ *                                                                             *
+ ******************************************************************************/
 package com.syncleus.grail.graph;
 
 import com.tinkerpop.blueprints.*;
 import com.tinkerpop.frames.*;
-import com.tinkerpop.frames.annotations.AdjacencyAnnotationHandler;
 import com.tinkerpop.frames.modules.MethodHandler;
 import com.tinkerpop.frames.modules.typedgraph.*;
 import com.tinkerpop.gremlin.Tokens;
@@ -74,7 +91,7 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
     private Iterable getNodes(final Class type, final Direction direction, final String label, final FramedGraph<?> framedGraph, final Vertex vertex) {
         final TypeValue typeValue = TypedAdjacencyMethodHandler.determineTypeValue(type);
         final TypeField typeField = TypedAdjacencyMethodHandler.determineTypeField(type);
-        Set<String> allAllowedValues = this.hierarchy.get(typeValue.value());
+        final Set<String> allAllowedValues = this.hierarchy.get(typeValue.value());
         switch(direction) {
         case BOTH:
             return framedGraph.frameVertices((Iterable<Vertex>) new GremlinPipeline<Vertex, Vertex>(vertex).both(label).has(typeField.value(), Tokens.T.in, allAllowedValues), type);
@@ -141,14 +158,15 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
     private static TypeField determineTypeField(final Class<?> type) {
         TypeField typeField = type.getAnnotation(TypeField.class);
         if( typeField == null ) {
-            Class<?>[] parents = type.getInterfaces();
+            final Class<?>[] parents = type.getInterfaces();
             for( final Class<?> parent : parents ) {
                 typeField = TypedAdjacencyMethodHandler.determineTypeFieldRecursive(parent);
                 if( typeField != null )
                     return typeField;
             }
-            if( typeField == null )
-                throw new IllegalArgumentException("The specified type does not have a parent with a typeField annotation.");
+
+            //we know typeField must still be null since we didnt return a value yet
+            throw new IllegalArgumentException("The specified type does not have a parent with a typeField annotation.");
         }
 
         return typeField;
@@ -157,7 +175,7 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
     private static TypeField determineTypeFieldRecursive(final Class<?> type) {
         TypeField typeField = type.getAnnotation(TypeField.class);
         if( typeField == null ) {
-            Class<?>[] parents = type.getInterfaces();
+            final Class<?>[] parents = type.getInterfaces();
             for( final Class<?> parent : parents ) {
                 typeField = TypedAdjacencyMethodHandler.determineTypeFieldRecursive(parent);
                 if( typeField != null )

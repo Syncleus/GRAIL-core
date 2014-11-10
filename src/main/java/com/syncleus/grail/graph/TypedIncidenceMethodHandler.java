@@ -1,3 +1,21 @@
+/******************************************************************************
+ *                                                                             *
+ *  Copyright: (c) Syncleus, Inc.                                              *
+ *                                                                             *
+ *  You may redistribute and modify this source code under the terms and       *
+ *  conditions of the Open Source Community License - Type C version 1.0       *
+ *  or any later version as published by Syncleus, Inc. at www.syncleus.com.   *
+ *  There should be a copy of the license included with this file. If a copy   *
+ *  of the license is not included you are granted no right to distribute or   *
+ *  otherwise use this file except through a legal and valid license. You      *
+ *  should also contact Syncleus, Inc. at the information below if you cannot  *
+ *  find a license:                                                            *
+ *                                                                             *
+ *  Syncleus, Inc.                                                             *
+ *  2604 South 12th Street                                                     *
+ *  Philadelphia, PA 19148                                                     *
+ *                                                                             *
+ ******************************************************************************/
 package com.syncleus.grail.graph;
 
 import com.tinkerpop.blueprints.*;
@@ -5,8 +23,6 @@ import com.tinkerpop.frames.*;
 import com.tinkerpop.frames.modules.MethodHandler;
 import com.tinkerpop.frames.modules.typedgraph.*;
 import com.tinkerpop.gremlin.java.GremlinPipeline;
-
-import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -28,7 +44,6 @@ public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence
 
         if( ! (element instanceof Vertex) )
             throw new IllegalStateException("element is not a type of Vertex " + element.getClass().getName());
-        final Vertex vertex = (Vertex) element;
 
         if(annotation.label() == null)
             throw new IllegalStateException("method " + method.getName() + " label must be specified on @TypedIncidence annotation");
@@ -41,6 +56,8 @@ public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence
                     throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedIncidence, had a single argument, but that argument was not of the type Class");
 
                 final Class type = (Class) arguments[0];
+
+                final Vertex vertex = (Vertex) element;
 
                 if( method.getReturnType().isAssignableFrom(Iterable.class))
                     return TypedIncidenceMethodHandler.getEdges(type, annotation.direction(), annotation.label(), framedGraph, vertex);
@@ -60,12 +77,12 @@ public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence
         final TypeField typeField = TypedIncidenceMethodHandler.determineTypeField(type);
         switch(direction) {
         case BOTH:
-            return framedGraph.frameEdges((Iterable<com.tinkerpop.blueprints.Edge>) new GremlinPipeline<Vertex, Vertex>(vertex).bothE(label).has(typeField.value(), typeValue.value()), type);
+            return framedGraph.frameEdges((Iterable<Edge>) new GremlinPipeline<Vertex, Vertex>(vertex).bothE(label).has(typeField.value(), typeValue.value()), type);
         case IN:
-            return framedGraph.frameEdges((Iterable<com.tinkerpop.blueprints.Edge>) new GremlinPipeline<Vertex, Vertex>(vertex).inE(label).has(typeField.value(), typeValue.value()), type);
+            return framedGraph.frameEdges((Iterable<Edge>) new GremlinPipeline<Vertex, Vertex>(vertex).inE(label).has(typeField.value(), typeValue.value()), type);
         //Assume out direction
         default:
-            return framedGraph.frameEdges((Iterable<com.tinkerpop.blueprints.Edge>) new GremlinPipeline<Vertex, Vertex>(vertex).outE(label).has(typeField.value(), typeValue.value()), type);
+            return framedGraph.frameEdges((Iterable<Edge>) new GremlinPipeline<Vertex, Vertex>(vertex).outE(label).has(typeField.value(), typeValue.value()), type);
         }
 
     }
@@ -75,12 +92,12 @@ public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence
         final TypeField typeField = TypedIncidenceMethodHandler.determineTypeField(type);
         switch(direction) {
         case BOTH:
-            return framedGraph.frame((com.tinkerpop.blueprints.Edge) new GremlinPipeline<Vertex, Vertex>(vertex).bothE(label).has(typeField.value(), typeValue.value()).next(), type);
+            return framedGraph.frame((Edge) new GremlinPipeline<Vertex, Vertex>(vertex).bothE(label).has(typeField.value(), typeValue.value()).next(), type);
         case IN:
-            return framedGraph.frame((com.tinkerpop.blueprints.Edge) new GremlinPipeline<Vertex, Vertex>(vertex).inE(label).has(typeField.value(), typeValue.value()).next(), type);
+            return framedGraph.frame((Edge) new GremlinPipeline<Vertex, Vertex>(vertex).inE(label).has(typeField.value(), typeValue.value()).next(), type);
         //Assume out direction
         default:
-            return framedGraph.frame((com.tinkerpop.blueprints.Edge) new GremlinPipeline<Vertex, Vertex>(vertex).outE(label).has(typeField.value(), typeValue.value()).next(), type);
+            return framedGraph.frame((Edge) new GremlinPipeline<Vertex, Vertex>(vertex).outE(label).has(typeField.value(), typeValue.value()).next(), type);
         }
     }
 
@@ -99,14 +116,15 @@ public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence
     private static TypeField determineTypeField(final Class<?> type) {
         TypeField typeField = type.getAnnotation(TypeField.class);
         if( typeField == null ) {
-            Class<?>[] parents = type.getInterfaces();
+            final Class<?>[] parents = type.getInterfaces();
             for( final Class<?> parent : parents ) {
                 typeField = TypedIncidenceMethodHandler.determineTypeFieldRecursive(parent);
                 if( typeField != null )
                     return typeField;
             }
-            if( typeField == null )
-                throw new IllegalArgumentException("The specified type does not have a parent with a typeField annotation.");
+
+            //typeField is known to still be null.
+            throw new IllegalArgumentException("The specified type does not have a parent with a typeField annotation.");
         }
 
         return typeField;
@@ -115,7 +133,7 @@ public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence
     private static TypeField determineTypeFieldRecursive(final Class<?> type) {
         TypeField typeField = type.getAnnotation(TypeField.class);
         if( typeField == null ) {
-            Class<?>[] parents = type.getInterfaces();
+            final Class<?>[] parents = type.getInterfaces();
             for( final Class<?> parent : parents ) {
                 typeField = TypedIncidenceMethodHandler.determineTypeFieldRecursive(parent);
                 if( typeField != null )
