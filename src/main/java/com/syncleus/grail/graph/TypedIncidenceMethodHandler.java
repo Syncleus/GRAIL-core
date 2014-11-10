@@ -46,8 +46,7 @@ public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence
         if( ! (element instanceof Vertex) )
             throw new IllegalStateException("element is not a type of Vertex " + element.getClass().getName());
 
-        if(annotation.label() == null)
-            throw new IllegalStateException("method " + method.getName() + " label must be specified on @TypedIncidence annotation");
+        assert annotation.label() != null;
 
         if( ClassUtilities.isGetMethod(method) ) {
             if( arguments == null )

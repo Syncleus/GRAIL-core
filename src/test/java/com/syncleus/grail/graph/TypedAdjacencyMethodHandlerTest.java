@@ -50,6 +50,20 @@ public class TypedAdjacencyMethodHandlerTest {
     }
 
     @Test(expected = IllegalStateException.class)
+    public void testWrongArgument() {
+        final FramedGraph framedGraph = BlankGraphFactory.makeTinkerGraph();
+
+        HANDLER.processElement(MOCK_FRAME, GET_SON_METHOD, new Object[]{new Object()}, TYPED_ANNOTATION, framedGraph, MOCK_VERTEX);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testToManyArgument() {
+        final FramedGraph framedGraph = BlankGraphFactory.makeTinkerGraph();
+
+        HANDLER.processElement(MOCK_FRAME, GET_SON_METHOD, new Object[]{new Object(), new Object()}, TYPED_ANNOTATION, framedGraph, MOCK_VERTEX);
+    }
+
+    @Test(expected = IllegalStateException.class)
     public void testNullArguments() {
         final FramedGraph framedGraph = BlankGraphFactory.makeTinkerGraph();
 

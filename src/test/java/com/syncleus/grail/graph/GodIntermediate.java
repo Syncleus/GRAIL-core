@@ -18,12 +18,8 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.blueprints.Direction;
-import com.tinkerpop.frames.annotations.gremlin.GremlinGroovy;
 import com.tinkerpop.frames.modules.typedgraph.TypeValue;
 
-@TypeValue("GodExtended")
-public interface GodExtended extends GodIntermediate {
-    @GremlinGroovy("it.in('father').in('father')")
-    God getGrandson();
+@TypeValue("GodIntermediate")
+public interface GodIntermediate extends God {
 }

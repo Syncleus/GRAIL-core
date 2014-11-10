@@ -16,14 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
+package com.syncleus.grail.neural.activation;
 
-import com.tinkerpop.blueprints.Direction;
-import com.tinkerpop.frames.annotations.gremlin.GremlinGroovy;
-import com.tinkerpop.frames.modules.typedgraph.TypeValue;
+public class NoDefaultConstructorActivationFunction implements ActivationFunction {
+    public NoDefaultConstructorActivationFunction(String something) {
+    }
 
-@TypeValue("GodExtended")
-public interface GodExtended extends GodIntermediate {
-    @GremlinGroovy("it.in('father').in('father')")
-    God getGrandson();
+    @Override
+    public double activate(final double activity) {
+        return 0;
+    }
+
+    @Override
+    public double activateDerivative(final double activity) {
+        return 0;
+    }
+
+    @Override
+    public boolean isBound() {
+        return false;
+    }
+
+    @Override
+    public double getUpperLimit() {
+        return 0;
+    }
+
+    @Override
+    public double getLowerLimit() {
+        return 0;
+    }
 }

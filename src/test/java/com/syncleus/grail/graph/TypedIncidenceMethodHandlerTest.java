@@ -27,6 +27,7 @@ import java.lang.reflect.Method;
 public class TypedIncidenceMethodHandlerTest {
     private static final TypedIncidenceMethodHandler HANDLER = new TypedIncidenceMethodHandler(null);
     private static final Method GET_SON_EDGE_METHOD;
+    private static final Method ADD_SON_EDGE_METHOD;
     private static final TypedIncidence TYPED_ANNOTATION;
     private static final Object MOCK_FRAME = new Object();
     private static final Element MOCK_ELEMENT = new MockElement();
@@ -40,6 +41,13 @@ public class TypedIncidenceMethodHandlerTest {
             throw new IllegalStateException(caught);
         }
 
+        try {
+            ADD_SON_EDGE_METHOD = God.class.getMethod("addSonEdge", Class.class);
+        }
+        catch( final NoSuchMethodException caught ) {
+            throw new IllegalStateException(caught);
+        }
+
         TYPED_ANNOTATION = GET_SON_EDGE_METHOD.getAnnotation(TypedIncidence.class);
     }
 
@@ -48,6 +56,27 @@ public class TypedIncidenceMethodHandlerTest {
         final FramedGraph framedGraph = BlankGraphFactory.makeTinkerGraph();
 
         HANDLER.processElement(MOCK_FRAME, GET_SON_EDGE_METHOD, new Object[]{God.class}, TYPED_ANNOTATION, framedGraph, MOCK_ELEMENT);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testWrongArgument() {
+        final FramedGraph framedGraph = BlankGraphFactory.makeTinkerGraph();
+
+        HANDLER.processElement(MOCK_FRAME, GET_SON_EDGE_METHOD, new Object[]{new Object()}, TYPED_ANNOTATION, framedGraph, MOCK_VERTEX);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testTooManyArgument() {
+        final FramedGraph framedGraph = BlankGraphFactory.makeTinkerGraph();
+
+        HANDLER.processElement(MOCK_FRAME, GET_SON_EDGE_METHOD, new Object[]{new Object(), new Object()}, TYPED_ANNOTATION, framedGraph, MOCK_VERTEX);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testTooBadPrefix() {
+        final FramedGraph framedGraph = BlankGraphFactory.makeTinkerGraph();
+
+        HANDLER.processElement(MOCK_FRAME, ADD_SON_EDGE_METHOD, new Object[]{God.class}, TYPED_ANNOTATION, framedGraph, MOCK_VERTEX);
     }
 
     @Test(expected = IllegalStateException.class)

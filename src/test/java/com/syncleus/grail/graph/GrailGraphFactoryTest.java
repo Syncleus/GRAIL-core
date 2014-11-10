@@ -18,12 +18,18 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.blueprints.Direction;
-import com.tinkerpop.frames.annotations.gremlin.GremlinGroovy;
-import com.tinkerpop.frames.modules.typedgraph.TypeValue;
+import com.tinkerpop.frames.FramedTransactionalGraph;
+import com.tinkerpop.frames.modules.javahandler.JavaHandlerModule;
+import junit.framework.Assert;
+import org.junit.Test;
 
-@TypeValue("GodExtended")
-public interface GodExtended extends GodIntermediate {
-    @GremlinGroovy("it.in('father').in('father')")
-    God getGrandson();
+import java.util.Collections;
+
+public class GrailGraphFactoryTest {
+    @Test
+    public void testCustomModules() {
+        final GrailGraphFactory factory = new GrailGraphFactory(Collections.singleton(new JavaHandlerModule()));
+        final FramedTransactionalGraph<?> graph = factory.create(new MockTransactionalTinkerGraph());
+        Assert.assertTrue( !graph.getVertices().iterator().hasNext() );
+    }
 }
