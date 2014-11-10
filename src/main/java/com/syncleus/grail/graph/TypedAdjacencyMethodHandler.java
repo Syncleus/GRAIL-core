@@ -31,8 +31,7 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
             throw new IllegalStateException("element is not a type of Vertex " + element.getClass().getName());
         final Vertex vertex = (Vertex) element;
 
-        if(annotation.label() == null)
-            throw new IllegalStateException("method " + method.getName() + " label must be specified on @TypedAdjacency annotation");
+        assert annotation.label() != null;
 
         if( ClassUtilities.isAddMethod(method) ) {
             if( arguments == null )

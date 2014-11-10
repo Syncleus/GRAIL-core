@@ -8,7 +8,7 @@ import org.junit.*;
 import java.util.*;
 
 public class SimpleXor3InputTest {
-    private static final ActivationFunction activationFunction = new SineActivationFunction();
+    private static final ActivationFunction activationFunction = new HyperbolicTangentActivationFunction();
 
     @Test
     public void testXor() {
@@ -44,7 +44,7 @@ public class SimpleXor3InputTest {
         graph.commit();
 
         for(int i = 0; i < 10000 ; i++) {
-            SimpleXor3InputTest.train(graph, 1.0, 1.0, 1.0, -1.0);
+            SimpleXor3InputTest.train(graph, 1.0, 1.0, 1.0, 1.0);
             SimpleXor3InputTest.train(graph, -1.0, 1.0, 1.0, -1.0);
             SimpleXor3InputTest.train(graph, 1.0, -1.0, 1.0, -1.0);
             SimpleXor3InputTest.train(graph, 1.0, 1.0, -1.0, -1.0);
@@ -55,7 +55,7 @@ public class SimpleXor3InputTest {
             if( i%50 == 0 && SimpleXor3InputTest.calculateError(graph) < 0.1 )
                 break;
         }
-        Assert.assertTrue(SimpleXor3InputTest.propagate(graph, 1.0, 1.0, 1.0) < 0.0);
+        Assert.assertTrue(SimpleXor3InputTest.propagate(graph, 1.0, 1.0, 1.0) > 0.0);
         Assert.assertTrue(SimpleXor3InputTest.propagate(graph, -1.0, 1.0, 1.0) < 0.0);
         Assert.assertTrue(SimpleXor3InputTest.propagate(graph, 1.0, -1.0, 1.0) < 0.0);
         Assert.assertTrue(SimpleXor3InputTest.propagate(graph, 1.0, 1.0, -1.0) < 0.0);
@@ -67,7 +67,7 @@ public class SimpleXor3InputTest {
 
     private static double calculateError(FramedTransactionalGraph<?> graph) {
         double actual = SimpleXor3InputTest.propagate(graph, 1.0, 1.0, 1.0);
-        double error = Math.abs(actual + 1.0) / Math.abs(actual);
+        double error = Math.abs(actual - 1.0) / 2.0;
 
         actual = SimpleXor3InputTest.propagate(graph, -1.0, 1.0, 1.0);
         error += Math.abs(actual + 1.0) / 2.0;
