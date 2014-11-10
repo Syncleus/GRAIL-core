@@ -11,7 +11,7 @@ public abstract class AbstractActivationNeuron implements ActivationNeuron {
 
     @Initializer
     public void init() {
-        this.setActivationFunctionClass(SineActivationFunction.class);
+        this.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
         this.setActivity(0.0);
     }
 
