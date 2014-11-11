@@ -26,7 +26,7 @@ public abstract class AbstractSignalMultiplyingEdge implements SignalMultiplying
     private static final Random RANDOM = new Random();
     private static final double RANGE = 2.0;
     private static final double OFFSET = -1.0;
-    private static final double SCALE = 1.0 / 10.0;
+    private static final double SCALE = 0.1;
 
     @Initializer
     public void init() {

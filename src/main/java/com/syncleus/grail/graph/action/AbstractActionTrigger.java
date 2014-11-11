@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 public abstract class AbstractActionTrigger implements ActionTrigger {
-    private final static Map<Class<?>, Map<String, Set<Method>>> ACTION_METHOD_CACHE = new HashMap<>();
+    private static final Map<Class<?>, Map<String, Set<Method>>> ACTION_METHOD_CACHE = new HashMap<>();
 
     protected static final Map<String, Set<Method>> populateCache(final Class<?> parentClass) {
         Map<String, Set<Method>> actionMethods = AbstractActionTrigger.ACTION_METHOD_CACHE.get(parentClass);

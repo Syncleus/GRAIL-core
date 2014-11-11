@@ -50,10 +50,10 @@ public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence
 
         if( ClassUtilities.isGetMethod(method) ) {
             if( arguments == null )
-                throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedIncidence but had no arguments.");
+                throw new IllegalStateException(method.getName() + " was annotated with @TypedIncidence but had no arguments.");
             else if( arguments.length == 1 ) {
                 if( !(arguments[0] instanceof Class) )
-                    throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedIncidence, had a single argument, but that argument was not of the type Class");
+                    throw new IllegalStateException(method.getName() + " was annotated with @TypedIncidence, had a single argument, but that argument was not of the type Class");
 
                 final Class type = (Class) arguments[0];
 
@@ -66,10 +66,10 @@ public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence
                 return this.getEdge(type, annotation.direction(), annotation.label(), framedGraph, vertex);
             }
             else
-                throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedIncidence but had more than 1 arguments.");
+                throw new IllegalStateException(method.getName() + " was annotated with @TypedIncidence but had more than 1 arguments.");
         }
         else
-            throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedIncidence but did not begin with either of the following keywords: add, get");
+            throw new IllegalStateException(method.getName() + " was annotated with @TypedIncidence but did not begin with either of the following keywords: add, get");
     }
 
     private Iterable getEdges(final Class type, final Direction direction, final String label, final FramedGraph<?> framedGraph, final Vertex vertex) {

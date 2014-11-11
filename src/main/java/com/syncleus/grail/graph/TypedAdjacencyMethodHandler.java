@@ -52,10 +52,10 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
 
         if( ClassUtilities.isAddMethod(method) ) {
             if( arguments == null )
-                throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedAdjacency but had no arguments.");
+                throw new IllegalStateException(method.getName() + " was annotated with @TypedAdjacency but had no arguments.");
             else if( arguments.length == 1 ) {
                 if( !(arguments[0] instanceof Class) )
-                    throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedAdjacency, had a single argument, but that argument was not of the type Class");
+                    throw new IllegalStateException(method.getName() + " was annotated with @TypedAdjacency, had a single argument, but that argument was not of the type Class");
 
                 final Class type = (Class) arguments[0];
 
@@ -64,14 +64,14 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
                 return TypedAdjacencyMethodHandler.addNode(type, annotation.direction(), annotation.label(), framedGraph, vertex);
             }
             else
-                throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedAdjacency but had more than 1 arguments.");
+                throw new IllegalStateException(method.getName() + " was annotated with @TypedAdjacency but had more than 1 arguments.");
         }
         else if( ClassUtilities.isGetMethod(method) ) {
             if( arguments == null )
-                throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedAdjacency but had no arguments.");
+                throw new IllegalStateException(method.getName() + " was annotated with @TypedAdjacency but had no arguments.");
             else if( arguments.length == 1 ) {
                 if( !(arguments[0] instanceof Class) )
-                    throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedAdjacency, had a single argument, but that argument was not of the type Class");
+                    throw new IllegalStateException(method.getName() + " was annotated with @TypedAdjacency, had a single argument, but that argument was not of the type Class");
 
                 final Class type = (Class) arguments[0];
 
@@ -82,10 +82,10 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
                 return this.getNode(type, annotation.direction(), annotation.label(), framedGraph, vertex);
             }
             else
-                throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedAdjacency but had more than 1 arguments.");
+                throw new IllegalStateException(method.getName() + " was annotated with @TypedAdjacency but had more than 1 arguments.");
         }
         else
-            throw new IllegalStateException("method " + method.getName() + " was annotated with @TypedAdjacency but did not begin with either of the following keywords: add, get");
+            throw new IllegalStateException(method.getName() + " was annotated with @TypedAdjacency but did not begin with either of the following keywords: add, get");
     }
 
     private Iterable getNodes(final Class type, final Direction direction, final String label, final FramedGraph<?> framedGraph, final Vertex vertex) {
