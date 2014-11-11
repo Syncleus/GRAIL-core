@@ -55,4 +55,14 @@ public class AbstractActivationNeuronTest {
             throw caught;
         }
     }
+
+    @Test
+    public void testPropagateTwice() {
+        final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
+        final ActivationNeuron neuron = graph.addVertex(null, ActivationNeuron.class);
+        neuron.setActivationFunctionClass(HyperbolicTangentActivationFunction.class);
+        neuron.propagate();
+        neuron.propagate();
+        Assert.assertEquals(HyperbolicTangentActivationFunction.class, neuron.getActivationFunctionClass());
+    }
 }
