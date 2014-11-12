@@ -21,6 +21,14 @@ package com.syncleus.grail.graph;
 import com.tinkerpop.frames.VertexFrame;
 import com.tinkerpop.frames.modules.typedgraph.*;
 
+/**
+ * A node in a graph. All custom graph node types should inherit this interface. This is required to properly handle
+ * class typing and instantiation from a graph. A global GRAIL specific TinkerPop TypeField is implemented on this
+ * class which is required to coordinate class instantiation. Therefore while custom nodes are welcome to implement
+ * a TypeValue annotation to their classes they should never implement their own TypeField.
+ *
+ * @since 0.1
+ */
 @TypeField("type")
 public interface Node extends VertexFrame {
 }
