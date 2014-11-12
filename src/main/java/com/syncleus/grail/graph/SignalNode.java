@@ -18,5 +18,10 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
+/**
+ * A graph node which has a signal property.
+ *
+ * @since 0.1
+ */
 public interface SignalNode extends Signaler, Node {
 }

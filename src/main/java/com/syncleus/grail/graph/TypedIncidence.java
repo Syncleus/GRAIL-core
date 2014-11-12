@@ -23,7 +23,18 @@ import com.tinkerpop.blueprints.Direction;
 import java.lang.annotation.*;
 
 /**
- * Incidences annotate getters and adders to represent a Vertex incident to an Edge.
+ * Incidences annotate getters and adders to represent a Vertex incident to an Edge. This annotation extends the
+ * TinkerPop built-in Incidence annotation. It allows type arguments to be passed into the annotated method. This
+ * ensures the returned type is of the specified type in the argument. The following method signatures are valid.
+ *
+ *
+ * T add*(Class&lt;T&gt; type)
+ * T get*(Class&lt;T&gt; type)
+ *
+ * When annotating a get* class it ensures it only returns nodes of the specified type (including sub-classes). Any
+ * Nodes which are not of this type will not be returned.
+ *
+ * @since 0.1
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
@@ -32,6 +43,7 @@ public @interface TypedIncidence {
      * The labels of the edges that are incident to the vertex.
      *
      * @return the edge label
+     * @since 0.1
      */
     String label();
 
@@ -39,6 +51,7 @@ public @interface TypedIncidence {
      * The direction of the edges.
      *
      * @return the edge direction
+     * @since 0.1
      */
     Direction direction() default Direction.OUT;
 }
