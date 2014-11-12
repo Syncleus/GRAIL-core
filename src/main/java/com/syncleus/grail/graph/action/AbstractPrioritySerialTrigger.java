@@ -68,7 +68,7 @@ public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigge
                 final int priorityB = java.lang.Integer.parseInt(argument.getB().getProperty("triggerPriority").toString());
                 if( priorityA == priorityB )
                     return 0;
-                else if(priorityA > priorityB)
+                else if(priorityA < priorityB)
                     return 1;
                 else
                     return -1;

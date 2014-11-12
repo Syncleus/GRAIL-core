@@ -22,17 +22,38 @@ import com.syncleus.grail.graph.Node;
 import com.tinkerpop.frames.*;
 import com.tinkerpop.frames.modules.typedgraph.TypeValue;
 
+/**
+ * A prioritized trigger edge. These are used when trigger edges need to be executed in sequential order by a
+ * PrioritySerialTrigger.
+ *
+ * @since 0.1
+ */
 @TypeValue("PrioritySerialTriggerEdge")
 public interface PrioritySerialTriggerEdge extends ActionTriggerEdge {
+    /**
+     * Get the triggerPriority property, an integer value indicating the priority of this edge and its associated
+     * action.
+     *
+     * @return an integer value representing the trigger priority.
+     * @since 0.1
+     */
     @Property("triggerPriority")
     Integer getTriggerPriority();
 
+    /**
+     * Set the triggerPriority property, an integer value indicating the priority of this edge and its associated
+     * action.
+     * @param triggerPriority the new priority value.
+     * @since 0.1
+     */
     @Property("triggerPriority")
-    void setTriggerPriority(int triggerAction);
+    void setTriggerPriority(int triggerPriority);
 
+    @Override
     @InVertex
     Node getTarget();
 
+    @Override
     @OutVertex
     ActionTrigger getSource();
 }

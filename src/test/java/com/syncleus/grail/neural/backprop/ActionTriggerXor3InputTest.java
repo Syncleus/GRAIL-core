@@ -73,7 +73,7 @@ public class ActionTriggerXor3InputTest {
         final PrioritySerialTrigger propagateOutputTrigger = ActionTriggerXor3InputTest.createPrioritySerialTrigger(graph);
         //connect it to the output neuron with a priority of 0 (highest priority)
         final PrioritySerialTriggerEdge outputTriggerEdge = graph.addEdge(null, propagateOutputTrigger.asVertex(), newOutputNeuron.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
-        outputTriggerEdge.setTriggerPriority(0);
+        outputTriggerEdge.setTriggerPriority(1000);
         outputTriggerEdge.setTriggerAction("propagate");
 
         //now lets handle the hidden layer for propagation
@@ -82,13 +82,13 @@ public class ActionTriggerXor3InputTest {
         //connect it to each of the hidden neurons with a priority of 0 (highest priority)
         for (final BackpropNeuron hiddenNeuron : newHiddenNeurons) {
             final PrioritySerialTriggerEdge newEdge = graph.addEdge(null, propagateHiddenTrigger.asVertex(), hiddenNeuron.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
-            newEdge.setTriggerPriority(0);
+            newEdge.setTriggerPriority(1000);
             newEdge.setTriggerAction("propagate");
         }
 
         //chain the prop[agation of the hidden layer to the propagation of the output layer, but make sure it has less of a priority than the other triggers
         final PrioritySerialTriggerEdge chainTriggerPropagateEdge = graph.addEdge(null, propagateHiddenTrigger.asVertex(), propagateOutputTrigger.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
-        chainTriggerPropagateEdge.setTriggerPriority(1000);
+        chainTriggerPropagateEdge.setTriggerPriority(0);
         chainTriggerPropagateEdge.setTriggerAction("actionTrigger");
 
         //next lets handle the input layer for back propagation
@@ -96,12 +96,12 @@ public class ActionTriggerXor3InputTest {
         //connect it to each of the input neurons
         for (final BackpropNeuron inputNeuron : newInputNeurons) {
             final PrioritySerialTriggerEdge newEdge = graph.addEdge(null, backpropInputTrigger.asVertex(), inputNeuron.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
-            newEdge.setTriggerPriority(0);
+            newEdge.setTriggerPriority(1000);
             newEdge.setTriggerAction("backpropagate");
         }
         //also connect it to all the bias neurons
         final PrioritySerialTriggerEdge biasTriggerBackpropEdge = graph.addEdge(null, backpropInputTrigger.asVertex(), biasNeuron.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
-        biasTriggerBackpropEdge.setTriggerPriority(0);
+        biasTriggerBackpropEdge.setTriggerPriority(1000);
         biasTriggerBackpropEdge.setTriggerAction("backpropagate");
 
         //create backpropagation trigger for the hidden layer
@@ -110,13 +110,13 @@ public class ActionTriggerXor3InputTest {
         //connect it to each of the hidden neurons with a priority of 0 (highest priority)
         for (final BackpropNeuron hiddenNeuron : newHiddenNeurons) {
             final PrioritySerialTriggerEdge newEdge = graph.addEdge(null, backpropHiddenTrigger.asVertex(), hiddenNeuron.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
-            newEdge.setTriggerPriority(0);
+            newEdge.setTriggerPriority(1000);
             newEdge.setTriggerAction("backpropagate");
         }
 
         //chain the hidden layers back propagation to the input layers trigger
         final PrioritySerialTriggerEdge chainTriggerBackpropEdge = graph.addEdge(null, backpropHiddenTrigger.asVertex(), backpropInputTrigger.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
-        chainTriggerBackpropEdge.setTriggerPriority(1000);
+        chainTriggerBackpropEdge.setTriggerPriority(0);
         chainTriggerBackpropEdge.setTriggerAction("actionTrigger");
 
         //commit everything
