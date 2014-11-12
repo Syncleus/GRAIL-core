@@ -16,4 +16,11 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+
+/**
+ * GRAIL is an Algorithm Implementation layer that allows arbitrary algorithms to be backed, and executed from, a graph
+ * database. The backing graph database can be either an on-disk server instance or a purely local in-memory instance.
+ * This allows generic tools to be interfaced to accomplish an assortment of extensions such as: distributed processing,
+ * visualizations, indexing, graph traversal, SPARQL queries and much more.
+ */
 package com.syncleus.grail;
