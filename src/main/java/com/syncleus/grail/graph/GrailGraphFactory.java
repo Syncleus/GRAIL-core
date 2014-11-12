@@ -19,8 +19,6 @@
 package com.syncleus.grail.graph;
 
 import com.syncleus.grail.graph.action.*;
-import com.syncleus.grail.neural.ActivationNeuron;
-import com.syncleus.grail.neural.backprop.*;
 import com.tinkerpop.frames.FramedGraphFactory;
 import com.tinkerpop.frames.modules.Module;
 import com.tinkerpop.frames.modules.gremlingroovy.GremlinGroovyModule;
@@ -32,12 +30,9 @@ import java.util.*;
 public class GrailGraphFactory extends FramedGraphFactory {
     private static final Set<Class<?>> BUILT_IN_TYPES = new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
                                                                           SignalMultiplyingEdge.class,
-                                                                          BackpropNeuron.class,
-                                                                          BackpropSynapse.class,
                                                                           PrioritySerialTrigger.class,
                                                                           ActionTriggerEdge.class,
-                                                                          PrioritySerialTriggerEdge.class,
-                                                                          ActivationNeuron.class}));
+                                                                          PrioritySerialTriggerEdge.class}));
 
     public GrailGraphFactory() {
         super(GrailGraphFactory.constructModules(Collections.<Module>emptySet()));

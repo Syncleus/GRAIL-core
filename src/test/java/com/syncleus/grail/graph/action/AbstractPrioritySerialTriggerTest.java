@@ -19,8 +19,6 @@
 package com.syncleus.grail.graph.action;
 
 import com.syncleus.grail.graph.BlankGraphFactory;
-import com.syncleus.grail.neural.ActivationNeuron;
-import com.syncleus.grail.neural.activation.*;
 import com.tinkerpop.frames.FramedTransactionalGraph;
 import junit.framework.Assert;
 import org.junit.Test;
