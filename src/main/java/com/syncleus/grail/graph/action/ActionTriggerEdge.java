@@ -22,18 +22,49 @@ import com.syncleus.grail.graph.Node;
 import com.tinkerpop.frames.*;
 import com.tinkerpop.frames.modules.typedgraph.*;
 
+/**
+ * A graph edge which connects an action trigger to the node which it triggers actions on.
+ *
+ * @since 0.1
+ */
 @TypeField("type")
 @TypeValue("ActionTriggerEdge")
 public interface ActionTriggerEdge extends EdgeFrame {
+    /**
+     * Gets the name of the action to be triggered. The target node must have at least one valid method annotated as an
+     * action with this name.
+     *
+     * @return The name of the action to trigger.
+     * @since 0.1
+     */
     @Property("triggerAction")
     String getTriggerAction();
 
+    /**
+     * Sets the name of the action to be triggered. The target node must have at least one valid method annotated as an
+     * action with this name.
+     *
+     * @param triggerAction The new name for the action to be triggered.
+     * @since 0.1
+     */
     @Property("triggerAction")
     void setTriggerAction(String triggerAction);
 
+    /**
+     * The node to be triggered.
+     *
+     * @return the node to be triggered
+     * @since 0.1
+     */
     @InVertex
     Node getTarget();
 
+    /**
+     * The action trigger capable of triggering the target node.
+     *
+     * @return the ActionTrigger
+     * @since 0.1
+     */
     @OutVertex
     ActionTrigger getSource();
 }

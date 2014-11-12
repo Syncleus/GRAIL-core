@@ -28,6 +28,11 @@ public abstract class AbstractSignalMultiplyingEdge implements SignalMultiplying
     private static final double OFFSET = -1.0;
     private static final double SCALE = 0.1;
 
+    /**
+     * Initializes newly constructed elements with default values.
+     *
+     * @since 0.1
+     */
     @Initializer
     public void init() {
         this.setWeight(((AbstractSignalMultiplyingEdge.RANDOM.nextDouble() * AbstractSignalMultiplyingEdge.RANGE) + AbstractSignalMultiplyingEdge.OFFSET) * AbstractSignalMultiplyingEdge.SCALE);

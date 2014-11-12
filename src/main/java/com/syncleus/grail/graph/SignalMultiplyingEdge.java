@@ -22,13 +22,31 @@ import com.tinkerpop.frames.*;
 import com.tinkerpop.frames.modules.javahandler.*;
 import com.tinkerpop.frames.modules.typedgraph.*;
 
+/**
+ * A graph edge which multiplies the signal from the source node by the edges weight. It then stores the result in the
+ * signal for this edge.
+ *
+ * @since 0.1
+ */
 @TypeField("type")
 @TypeValue("Synapse")
 @JavaHandlerClass(AbstractSignalMultiplyingEdge.class)
 public interface SignalMultiplyingEdge extends Weighted, Signaler, EdgeFrame {
+    /**
+     * The node connected to the source end of this edge.
+     *
+     * @return the source node.
+     * @since 0.1
+     */
     @OutVertex
     Signaler getSource();
 
+    /**
+     * This method will propagate the signal from the source node into this edges signal. It will multiply the source
+     * node's signal by this edges weight and set that value as this edge's new signal.
+     *
+     * @since 0.1
+     */
     @JavaHandler
     void propagate();
 }

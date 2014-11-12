@@ -22,6 +22,14 @@ import com.tinkerpop.frames.annotations.gremlin.GremlinGroovy;
 import com.tinkerpop.frames.modules.javahandler.*;
 import com.tinkerpop.frames.modules.typedgraph.TypeValue;
 
+/**
+ * An action trigger which triggers its actions in serial and ordered by their priority. Each out trigger edge from this
+ * node will be a PrioritySerialTriggerEdge which has a triggerPriority property. This property is an integer value
+ * which determines the priority of the edge, a higher value means preferential priority over a lower value. When
+ * triggered the actions associated with each edge will be triggered in series ordered by priority.
+ *
+ * @since 0.1
+ */
 @TypeValue("PrioritySerialTrigger")
 @JavaHandlerClass(AbstractPrioritySerialTrigger.class)
 public interface PrioritySerialTrigger extends ActionTrigger {
@@ -30,7 +38,13 @@ public interface PrioritySerialTrigger extends ActionTrigger {
     @Override
     void trigger();
 
-    //@GremlinGroovy(value="it.outE('triggers').order{it.a.triggerPriority<=>it.b.triggerPriority}._()")
+    /**
+     * Get all the prioritized trigger edges connecting to the target nodes to act on. These edges will be returned such
+     * that they are sorted from highest priority to the lowest.
+     *
+     * @return An iterable collection of PrioritySerialTriggerEdges from highest to lowest priority.
+     * @since 0.1
+     */
     @JavaHandler
     Iterable<? extends PrioritySerialTriggerEdge> getPrioritizedTriggerEdges();
 }
