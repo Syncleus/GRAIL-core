@@ -50,7 +50,6 @@ public final class BlankGraphFactory {
     }
 
     public static FramedTransactionalGraph makeTinkerGraph() {
-        //final FramedGraphFactory factory = new FramedGraphFactory(typedModule, new GremlinGroovyModule(), new JavaHandlerModule());
         final FramedGraphFactory factory = new GrailGraphFactory();
 
         return factory.create(new MockTransactionalTinkerGraph());
