@@ -16,15 +16,38 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph;
 
-import com.syncleus.grail.graph.Node;
-import com.tinkerpop.frames.modules.javahandler.JavaHandler;
-import com.tinkerpop.frames.modules.typedgraph.TypeValue;
+import com.tinkerpop.frames.FramedTransactionalGraph;
+import junit.framework.Assert;
+import org.junit.Test;
 
-@TypeValue("BadActionNode")
-public interface BadActionNode extends Node {
-    @JavaHandler
-    @Action("badArguments")
-    void badArguments(String thisIsBad);
+public class AbstractSignalMultiplyingEdgeTest {
+    private static final double SOURCE_SIGNAL = 5.0;
+    private static final double MULTIPLIER = 7.0;
+    private static final double RESULT = 35.0;
+
+    @Test
+    public void testDoesMultiply() {
+        final FramedTransactionalGraph graph = BlankGraphFactory.makeTinkerGraph();
+
+        // construct graph
+        final SignalNode source = (SignalNode) graph.addVertex(null, SignalNode.class);
+        final SignalNode target = (SignalNode) graph.addVertex(null, SignalNode.class);
+        final SignalMultiplyingEdge multiplyingEdge = (SignalMultiplyingEdge) graph.addEdge(null, source.asVertex(), target.asVertex(), "foo", SignalMultiplyingEdge.class);
+
+        //set some inital values
+        source.setSignal(SOURCE_SIGNAL);
+        multiplyingEdge.setWeight(MULTIPLIER);
+
+        //process the weight
+        multiplyingEdge.propagate();
+
+        //check to make sure the edge now has the correct signal
+        Assert.assertTrue(checkResult(RESULT, multiplyingEdge.getSignal()));
+    }
+
+    private static boolean checkResult(final double firstValue, final double secondValue) {
+        return (Math.abs(firstValue - secondValue) < 0.0000001);
+    }
 }

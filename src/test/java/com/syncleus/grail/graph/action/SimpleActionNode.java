@@ -19,12 +19,20 @@
 package com.syncleus.grail.graph.action;
 
 import com.syncleus.grail.graph.Node;
-import com.tinkerpop.frames.modules.javahandler.JavaHandler;
-import com.tinkerpop.frames.modules.typedgraph.TypeValue;
+import com.tinkerpop.frames.*;
+import com.tinkerpop.frames.modules.javahandler.*;
+import com.tinkerpop.frames.modules.typedgraph.*;
 
-@TypeValue("BadActionNode")
-public interface BadActionNode extends Node {
+@TypeValue("SimpleActionNode")
+@JavaHandlerClass(AbstractSimpleActionNode.class)
+public interface SimpleActionNode extends Node {
+    @Property("isDone")
+    Boolean isDone();
+
+    @Property("isDone")
+    void setDone(boolean isDone);
+
     @JavaHandler
-    @Action("badArguments")
-    void badArguments(String thisIsBad);
+    @Action("action")
+    void doSomething();
 }

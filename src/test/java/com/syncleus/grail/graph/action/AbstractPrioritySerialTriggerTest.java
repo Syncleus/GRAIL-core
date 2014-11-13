@@ -18,17 +18,43 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
-import com.syncleus.grail.graph.BlankGraphFactory;
-import com.tinkerpop.frames.FramedTransactionalGraph;
+import com.syncleus.grail.graph.*;
+import com.tinkerpop.frames.*;
+import com.tinkerpop.frames.modules.Module;
 import junit.framework.Assert;
 import org.junit.Test;
 
 import java.lang.reflect.*;
+import java.util.*;
 
 public class AbstractPrioritySerialTriggerTest {
+    private static final FramedGraphFactory FACTORY = new GrailGraphFactory(Collections.<Module>emptyList(),
+            new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
+                    SimpleActionNode.class,
+                    BadActionNode.class})));
+
+    @Test
+    public void testDoesTrigger() {
+        final FramedTransactionalGraph<?> graph = FACTORY.create(new MockTransactionalTinkerGraph());
+
+        // construct graph
+        final SimpleActionNode actionNode = (SimpleActionNode) graph.addVertex(null, SimpleActionNode.class);
+        final PrioritySerialTrigger trigger = (PrioritySerialTrigger) graph.addVertex(null, PrioritySerialTrigger.class);
+        final PrioritySerialTriggerEdge triggerEdge = (PrioritySerialTriggerEdge) graph.addEdge(null, trigger.asVertex(), actionNode.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
+        triggerEdge.setTriggerAction("action");
+        triggerEdge.setTriggerPriority(0);
+
+        Assert.assertNull(actionNode.isDone());
+
+        //process the weight
+        trigger.trigger();
+
+        Assert.assertTrue(actionNode.isDone());
+    }
+
     @Test(expected = UndeclaredThrowableException.class )
     public void testBadArguments() {
-        final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
+        final FramedTransactionalGraph<?> graph = FACTORY.create(new MockTransactionalTinkerGraph());
         final BadActionNode badNode = graph.addVertex(null, BadActionNode.class);
         final PrioritySerialTrigger trigger = graph.addVertex(null, PrioritySerialTrigger.class);
         final PrioritySerialTriggerEdge triggerEdge = graph.addEdge(null, trigger.asVertex(), badNode.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
@@ -45,7 +71,7 @@ public class AbstractPrioritySerialTriggerTest {
 
     @Test(expected = UndeclaredThrowableException.class)
     public void testBadAccess() {
-        final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
+        final FramedTransactionalGraph<?> graph = FACTORY.create(new MockTransactionalTinkerGraph());
         final BadActionNode badNode = graph.addVertex(null, BadActionNode.class);
         final PrioritySerialTrigger trigger = graph.addVertex(null, PrioritySerialTrigger.class);
         final PrioritySerialTriggerEdge triggerEdge = graph.addEdge(null, trigger.asVertex(), badNode.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
@@ -62,7 +88,7 @@ public class AbstractPrioritySerialTriggerTest {
 
     @Test(expected = UndeclaredThrowableException.class)
     public void testUnfoundAction() {
-        final FramedTransactionalGraph<?> graph = BlankGraphFactory.makeTinkerGraph();
+        final FramedTransactionalGraph<?> graph = FACTORY.create(new MockTransactionalTinkerGraph());
         final BadActionNode badNode = graph.addVertex(null, BadActionNode.class);
         final PrioritySerialTrigger trigger = graph.addVertex(null, PrioritySerialTrigger.class);
         final PrioritySerialTriggerEdge triggerEdge = graph.addEdge(null, trigger.asVertex(), badNode.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
@@ -75,5 +101,9 @@ public class AbstractPrioritySerialTriggerTest {
             Assert.assertTrue(InvocationTargetException.class.equals(caught.getUndeclaredThrowable().getClass()));
             throw caught;
         }
+    }
+
+    private static boolean checkResult(final double firstValue, final double secondValue) {
+        return (Math.abs(firstValue - secondValue) < 0.0000001);
     }
 }
