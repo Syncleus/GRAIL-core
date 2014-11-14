@@ -23,6 +23,8 @@ import com.tinkerpop.frames.*;
 import com.tinkerpop.frames.modules.javahandler.*;
 import com.tinkerpop.frames.modules.typedgraph.*;
 
+import java.util.List;
+
 @TypeValue("SimpleActionNode")
 @JavaHandlerClass(AbstractSimpleActionNode.class)
 public interface SimpleActionNode extends Node {
@@ -33,6 +35,20 @@ public interface SimpleActionNode extends Node {
     void setDone(boolean isDone);
 
     @JavaHandler
+    void setTriggerOrder(List<String> triggerOrder);
+
+    @JavaHandler
+    List<String> getTriggerOrder();
+
+    @JavaHandler
     @Action("action")
     void doSomething();
+
+    @JavaHandler
+    @Action("first")
+    void doSomethingFirst();
+
+    @JavaHandler
+    @Action("second")
+    void doSomethingSecond();
 }

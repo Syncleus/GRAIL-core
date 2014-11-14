@@ -20,9 +20,33 @@ package com.syncleus.grail.graph.action;
 
 import com.tinkerpop.frames.modules.javahandler.JavaHandlerContext;
 
+import java.util.List;
+
 public abstract class AbstractSimpleActionNode implements SimpleActionNode, JavaHandlerContext {
+    private static List<String> triggerOrder;
+
+    @Override
+    public void setTriggerOrder(final List<String> triggerOrder) {
+        this.triggerOrder = triggerOrder;
+    }
+
+    @Override
+    public List<String> getTriggerOrder() {
+        return this.triggerOrder;
+    }
+
     @Override
     public void doSomething() {
         this.setDone(true);
+    }
+
+    @Override
+    public void doSomethingFirst() {
+        this.triggerOrder.add("first");
+    }
+
+    @Override
+    public void doSomethingSecond() {
+        this.triggerOrder.add("second");
     }
 }
