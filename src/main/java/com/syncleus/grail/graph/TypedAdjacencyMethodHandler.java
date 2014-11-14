@@ -123,8 +123,9 @@ public class TypedAdjacencyMethodHandler implements MethodHandler<TypedAdjacency
         ReflectionUtility.determineTypeValue(type);
         ReflectionUtility.determineTypeField(type);
 
-        final Vertex newVertex = framedGraph.addVertex(null);
-        final Object newNode = framedGraph.frame(newVertex, type);
+        final Object newNode = framedGraph.addVertex(null, type);
+        assert newNode instanceof VertexFrame;
+        final Vertex newVertex = ((VertexFrame)newNode).asVertex();
         assert type.isInstance(newNode);
 
         switch(direction) {

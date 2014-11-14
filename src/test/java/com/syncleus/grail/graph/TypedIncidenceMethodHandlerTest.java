@@ -19,10 +19,12 @@
 package com.syncleus.grail.graph;
 
 import com.tinkerpop.blueprints.Element;
-import com.tinkerpop.frames.FramedGraph;
-import org.junit.Test;
+import com.tinkerpop.frames.*;
+import com.tinkerpop.frames.modules.Module;
+import org.junit.*;
 
 import java.lang.reflect.Method;
+import java.util.*;
 
 public class TypedIncidenceMethodHandlerTest {
     private static final TypedIncidenceMethodHandler HANDLER = new TypedIncidenceMethodHandler(null);
@@ -32,6 +34,9 @@ public class TypedIncidenceMethodHandlerTest {
     private static final Object MOCK_FRAME = new Object();
     private static final Element MOCK_ELEMENT = new MockElement();
     private static final Element MOCK_VERTEX = new MockVertex();
+    private static final FramedGraphFactory FACTORY = new GrailGraphFactory(Collections.<Module>emptyList(),
+            new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
+                    SimpleSignalNode.class})));
 
     static {
         try {
@@ -84,5 +89,46 @@ public class TypedIncidenceMethodHandlerTest {
         final FramedGraph framedGraph = BlankGraphFactory.makeTinkerGraph();
 
         HANDLER.processElement(MOCK_FRAME, GET_SON_EDGE_METHOD, null, TYPED_ANNOTATION, framedGraph, MOCK_VERTEX);
+    }
+
+    @Test
+    public void testGetBothEdges() {
+        final FramedTransactionalGraph<?> graph = FACTORY.create(new MockTransactionalTinkerGraph());
+
+        // construct graph
+        final SimpleSignalNode father = (SimpleSignalNode) graph.addVertex(null, SimpleSignalNode.class);
+        final SimpleSignalNode child = (SimpleSignalNode) graph.addVertex(null, SimpleSignalNode.class);
+        final SimpleSignalNode grandchild = (SimpleSignalNode) graph.addVertex(null, SimpleSignalNode.class);
+        final SignalMultiplyingEdge fatherEdge = (SignalMultiplyingEdge) graph.addEdge(null, child.asVertex(), father.asVertex(), "parent", SignalMultiplyingEdge.class);
+        final SignalMultiplyingEdge childEdge = (SignalMultiplyingEdge) graph.addEdge(null, grandchild.asVertex(), child.asVertex(), "parent", SignalMultiplyingEdge.class);
+
+        Assert.assertEquals(getIteratorSize(child.getParentEdges(SignalMultiplyingEdge.class).iterator()), 1);
+        Assert.assertEquals(getIteratorSize(child.getFamilyEdges(SignalMultiplyingEdge.class).iterator()), 2);
+    }
+
+    @Test
+    public void testGetBothEdge() {
+        final FramedTransactionalGraph<?> graph = FACTORY.create(new MockTransactionalTinkerGraph());
+
+        // construct graph
+        final SimpleSignalNode father = (SimpleSignalNode) graph.addVertex(null, SimpleSignalNode.class);
+        final SimpleSignalNode child = (SimpleSignalNode) graph.addVertex(null, SimpleSignalNode.class);
+        final SimpleSignalNode grandchild = (SimpleSignalNode) graph.addVertex(null, SimpleSignalNode.class);
+        final SignalMultiplyingEdge fatherEdge = (SignalMultiplyingEdge) graph.addEdge(null, child.asVertex(), father.asVertex(), "parent", SignalMultiplyingEdge.class);
+        final SignalMultiplyingEdge childEdge = (SignalMultiplyingEdge) graph.addEdge(null, grandchild.asVertex(), child.asVertex(), "parent", SignalMultiplyingEdge.class);
+
+        Assert.assertNotNull(child.getParentEdge(SignalMultiplyingEdge.class));
+        Assert.assertTrue(child.getParentEdge(SignalMultiplyingEdge.class) instanceof SignalMultiplyingEdge);
+        Assert.assertNotNull(child.getFamilyMemberEdge(SignalMultiplyingEdge.class));
+        Assert.assertTrue(child.getFamilyMemberEdge(SignalMultiplyingEdge.class) instanceof SignalMultiplyingEdge);
+    }
+
+    private static int getIteratorSize(Iterator<?> iterator) {
+        int count = 0;
+        while(iterator.hasNext()) {
+            iterator.next();
+            count++;
+        }
+        return count;
     }
 }
