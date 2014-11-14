@@ -49,4 +49,9 @@ public abstract class AbstractSimpleActionNode implements SimpleActionNode, Java
     public void doSomethingSecond() {
         this.triggerOrder.add("second");
     }
+
+    @Override
+    public void doSomethingThird() {
+        this.triggerOrder.add("third");
+    }
 }

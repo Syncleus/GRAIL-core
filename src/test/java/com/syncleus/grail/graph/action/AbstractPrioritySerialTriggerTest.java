@@ -118,6 +118,46 @@ public class AbstractPrioritySerialTriggerTest {
         Assert.assertTrue(triggerOrder.get(1).equals("second"));
     }
 
+    @Test
+    public void testDoesTriggerInOrderSameOrdering() {
+        final FramedTransactionalGraph<?> graph = FACTORY.create(new MockTransactionalTinkerGraph());
+
+        final List<String> triggerOrder = new ArrayList<String>(2);
+
+        // construct graph
+        final SimpleActionNode firstActionNode = (SimpleActionNode) graph.addVertex(null, SimpleActionNode.class);
+        firstActionNode.setTriggerOrder(triggerOrder);
+        final SimpleActionNode secondActionNode = (SimpleActionNode) graph.addVertex(null, SimpleActionNode.class);
+        secondActionNode.setTriggerOrder(triggerOrder);
+        final SimpleActionNode thirdActionNode = (SimpleActionNode) graph.addVertex(null, SimpleActionNode.class);
+        thirdActionNode.setTriggerOrder(triggerOrder);
+        final PrioritySerialTrigger trigger = (PrioritySerialTrigger) graph.addVertex(null, PrioritySerialTrigger.class);
+        final PrioritySerialTriggerEdge firstTriggerEdge = (PrioritySerialTriggerEdge) graph.addEdge(null, trigger.asVertex(), firstActionNode.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
+        firstTriggerEdge.setTriggerAction("first");
+        firstTriggerEdge.setTriggerPriority(1000);
+        final PrioritySerialTriggerEdge secondTriggerEdge = (PrioritySerialTriggerEdge) graph.addEdge(null, trigger.asVertex(), secondActionNode.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
+        secondTriggerEdge.setTriggerAction("second");
+        secondTriggerEdge.setTriggerPriority(1000);
+        final PrioritySerialTriggerEdge thirdTriggerEdge = (PrioritySerialTriggerEdge) graph.addEdge(null, trigger.asVertex(), thirdActionNode.asVertex(), "triggers", PrioritySerialTriggerEdge.class);
+        thirdTriggerEdge.setTriggerAction("third");
+        thirdTriggerEdge.setTriggerPriority(0);
+
+        Assert.assertTrue(triggerOrder.isEmpty());
+
+        //process the weight
+        trigger.trigger();
+
+        //make sure we clear out the action node since the attribute is static.
+        firstActionNode.setTriggerOrder(null);
+        secondActionNode.setTriggerOrder(null);
+        thirdActionNode.setTriggerOrder(null);
+
+        Assert.assertTrue(triggerOrder.size() == 3);
+        Assert.assertTrue(triggerOrder.get(0).equals("first") || triggerOrder.get(0).equals("second"));
+        Assert.assertTrue(triggerOrder.get(1).equals("first") || triggerOrder.get(1).equals("second"));
+        Assert.assertTrue(triggerOrder.get(2).equals("third"));
+    }
+
     @Test(expected = UndeclaredThrowableException.class )
     public void testBadArguments() {
         final FramedTransactionalGraph<?> graph = FACTORY.create(new MockTransactionalTinkerGraph());

@@ -51,4 +51,8 @@ public interface SimpleActionNode extends Node {
     @JavaHandler
     @Action("second")
     void doSomethingSecond();
+
+    @JavaHandler
+    @Action("third")
+    void doSomethingThird();
 }
