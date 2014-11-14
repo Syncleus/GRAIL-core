@@ -28,6 +28,12 @@ import com.tinkerpop.pipes.util.structures.Pair;
 import java.lang.reflect.*;
 import java.util.*;
 
+/**
+ * This is the Java handler class associated with the ActionTrigger type. It defines how the Trigger is to be executed.
+ * In this case all triggers are executed in serial within the current thread.
+ *
+ * @since 0.1
+ */
 public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigger implements PrioritySerialTrigger, JavaHandlerContext {
     @Override
     public void trigger() {

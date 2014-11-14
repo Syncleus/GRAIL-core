@@ -33,6 +33,14 @@ import com.tinkerpop.frames.modules.typedgraph.TypeValue;
 @TypeValue("PrioritySerialTrigger")
 @JavaHandlerClass(AbstractPrioritySerialTrigger.class)
 public interface PrioritySerialTrigger extends ActionTrigger {
+    /**
+     * This will initiate the execution of the action's triggered by this node. The trigger method is also annotated as
+     * an action with label actionTrigger. This allows for multiple ActionTrigger classes to be chained together.
+     * Specifically this class executes the triggers in serial by order of the edge's priority value property. All the
+     * actions are executed in series in the existing thread.
+     *
+     * @since 0.1
+     */
     @JavaHandler
     @Action("actionTrigger")
     @Override

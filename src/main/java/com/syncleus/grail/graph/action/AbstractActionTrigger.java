@@ -21,6 +21,12 @@ package com.syncleus.grail.graph.action;
 import java.lang.reflect.Method;
 import java.util.*;
 
+/**
+ * This is the Java handler class associated with the ActionTrigger type. It doesnt do much, as it is expected to be
+ * extended. It does however construct a reflection cache of Action annotations on previously seen classes.
+ *
+ * @since 0.1
+ */
 public abstract class AbstractActionTrigger implements ActionTrigger {
     private static final Map<Class<?>, Map<String, Set<Method>>> ACTION_METHOD_CACHE = new HashMap<>();
 

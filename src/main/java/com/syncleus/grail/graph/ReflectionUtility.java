@@ -20,10 +20,25 @@ package com.syncleus.grail.graph;
 
 import com.tinkerpop.frames.modules.typedgraph.*;
 
+/**
+ * The reflection utility is a helper class that can be used to determine the GRAIL specific annotations present on a
+ * class.
+ *
+ * @since 0.1
+ */
 final class ReflectionUtility {
+    //Utility class can not be instantiated
     private ReflectionUtility() {
     }
 
+    /**
+     * Gets the TypeValue annotation specified on this class, throws a runtime exception if there is none. This only
+     * checks the direct class and does not check parent classes for the annotation.
+     *
+     * @param type The class type to check for annotations.
+     * @return The TypeValue assigned to the specified class.
+     * @since 0.1
+     */
     public static TypeValue determineTypeValue(final Class<?> type) {
         final TypeValue typeValue = type.getDeclaredAnnotation(TypeValue.class);
         if( typeValue == null )
@@ -31,6 +46,15 @@ final class ReflectionUtility {
         return typeValue;
     }
 
+    /**
+     * Gets the TypeField annotation associated with the given class. If the specified class does not have a TypeField
+     * annotation than each parent class is checked until one is found, at which point it is returned. If not TypeField
+     * annotation can be found a runtime exception is thrown.
+     *
+     * @param type The class type to check for annotations.
+     * @return The TypeField assigned to the specified class, or one of its parent classes.
+     * @since 0.1
+     */
     public static TypeField determineTypeField(final Class<?> type) {
         TypeField typeField = type.getAnnotation(TypeField.class);
         if( typeField == null ) {
@@ -48,7 +72,7 @@ final class ReflectionUtility {
         return typeField;
     }
 
-    public static TypeField determineTypeFieldRecursive(final Class<?> type) {
+    private static TypeField determineTypeFieldRecursive(final Class<?> type) {
         TypeField typeField = type.getAnnotation(TypeField.class);
         if( typeField == null ) {
             final Class<?>[] parents = type.getInterfaces();

@@ -27,6 +27,15 @@ import com.tinkerpop.frames.modules.typedgraph.*;
 
 import java.util.*;
 
+/**
+ * The GrailGraphFactory class is responsible for creating new graphs compatible with GRAIL classes. Using this factory
+ * instead of the built-in TinkerPop factory ensures that the proper modules and class typing is instantiated. If this
+ * class is bypassed and the built-in TinkerPop FramedGraphFactory is used instead it is imperative that the GrailModule
+ * be passed to the FramedGraphFractory during instantiation. It is also important to pass a TypedModule contained the
+ * GRAIL classes that will be used when calling FramedGraphFactory directly.
+ *
+ * @since 0.1
+ */
 public class GrailGraphFactory extends FramedGraphFactory {
     private static final Set<Class<?>> BUILT_IN_TYPES = new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
                                                                           SignalMultiplyingEdge.class,
@@ -34,14 +43,36 @@ public class GrailGraphFactory extends FramedGraphFactory {
                                                                           ActionTriggerEdge.class,
                                                                           PrioritySerialTriggerEdge.class}));
 
+    /**
+     * Creates a graph factory using only the built-in modules. Only built in GRAIL classes will be handled by the
+     * typing engine.
+     *
+     * @since 0.1
+     */
     public GrailGraphFactory() {
         super(GrailGraphFactory.constructModules(Collections.<Module>emptySet()));
     }
 
+    /**
+     * Creates a graph factory using the built-in modules supplemented by the specified additional modules. Only
+     * built-in GRAIL classes will be handled by the typing engine unless explicitly handled by a one of the specified
+     * modules.
+     *
+     * @param modules additional modules to configure.
+     * @since 0.1
+     */
     public GrailGraphFactory(final Collection<? extends Module> modules) {
         super(GrailGraphFactory.constructModules(modules));
     }
 
+    /**
+     * Creates a graph factory using the built-in modules supplemented by the specified additional Modules. All built-in
+     * classes will be handled by the typing engine in addition to any additional classes specified.
+     *
+     * @param modules additional modules to configure.
+     * @param types additional classes for the typing engine to handle.
+     * @since 0.1
+     */
     public GrailGraphFactory(final Collection<? extends Module> modules, final Collection<? extends Class<?>> types) {
         super(GrailGraphFactory.constructModules(modules, types));
     }

@@ -16,36 +16,10 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
-
-import com.tinkerpop.frames.modules.javahandler.*;
-
-import java.util.Random;
 
 /**
- * This is the Java handler class associated with the SignalMultiplyingEdge type. It ensures initial weights are set
- * to a random value as well as defines how to propagate the signal.
- * 
+ * The graph package handles all the base framework for querying, traversing, and persisting to and from a GRAIL graph.
+ *
  * @since 0.1
  */
-public abstract class AbstractSignalMultiplyingEdge implements SignalMultiplyingEdge {
-    private static final Random RANDOM = new Random();
-    private static final double RANGE = 2.0;
-    private static final double OFFSET = -1.0;
-    private static final double SCALE = 0.1;
-
-    /**
-     * Initializes newly constructed elements with default values.
-     *
-     * @since 0.1
-     */
-    @Initializer
-    public void init() {
-        this.setWeight(((AbstractSignalMultiplyingEdge.RANDOM.nextDouble() * AbstractSignalMultiplyingEdge.RANGE) + AbstractSignalMultiplyingEdge.OFFSET) * AbstractSignalMultiplyingEdge.SCALE);
-    }
-
-    @Override
-    public void propagate() {
-        this.setSignal(this.getSource().getSignal() * this.getWeight());
-    }
-}
+package com.syncleus.grail.graph;

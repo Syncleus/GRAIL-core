@@ -25,9 +25,23 @@ import com.tinkerpop.frames.modules.typedgraph.TypeValue;
 
 import java.util.*;
 
+/**
+ * The GrailModule is a TinkerPop module which extends the built-in annotations with the following additional
+ * annotations: TypedAdjacency, and TypedIncidence. This module is automatically added to any graph created using the
+ * GraphGraphFactory. However the module is provided whenever a different graph factory is preferred.
+ *
+ * @since 0.1
+ */
 public class GrailModule implements Module {
     private final Map<String, Set<String>> hierarchy;
 
+    /**
+     * Creates a new GraphModule with a typing engine that can recognize the specified types. While these types still
+     * need to be included in a separate TypedModule they must be created here as well to ensure proper look-ups occur.
+     *
+     * @param types Class types known to the typing engine.
+     * @since 0.1
+     */
     public GrailModule(final Collection<? extends Class<?>> types) {
         this.hierarchy = GrailModule.constructTypedHierarchy(types);
     }

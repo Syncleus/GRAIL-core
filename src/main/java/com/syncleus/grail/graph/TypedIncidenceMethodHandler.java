@@ -27,10 +27,24 @@ import com.tinkerpop.gremlin.java.GremlinPipeline;
 import java.lang.reflect.*;
 import java.util.*;
 
+/**
+ * A TinkerPop method handler that implemented the TypedIncidence Annotation.
+ *
+ * @since 0.1
+ */
 public class TypedIncidenceMethodHandler implements MethodHandler<TypedIncidence> {
 
     private final Map<String, Set<String>> hierarchy;
 
+    /**
+     * Creates a new method handler with the specified hierarchy map. The hierarchy map has as a key all the TypeValue's
+     * value property from all the classes known to the typing engine. The value associated with each key is a set of
+     * TypeValue value parameters for all the children classes which also have a TypeValue. For convenience purposes the
+     * key will always be present as a single element in the set. This is because a class is always a type of itself.
+     *
+     * @param hierarchy the TypeValue hierarchy of all classes known to the typing engine.
+     * @since 0.1
+     */
     public TypedIncidenceMethodHandler(final Map<String, Set<String>> hierarchy) {
         this.hierarchy = hierarchy;
     }
