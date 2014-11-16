@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
-import com.tinkerpop.frames.annotations.gremlin.GremlinGroovy;
 import com.tinkerpop.frames.modules.javahandler.*;
 import com.tinkerpop.frames.modules.typedgraph.TypeValue;
 
