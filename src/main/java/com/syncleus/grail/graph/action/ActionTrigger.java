@@ -46,7 +46,7 @@ public interface ActionTrigger extends Node {
      * @return an iterable collection of nodes to be triggered.
      * @since 0.1
      */
-    @Adjacency(label="triggers")
+    @Adjacency(label = "triggers")
     Iterable<? extends Node> getTriggers();
 
     /**
@@ -54,9 +54,9 @@ public interface ActionTrigger extends Node {
      *
      * @param type The type to be retrieved, only triggered nodes of this type of its subtypes will be returned.
      * @param <N> The class type.
-     * @return an iterable collection of nodes to be triggered of the specified type.
+     * @return an iterable collection of nodes to be triggered and of the specified type.
      */
-    @TypedAdjacency(label="triggers")
+    @TypedAdjacency(label = "triggers")
     <N extends Node> Iterable<? extends N> getTriggers(Class<? extends N> type);
 
     /**
@@ -65,7 +65,7 @@ public interface ActionTrigger extends Node {
      * @param target node which is to be removed.
      * @since 0.1
      */
-    @Adjacency(label="triggers")
+    @Adjacency(label = "triggers")
     void removeTrigger(Node target);
 
     /**
@@ -86,7 +86,7 @@ public interface ActionTrigger extends Node {
      * @return An iterable collection of ActionTriggerEdges
      * @since 0.1
      */
-    @TypedIncidence(label="triggers")
+    @TypedIncidence(label = "triggers")
     <E extends ActionTriggerEdge> Iterable<? extends E> getTriggerEdges(Class<? extends E> type);
 
     /**
