@@ -67,7 +67,7 @@ public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigge
 
     @Override
     public Iterable<? extends PrioritySerialTriggerEdge> getPrioritizedTriggerEdges() {
-        final GremlinPipeline<Vertex,Edge> prioritiesTriggersPipe = new GremlinPipeline<Vertex,Vertex>().start(this.asVertex()).outE("triggers").order(new PipeFunction<Pair<Edge, Edge>, Integer>() {
+        final GremlinPipeline<Vertex, Edge> prioritiesTriggersPipe = new GremlinPipeline<Vertex, Vertex>().start(this.asVertex()).outE("triggers").order(new PipeFunction<Pair<Edge, Edge>, Integer>() {
             @Override
             public Integer compute(final Pair<Edge, Edge> argument) {
                 final int priorityA = java.lang.Integer.parseInt(argument.getA().getProperty("triggerPriority").toString());
