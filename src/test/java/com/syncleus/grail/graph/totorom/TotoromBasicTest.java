@@ -2,6 +2,10 @@ package com.syncleus.grail.graph.totorom;
 
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
+import net.bytebuddy.ByteBuddy;
+import net.bytebuddy.dynamic.ClassLoadingStrategy;
+import net.bytebuddy.instrumentation.FixedValue;
+import net.bytebuddy.instrumentation.method.matcher.MethodMatchers;
 import org.jglue.totorom.FrameFactory;
 import org.jglue.totorom.FramedGraph;
 import org.jglue.totorom.TypeResolver;
@@ -46,5 +50,26 @@ public class TotoromBasicTest {
 
         Assert.assertEquals(Programmer.class, bryn.getClass());
         Assert.assertEquals(Person.class, julia.getClass());
+    }
+
+
+    @Test
+    public void testJavaTypingBytebuddy() throws InstantiationException, IllegalAccessException{
+        Graph g = new TinkerGraph();
+        FramedGraph fg = new FramedGraph(g, FrameFactory.Default, TypeResolver.Java);//Java type resolver
+        //Also note FrameFactory.Default. Other options are CDI and Spring.
+
+        Class<? extends Programmer> newProgrammerType = new ByteBuddy()
+                .subclass(Programmer.class)
+                .method(MethodMatchers.named("toString")).intercept(FixedValue.value("Hello World!"))
+                .make()
+                .load(getClass().getClassLoader(), ClassLoadingStrategy.Default.WRAPPER)
+                .getLoaded();
+
+        Person p1 = fg.addVertex(newProgrammerType);
+        p1.setName("Bryn");
+
+        Assert.assertEquals(newProgrammerType, p1.getClass());
+        Assert.assertEquals("Hello World!", p1.toString());
     }
 }
