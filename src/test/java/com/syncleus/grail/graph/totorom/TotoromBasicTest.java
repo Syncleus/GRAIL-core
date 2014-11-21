@@ -6,8 +6,10 @@ import org.jglue.totorom.FrameFactory;
 import org.jglue.totorom.FramedGraph;
 import org.jglue.totorom.TypeResolver;
 import org.junit.Assert;
+import org.junit.Test;
 
 public class TotoromBasicTest {
+    @Test
     public void testBasic() {
 
         Graph g = new TinkerGraph();
@@ -27,6 +29,7 @@ public class TotoromBasicTest {
         Assert.assertEquals(15, bryn.getKnowsList().get(0).getYears());
     }
 
+    @Test
     public void testJavaTyping() {
         Graph g = new TinkerGraph();
         FramedGraph fg = new FramedGraph(g, FrameFactory.Default, TypeResolver.Java);//Java type resolver

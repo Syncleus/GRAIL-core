@@ -166,5 +166,10 @@
             <artifactId>totorom-tinkerpop2</artifactId>
             <version>0.5.3</version>
         </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>0.4</version>
+        </dependency>
     </dependencies>
 </project>
