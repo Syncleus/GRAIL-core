@@ -161,5 +161,10 @@
             <artifactId>frames</artifactId>
             <version>2.6.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.jglue.totorom</groupId>
+            <artifactId>totorom-tinkerpop2</artifactId>
+            <version>0.5.3</version>
+        </dependency>
     </dependencies>
 </project>
