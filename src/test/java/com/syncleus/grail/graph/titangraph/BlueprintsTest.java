@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.titangraph;
 
-import com.thinkaurelius.titan.core.TitanGraph;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
