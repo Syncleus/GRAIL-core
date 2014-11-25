@@ -19,7 +19,9 @@
 package com.syncleus.grail.graph.titangraph;
 
 import com.thinkaurelius.titan.core.TitanGraph;
+import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.gremlin.groovy.Gremlin;
 import com.tinkerpop.gremlin.java.GremlinPipeline;
 import com.tinkerpop.pipes.*;
@@ -33,7 +35,8 @@ public class GremlinTest {
      */
     @Test
     public void testGremlinFindChild() {
-        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         final GremlinPipeline<Vertex,Vertex> pipe = new GremlinPipeline<Vertex,Vertex>();
         final Vertex saturnVertex = godGraph.getVertices("name", "saturn").iterator().next();
         final GremlinPipeline<Vertex,?> childsNamePipe = pipe.start(saturnVertex).in("father").property("name");
@@ -46,7 +49,8 @@ public class GremlinTest {
      */
     @Test
     public void testGremlinFindBrothers() {
-        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         final Vertex jupiterVertex = godGraph.getVertices("name", "jupiter").iterator().next();
         final GremlinPipeline<Vertex,?> brotherNamesPipe = new GremlinPipeline<Vertex,Vertex>().start(jupiterVertex).out("brother").property("name");
         final List brotherNames = brotherNamesPipe.next(100);
@@ -64,7 +68,8 @@ public class GremlinTest {
      */
     @Test
     public void testGremlinFindBrothersFilterLetter() {
-        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         final Vertex jupiterVertex = godGraph.getVertices("name", "jupiter").iterator().next();
         final GremlinPipeline brotherNamesPipe = new GremlinPipeline(jupiterVertex).out("brother").property("name").filter(new PipeFunction<String, Boolean>() {
             public Boolean compute(String argument) {
@@ -86,7 +91,8 @@ public class GremlinTest {
      */
     @Test
     public void testGremlinFindBrothersRemoveLetter() {
-        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         final Vertex jupiterVertex = godGraph.getVertices("name", "jupiter").iterator().next();
         final GremlinPipeline brotherNamesPipe = new GremlinPipeline(jupiterVertex).out("brother").property("name").transform(new PipeFunction<String, String>() {
             public String compute(String argument) {
@@ -110,7 +116,8 @@ public class GremlinTest {
      */
     @Test
     public void testGremlinFindBrothersRemoveAndFilterLetter() {
-        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         final Vertex jupiterVertex = godGraph.getVertices("name", "jupiter").iterator().next();
         final GremlinPipeline brotherNamesPipe = new GremlinPipeline(jupiterVertex).out("brother").property("name").transform(new PipeFunction<String, String>() {
             public String compute(String argument) {
@@ -137,7 +144,8 @@ public class GremlinTest {
      */
     @Test
     public void testGremlinBacktrack() {
-        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         final Vertex saturnVertex = godGraph.getVertices("name", "saturn").iterator().next();
         final GremlinPipeline<Vertex,?> childNamePipe = new GremlinPipeline<Vertex,Vertex>(saturnVertex).in("father").as("mark_children").in("father").out("battled").has("name", "nemean").back("mark_children").property("name");
         final String childName = childNamePipe.next().toString();
@@ -152,7 +160,8 @@ public class GremlinTest {
      */
     @Test
     public void testGremlinDepthFirst() {
-        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         final Vertex saturnVertex = godGraph.getVertices("name", "saturn").iterator().next();
         final GremlinPipeline<Vertex,?> pipe = new GremlinPipeline<Vertex,Vertex>(saturnVertex).inE("father").outV().inE("father").outV().property("name");
         final String grandchildName = pipe.next().toString();
@@ -166,7 +175,8 @@ public class GremlinTest {
      */
     @Test
     public void testGremlinBreadthFirst() {
-        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         final Vertex saturnVertex = godGraph.getVertices("name", "saturn").iterator().next();
         final GremlinPipeline<Vertex,?> pipe = new GremlinPipeline<Vertex,Vertex>(saturnVertex).inE("father").gather().scatter().outV().gather().scatter().inE("father").gather().scatter().outV().property("name");
         final String grandchildName = pipe.next().toString();
@@ -181,7 +191,8 @@ public class GremlinTest {
      */
     @Test
     public void testGremlinCompiled() {
-        final TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         final Vertex jupiterVertex = godGraph.getVertices("name", "jupiter").iterator().next();
         final Pipe pipe = Gremlin.compile("_().out('brother').name");
         pipe.setStarts(new SingleIterator<Vertex>(jupiterVertex));

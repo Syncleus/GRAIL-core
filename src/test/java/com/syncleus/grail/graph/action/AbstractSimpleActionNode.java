@@ -18,11 +18,11 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
-import com.tinkerpop.frames.modules.javahandler.JavaHandlerContext;
+import com.syncleus.ferma.FramedVertex;
 
 import java.util.List;
 
-public abstract class AbstractSimpleActionNode implements SimpleActionNode, JavaHandlerContext {
+public abstract class AbstractSimpleActionNode extends FramedVertex implements SimpleActionNode {
     private static List<String> triggerOrder;
 
     @Override

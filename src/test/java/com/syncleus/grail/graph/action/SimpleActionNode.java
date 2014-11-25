@@ -18,41 +18,31 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
+import com.syncleus.ferma.annotations.Property;
 import com.syncleus.grail.graph.Node;
-import com.tinkerpop.frames.*;
-import com.tinkerpop.frames.modules.javahandler.*;
-import com.tinkerpop.frames.modules.typedgraph.*;
 
 import java.util.List;
 
-@TypeValue("SimpleActionNode")
-@JavaHandlerClass(AbstractSimpleActionNode.class)
 public interface SimpleActionNode extends Node {
     @Property("isDone")
-    Boolean isDone();
+    Boolean getDone();
 
     @Property("isDone")
     void setDone(boolean isDone);
 
-    @JavaHandler
     void setTriggerOrder(List<String> triggerOrder);
 
-    @JavaHandler
     List<String> getTriggerOrder();
 
-    @JavaHandler
     @Action("action")
     void doSomething();
 
-    @JavaHandler
     @Action("first")
     void doSomethingFirst();
 
-    @JavaHandler
     @Action("second")
     void doSomethingSecond();
 
-    @JavaHandler
     @Action("third")
     void doSomethingThird();
 }

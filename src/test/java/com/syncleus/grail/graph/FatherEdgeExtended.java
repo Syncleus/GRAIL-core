@@ -18,10 +18,8 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.frames.Property;
-import com.tinkerpop.frames.modules.typedgraph.TypeValue;
+import com.syncleus.ferma.annotations.Property;
 
-@TypeValue("FatherEdgeExtended")
 public interface FatherEdgeExtended extends FatherEdge {
     @Property("extending")
     String getExtending();

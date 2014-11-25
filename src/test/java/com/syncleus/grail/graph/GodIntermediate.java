@@ -18,8 +18,5 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.frames.modules.typedgraph.TypeValue;
-
-@TypeValue("GodIntermediate")
 public interface GodIntermediate extends God {
 }

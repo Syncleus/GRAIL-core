@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-
 import com.tinkerpop.blueprints.Element;
 
 import java.util.Set;

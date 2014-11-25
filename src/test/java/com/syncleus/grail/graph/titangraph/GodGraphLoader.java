@@ -40,48 +40,9 @@ import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfigu
  * Used in the documentation examples and tutorials on the TitanGraph site. This is
  * An acyclic graph with a tree structure.
  */
-public class TitanGods {
+public class GodGraphLoader {
 
-    public static final String INDEX_NAME = "search";
-
-
-    public static TitanGraph create(final String directory) {
-        BaseConfiguration config = new BaseConfiguration();
-        Configuration storage = config.subset(GraphDatabaseConfiguration.STORAGE_NAMESPACE);
-        // configuring local backend
-        storage.setProperty(GraphDatabaseConfiguration.STORAGE_BACKEND_KEY, "local");
-        storage.setProperty(GraphDatabaseConfiguration.STORAGE_DIRECTORY_KEY, directory);
-        // configuring elastic search index
-        Configuration index = storage.subset(GraphDatabaseConfiguration.INDEX_NAMESPACE).subset(INDEX_NAME);
-        index.setProperty(INDEX_BACKEND_KEY, "elasticsearch");
-        index.setProperty("local-mode", true);
-        index.setProperty("client-only", false);
-        index.setProperty(STORAGE_DIRECTORY_KEY, directory + File.separator + "es");
-
-        TitanGraph graph = TitanFactory.open(config);
-        if( !graph.getVertices().iterator().hasNext() )
-            TitanGods.load(graph);
-        return graph;
-    }
-
-    public static void load(final TitanGraph graph) {
-
-        graph.makeKey("name").dataType(String.class).indexed(Vertex.class).unique().make();
-        graph.makeKey("age").dataType(Integer.class).indexed(INDEX_NAME, Vertex.class).make();
-        graph.makeKey("type").dataType(String.class).make();
-
-        final TitanKey time = graph.makeKey("time").dataType(Integer.class).make();
-        final TitanKey reason = graph.makeKey("reason").dataType(String.class).indexed(INDEX_NAME, com.tinkerpop.blueprints.Edge.class).make();
-        graph.makeKey("place").dataType(Geoshape.class).indexed(INDEX_NAME, Edge.class).make();
-
-        graph.makeLabel("father").manyToOne().make();
-        graph.makeLabel("mother").manyToOne().make();
-        graph.makeLabel("battled").sortKey(time).make();
-        graph.makeLabel("lives").signature(reason).make();
-        graph.makeLabel("pet").make();
-        graph.makeLabel("brother").make();
-
-        graph.commit();
+    public static void load(final Graph graph) {
 
         // vertices
 
@@ -152,6 +113,7 @@ public class TitanGods {
         ElementHelper.setProperties(cerberus.addEdge("battled", alcmene), "time", 5, "place", Geoshape.point(68.1f, 13.3f));
 
         // commit the transaction to disk
-        graph.commit();
+        if( graph instanceof TransactionalGraph)
+            ((TransactionalGraph)graph).commit();
     }
 }

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.frames.Property;
+import com.syncleus.ferma.annotations.Property;
 
 /**
  * A weighted graph object. This interface represents any object in a graph with a weight property. A weight is simply

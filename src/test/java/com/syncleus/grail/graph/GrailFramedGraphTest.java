@@ -18,27 +18,18 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
+import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
+import junit.framework.Assert;
 import org.junit.Test;
 
-public class ReflectionUtilityTest {
-    @Test(expected = IllegalArgumentException.class)
-    public void testNoValueAnnotation() {
-        ReflectionUtility.determineTypeValue(ParentNoAnnotation.class);
-    }
+import java.util.Collections;
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testNoFieldAnnotation() {
-        ReflectionUtility.determineTypeField(ParentNoAnnotation.class);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testNoFieldAnnotationRecursive() {
-        ReflectionUtility.determineTypeField(ChildNoAnnotation.class);
-    }
-
-    private class ParentNoAnnotation {
-    }
-
-    private class ChildNoAnnotation extends ParentNoAnnotation {
+public class GrailFramedGraphTest {
+    @Test
+    public void testCustomModules() {
+        final Graph graph = new TinkerGraph();
+        final GrailFramedGraph grailGraph = new GrailFramedGraph(graph);
+        Assert.assertTrue( !grailGraph.V().iterator().hasNext() );
     }
 }

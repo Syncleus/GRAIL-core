@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
+import com.syncleus.ferma.FramedVertex;
+
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -27,7 +29,7 @@ import java.util.*;
  *
  * @since 0.1
  */
-public abstract class AbstractActionTrigger implements ActionTrigger {
+public abstract class AbstractActionTrigger extends FramedVertex implements ActionTrigger {
     private static final Map<Class<?>, Map<String, Set<Method>>> ACTION_METHOD_CACHE = new HashMap<>();
 
     protected static final Map<String, Set<Method>> populateCache(final Class<?> parentClass) {
@@ -37,25 +39,38 @@ public abstract class AbstractActionTrigger implements ActionTrigger {
         actionMethods = new HashMap<String, Set<Method>>();
         AbstractActionTrigger.ACTION_METHOD_CACHE.put(parentClass, actionMethods);
 
-        for(final Class<?> triggerClass : parentClass.getInterfaces() ) {
-            final Method[] triggerMethods = triggerClass.getMethods();
-            for (final Method triggerMethod : triggerMethods) {
-                final Action actionAnnotation = triggerMethod.getDeclaredAnnotation(Action.class);
-                if (actionAnnotation != null ) {
-                    if (triggerMethod.getParameterCount() > 0)
-                        throw new IllegalStateException("A method annotated with @Action required parameters");
-
-                    Set<Method> methods = actionMethods.get(actionAnnotation.value());
-                    if( methods == null ) {
-                        methods = new HashSet<Method>();
-                        actionMethods.put(actionAnnotation.value(), methods);
-                    }
-
-                    methods.add(triggerMethod);
-                }
-            }
-        }
+        recursivePopulateCache(parentClass, actionMethods);
 
         return Collections.unmodifiableMap(actionMethods);
+    }
+
+    private static final void recursivePopulateCache(final Class<?> clazz, final Map<String, Set<Method>> actionMethods) {
+        if(clazz == null)
+            return;
+
+        cacheClass(clazz, actionMethods);
+        for(final Class<?> triggerInterface : clazz.getInterfaces() )
+            cacheClass(triggerInterface, actionMethods);
+
+        recursivePopulateCache(clazz.getSuperclass(), actionMethods);
+    }
+
+    private static final void cacheClass(final Class<?> triggerClass, final Map<String, Set<Method>> actionMethods) {
+        final Method[] triggerMethods = triggerClass.getMethods();
+        for (final Method triggerMethod : triggerMethods) {
+            final Action actionAnnotation = triggerMethod.getDeclaredAnnotation(Action.class);
+            if (actionAnnotation != null ) {
+                if (triggerMethod.getParameterCount() > 0)
+                    throw new IllegalStateException("A method annotated with @Action required parameters");
+
+                Set<Method> methods = actionMethods.get(actionAnnotation.value());
+                if( methods == null ) {
+                    methods = new HashSet<Method>();
+                    actionMethods.put(actionAnnotation.value(), methods);
+                }
+
+                methods.add(triggerMethod);
+            }
+        }
     }
 }

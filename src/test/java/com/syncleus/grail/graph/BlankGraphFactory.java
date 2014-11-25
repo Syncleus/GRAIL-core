@@ -20,6 +20,7 @@ package com.syncleus.grail.graph;
 
 import com.thinkaurelius.titan.core.*;
 import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
+import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import com.tinkerpop.frames.*;
 import org.apache.commons.configuration.*;
 
@@ -29,7 +30,7 @@ import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfigu
 import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.STORAGE_DIRECTORY_KEY;
 
 public final class BlankGraphFactory {
-    public static FramedTransactionalGraph makeTitanGraph(final String location) {
+    public static GrailFramedGraph makeTitanGraph(final String location) {
         BaseConfiguration config = new BaseConfiguration();
         Configuration storage = config.subset(GraphDatabaseConfiguration.STORAGE_NAMESPACE);
         // configuring local backend
@@ -44,14 +45,10 @@ public final class BlankGraphFactory {
 
         TitanGraph graph = TitanFactory.open(config);
 
-        final FramedGraphFactory factory = new GrailGraphFactory();
-
-        return factory.create(graph);
+        return new GrailFramedGraph(graph);
     }
 
-    public static FramedTransactionalGraph makeTinkerGraph() {
-        final FramedGraphFactory factory = new GrailGraphFactory();
-
-        return factory.create(new MockTransactionalTinkerGraph());
+    public static GrailFramedGraph makeTinkerGraph() {
+        return new GrailFramedGraph(new TinkerGraph());
     }
 }

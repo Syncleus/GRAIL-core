@@ -18,9 +18,6 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
-import com.tinkerpop.frames.modules.javahandler.*;
-import com.tinkerpop.frames.modules.typedgraph.TypeValue;
-
 /**
  * An action trigger which triggers its actions in serial and ordered by their priority. Each out trigger edge from this
  * node will be a PrioritySerialTriggerEdge which has a triggerPriority property. This property is an integer value
@@ -29,8 +26,6 @@ import com.tinkerpop.frames.modules.typedgraph.TypeValue;
  *
  * @since 0.1
  */
-@TypeValue("PrioritySerialTrigger")
-@JavaHandlerClass(AbstractPrioritySerialTrigger.class)
 public interface PrioritySerialTrigger extends ActionTrigger {
     /**
      * This will initiate the execution of the action's triggered by this node. The trigger method is also annotated as
@@ -40,7 +35,6 @@ public interface PrioritySerialTrigger extends ActionTrigger {
      *
      * @since 0.1
      */
-    @JavaHandler
     @Action("actionTrigger")
     @Override
     void trigger();
@@ -52,6 +46,5 @@ public interface PrioritySerialTrigger extends ActionTrigger {
      * @return An iterable collection of PrioritySerialTriggerEdges from highest to lowest priority.
      * @since 0.1
      */
-    @JavaHandler
     Iterable<? extends PrioritySerialTriggerEdge> getPrioritizedTriggerEdges();
 }

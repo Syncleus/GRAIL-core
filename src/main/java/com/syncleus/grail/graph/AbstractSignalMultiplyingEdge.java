@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.frames.modules.javahandler.*;
+import com.syncleus.ferma.FramedEdge;
 
 import java.util.Random;
 
@@ -28,7 +28,7 @@ import java.util.Random;
  * 
  * @since 0.1
  */
-public abstract class AbstractSignalMultiplyingEdge implements SignalMultiplyingEdge {
+public abstract class AbstractSignalMultiplyingEdge extends FramedEdge implements SignalMultiplyingEdge {
     private static final Random RANDOM = new Random();
     private static final double RANGE = 2.0;
     private static final double OFFSET = -1.0;
@@ -39,7 +39,6 @@ public abstract class AbstractSignalMultiplyingEdge implements SignalMultiplying
      *
      * @since 0.1
      */
-    @Initializer
     public void init() {
         this.setWeight(((AbstractSignalMultiplyingEdge.RANDOM.nextDouble() * AbstractSignalMultiplyingEdge.RANGE) + AbstractSignalMultiplyingEdge.OFFSET) * AbstractSignalMultiplyingEdge.SCALE);
     }

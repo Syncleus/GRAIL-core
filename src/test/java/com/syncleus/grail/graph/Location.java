@@ -18,16 +18,17 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.frames.*;
-import com.tinkerpop.frames.annotations.gremlin.GremlinGroovy;
+import com.syncleus.ferma.annotations.Adjacency;
+import com.syncleus.ferma.annotations.Property;
+import com.tinkerpop.blueprints.Direction;
 
-public interface Location extends VertexFrame {
+public interface Location {
     @Property("name")
     public String getName();
 
     @Property("type")
     public String getType();
 
-    @GremlinGroovy("it.in('lives')")
+    @Adjacency(label = "lives", direction = Direction.IN)
     public Iterable<God> getResidents();
 }

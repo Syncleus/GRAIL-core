@@ -18,47 +18,47 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
+import com.syncleus.ferma.annotations.Adjacency;
+import com.syncleus.ferma.annotations.Incidence;
 import com.tinkerpop.blueprints.Direction;
-import com.tinkerpop.frames.modules.typedgraph.TypeValue;
 
-@TypeValue("SimpleSignalNode")
 public interface SimpleSignalNode extends SignalNode {
-    @TypedAdjacency(label="parent", direction= Direction.IN)
+    @Adjacency(label="parent", direction= Direction.IN)
     <N extends SimpleSignalNode> Iterable<? extends N> getChildren(Class<? extends N> type);
 
-    @TypedAdjacency(label="parent", direction= Direction.OUT)
+    @Adjacency(label="parent", direction= Direction.OUT)
     <N extends SimpleSignalNode> Iterable<? extends N> getParents(Class<? extends N> type);
 
-    @TypedAdjacency(label="parent", direction= Direction.BOTH)
+    @Adjacency(label="parent", direction= Direction.BOTH)
     <N extends SimpleSignalNode> Iterable<? extends N> getFamily(Class<? extends N> type);
 
-    @TypedAdjacency(label="parent", direction= Direction.BOTH)
+    @Adjacency(label="parent", direction= Direction.BOTH)
     <N extends SimpleSignalNode> N addInbreed(Class<? extends N> type);
 
-    @TypedAdjacency(label="parent", direction= Direction.IN)
+    @Adjacency(label="parent", direction= Direction.IN)
     <N extends SimpleSignalNode> N getChild(Class<? extends N> type);
 
-    @TypedAdjacency(label="parent", direction= Direction.OUT)
+    @Adjacency(label="parent", direction= Direction.OUT)
     <N extends SimpleSignalNode> N getParent(Class<? extends N> type);
 
-    @TypedAdjacency(label="parent", direction= Direction.BOTH)
+    @Adjacency(label="parent", direction= Direction.BOTH)
     <N extends SimpleSignalNode> N getFamilyMember(Class<? extends N> type);
 
-    @TypedIncidence(label="parent", direction= Direction.IN)
+    @Incidence(label="parent", direction= Direction.IN)
     <E extends SignalMultiplyingEdge> Iterable<? extends E> getChildEdges(Class<? extends E> type);
 
-    @TypedIncidence(label="parent", direction= Direction.OUT)
+    @Incidence(label="parent", direction= Direction.OUT)
     <E extends SignalMultiplyingEdge> Iterable<? extends E> getParentEdges(Class<? extends E> type);
 
-    @TypedIncidence(label="parent", direction= Direction.BOTH)
+    @Incidence(label="parent", direction= Direction.BOTH)
     <E extends SignalMultiplyingEdge> Iterable<? extends E> getFamilyEdges(Class<? extends E> type);
 
-    @TypedIncidence(label="parent", direction= Direction.IN)
+    @Incidence(label="parent", direction= Direction.IN)
     <E extends SignalMultiplyingEdge> E getChildEdge(Class<? extends E> type);
 
-    @TypedIncidence(label="parent", direction= Direction.OUT)
+    @Incidence(label="parent", direction= Direction.OUT)
     <E extends SignalMultiplyingEdge> E getParentEdge(Class<? extends E> type);
 
-    @TypedIncidence(label="parent", direction= Direction.BOTH)
+    @Incidence(label="parent", direction= Direction.BOTH)
     <E extends SignalMultiplyingEdge> E getFamilyMemberEdge(Class<? extends E> type);
 }

@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
-public abstract class AbstractBadActionNode implements BadActionNode {
+import com.syncleus.ferma.FramedVertex;
+
+public abstract class AbstractBadActionNode extends FramedVertex implements BadActionNode {
     @Override
     public void badArguments(final String thisIsBad) {
     }

@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.frames.Property;
+import com.syncleus.ferma.annotations.Property;
 
 /**
  * A signaler is any graph object which has a signal. A signal is just a double value that varies with time and is

@@ -18,8 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
+import com.syncleus.ferma.annotations.Adjacency;
+import com.syncleus.ferma.annotations.Incidence;
 import com.syncleus.grail.graph.*;
-import com.tinkerpop.frames.*;
 
 /**
  * An ActionTrigger is a graph node which coordinates the firing of action methods across a graph. Action triggers have
@@ -56,7 +57,7 @@ public interface ActionTrigger extends Node {
      * @param <N> The class type.
      * @return an iterable collection of nodes to be triggered and of the specified type.
      */
-    @TypedAdjacency(label = "triggers")
+    @Adjacency(label = "triggers")
     <N extends Node> Iterable<? extends N> getTriggers(Class<? extends N> type);
 
     /**
@@ -86,19 +87,8 @@ public interface ActionTrigger extends Node {
      * @return An iterable collection of ActionTriggerEdges
      * @since 0.1
      */
-    @TypedIncidence(label = "triggers")
-    <E extends ActionTriggerEdge> Iterable<? extends E> getTriggerEdges(Class<? extends E> type);
-
-    /**
-     * Adds a new edge indicating that the target node should be triggered by this node.
-     *
-     * @param target The new ActionTriggerEdge to add to the graph.
-     * @param <E> The type of ActionTriggerEdge
-     * @return the same value as the target which was pased in.
-     * @since 0.1
-     */
     @Incidence(label = "triggers")
-    <E extends ActionTriggerEdge> E addTriggerEdge(E target);
+    <E extends ActionTriggerEdge> Iterable<? extends E> getTriggerEdges(Class<? extends E> type);
 
     /**
      * Removes the specified AcionTriggerEdge from the graph. The target of the edge will no longer be triggered by this

@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.frames.FramedTransactionalGraph;
+import com.syncleus.ferma.FramedVertex;
+import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -29,12 +31,12 @@ public class AbstractSignalMultiplyingEdgeTest {
 
     @Test
     public void testDoesMultiply() {
-        final FramedTransactionalGraph graph = BlankGraphFactory.makeTinkerGraph();
+        final GrailFramedGraph graph = new GrailFramedGraph(new TinkerGraph());
 
         // construct graph
-        final SignalNode source = (SignalNode) graph.addVertex(null, SignalNode.class);
-        final SignalNode target = (SignalNode) graph.addVertex(null, SignalNode.class);
-        final SignalMultiplyingEdge multiplyingEdge = (SignalMultiplyingEdge) graph.addEdge(null, source.asVertex(), target.asVertex(), "foo", SignalMultiplyingEdge.class);
+        final SignalNode source = (SignalNode) graph.addVertex(SignalNode.class);
+        final SignalNode target = (SignalNode) graph.addVertex(SignalNode.class);
+        final SignalMultiplyingEdge multiplyingEdge = (SignalMultiplyingEdge) graph.addEdge(((FramedVertex)source), ((FramedVertex)target), "foo", AbstractSignalMultiplyingEdge.class);
 
         //set some inital values
         source.setSignal(SOURCE_SIGNAL);

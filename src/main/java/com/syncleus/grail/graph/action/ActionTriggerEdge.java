@@ -18,18 +18,17 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
+import com.syncleus.ferma.annotations.InVertex;
+import com.syncleus.ferma.annotations.OutVertex;
+import com.syncleus.ferma.annotations.Property;
 import com.syncleus.grail.graph.Node;
-import com.tinkerpop.frames.*;
-import com.tinkerpop.frames.modules.typedgraph.*;
 
 /**
  * A graph edge which connects an action trigger to the node which it triggers actions on.
  *
  * @since 0.1
  */
-@TypeField("type")
-@TypeValue("ActionTriggerEdge")
-public interface ActionTriggerEdge extends EdgeFrame {
+public interface ActionTriggerEdge {
     /**
      * Gets the name of the action to be triggered. The target node must have at least one valid method annotated as an
      * action with this name.

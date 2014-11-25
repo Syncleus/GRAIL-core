@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.frames.Property;
+import com.syncleus.ferma.annotations.Property;
 
 public interface LocationExtended extends Location {
     @Property("other")

@@ -19,13 +19,16 @@
 package com.syncleus.grail.graph.titangraph;
 
 import com.thinkaurelius.titan.core.TitanGraph;
+import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import org.junit.*;
 
 public class BlueprintsTest {
     @Test
     public void testApp() {
-        TitanGraph godGraph = TitanGods.create("./target/TitanTestDB");
+        final Graph godGraph = new TinkerGraph();
+        GodGraphLoader.load(godGraph);
         Iterable<Vertex> skyVertices = godGraph.getVertices("name", "sky");
         Assert.assertTrue("no sky vertices found", skyVertices.iterator().hasNext());
     }

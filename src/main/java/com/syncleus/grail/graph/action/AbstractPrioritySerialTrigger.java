@@ -18,13 +18,8 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
+import com.syncleus.ferma.TEdge;
 import com.syncleus.grail.graph.Node;
-import com.tinkerpop.blueprints.*;
-import com.tinkerpop.frames.modules.javahandler.JavaHandlerContext;
-import com.tinkerpop.gremlin.java.GremlinPipeline;
-import com.tinkerpop.pipes.PipeFunction;
-import com.tinkerpop.pipes.util.structures.Pair;
-
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -34,7 +29,7 @@ import java.util.*;
  *
  * @since 0.1
  */
-public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigger implements PrioritySerialTrigger, JavaHandlerContext {
+public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigger implements PrioritySerialTrigger {
     @Override
     public void trigger() {
         for( final PrioritySerialTriggerEdge triggerEdge : this.getPrioritizedTriggerEdges() ) {
@@ -67,11 +62,11 @@ public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigge
 
     @Override
     public Iterable<? extends PrioritySerialTriggerEdge> getPrioritizedTriggerEdges() {
-        final GremlinPipeline<Vertex, Edge> prioritiesTriggersPipe = new GremlinPipeline<Vertex, Vertex>().start(this.asVertex()).outE("triggers").order(new PipeFunction<Pair<Edge, Edge>, Integer>() {
+        return this.outE("triggers").order(new Comparator<TEdge>() {
             @Override
-            public Integer compute(final Pair<Edge, Edge> argument) {
-                final int priorityA = java.lang.Integer.parseInt(argument.getA().getProperty("triggerPriority").toString());
-                final int priorityB = java.lang.Integer.parseInt(argument.getB().getProperty("triggerPriority").toString());
+            public int compare(TEdge tEdge, TEdge t1) {
+                final int priorityA = java.lang.Integer.parseInt(tEdge.getProperty("triggerPriority").toString());
+                final int priorityB = java.lang.Integer.parseInt(t1.getProperty("triggerPriority").toString());
                 if( priorityA == priorityB )
                     return 0;
                 else if(priorityA < priorityB)
@@ -79,7 +74,6 @@ public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigge
                 else
                     return -1;
             }
-        })._();
-        return this.frameEdges(prioritiesTriggersPipe, PrioritySerialTriggerEdge.class);
+        }).frame(PrioritySerialTriggerEdge.class);
     }
 }

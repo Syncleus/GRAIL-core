@@ -18,12 +18,10 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.frames.*;
-import com.tinkerpop.frames.modules.typedgraph.*;
+import com.syncleus.ferma.annotations.InVertex;
+import com.syncleus.ferma.annotations.OutVertex;
 
-@TypeField("classType")
-@TypeValue("Father")
-public interface FatherEdge extends EdgeFrame {
+public interface FatherEdge {
     @InVertex
     God getFather();
 
