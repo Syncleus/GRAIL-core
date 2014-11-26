@@ -19,8 +19,6 @@
 package com.syncleus.grail.graph;
 
 import com.syncleus.ferma.FramedGraph;
-import com.syncleus.ferma.TypeResolver;
-import com.syncleus.ferma.annotations.AnnotationFrameFactory;
 import com.syncleus.grail.graph.action.*;
 import com.tinkerpop.blueprints.Graph;
 
@@ -39,7 +37,7 @@ public class GrailFramedGraph extends FramedGraph {
                                                                           ActionTriggerEdge.class,
                                                                           PrioritySerialTriggerEdge.class}));
     public GrailFramedGraph(Graph delegate) {
-        super(delegate, new AnnotationFrameFactory(BUILT_IN_TYPES), TypeResolver.ANNOTATED);
+        super(delegate, BUILT_IN_TYPES);
     }
 
     public GrailFramedGraph(Graph delegate, Collection<? extends Class<?>> annotatedTypes) {
