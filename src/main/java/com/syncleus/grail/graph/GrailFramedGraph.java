@@ -39,7 +39,7 @@ public class GrailFramedGraph extends FramedGraph {
                                                                           ActionTriggerEdge.class,
                                                                           PrioritySerialTriggerEdge.class}));
     public GrailFramedGraph(Graph delegate) {
-        super(delegate, new AnnotationFrameFactory(BUILT_IN_TYPES), TypeResolver.ANNOTATED);
+        super(delegate, BUILT_IN_TYPES);
     }
 
     public GrailFramedGraph(Graph delegate, Collection<? extends Class<?>> annotatedTypes) {
