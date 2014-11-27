@@ -18,18 +18,20 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.blueprints.Graph;
-import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import junit.framework.Assert;
-import org.junit.Test;
+import com.syncleus.ferma.FramedGraph;
+import com.tinkerpop.blueprints.Element;
 
-import java.util.Collections;
+public abstract class NestedGod extends NestedGraphVertex implements God {
+    public void createSubgraph() {
+        if( this.countSubnodes() == 0 )
+        {
+            this.getNestedGraph().addVertex(God.class);
+            this.getNestedGraph().addVertex(God.class);
+            this.getNestedGraph().addVertex(God.class);
+        }
+    }
 
-public class GrailFramedGraphTest {
-    @Test
-    public void testCustomModules() {
-        final Graph graph = new TinkerGraph();
-        final GrailFramedGraph grailGraph = new GrailFramedGraph(graph);
-        Assert.assertTrue( !grailGraph.v().iterator().hasNext() );
+    public long countSubnodes() {
+        return this.getNestedGraph().v().aggregate().count();
     }
 }
