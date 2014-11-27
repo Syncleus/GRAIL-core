@@ -20,7 +20,7 @@ package com.syncleus.grail.graph;
 
 import com.syncleus.ferma.FramedVertex;
 
-public class GrailFramedVertex extends FramedVertex {
+public abstract class GrailFramedVertex extends FramedVertex {
     @Override
     public GrailGraph graph() {
         return (GrailGraph)super.graph();

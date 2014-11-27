@@ -20,7 +20,7 @@ package com.syncleus.grail.graph;
 
 import com.syncleus.ferma.FramedEdge;
 
-public class GrailFramedEdge extends FramedEdge {
+public abstract class GrailFramedEdge extends FramedEdge {
     @Override
     public GrailGraph graph() {
         return (GrailGraph) super.graph();
