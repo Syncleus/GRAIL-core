@@ -19,7 +19,6 @@
 package com.syncleus.grail.graph;
 
 import com.syncleus.ferma.FramedVertex;
-import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -31,7 +30,7 @@ public class AbstractSignalMultiplyingEdgeTest {
 
     @Test
     public void testDoesMultiply() {
-        final GrailFramedGraph graph = new GrailFramedGraph(new TinkerGraph());
+        final GrailGraph graph = new TinkerGrailGraphFactory().subgraph("0");
 
         // construct graph
         final SignalNode source = graph.addFramedVertex(SignalNode.class);

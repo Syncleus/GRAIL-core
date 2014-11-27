@@ -18,18 +18,15 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.thinkaurelius.titan.core.*;
-import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
+import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import org.apache.commons.configuration.*;
+import junit.framework.Assert;
+import org.junit.Test;
 
-import java.io.File;
-
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.INDEX_BACKEND_KEY;
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.STORAGE_DIRECTORY_KEY;
-
-public final class BlankGraphFactory {
-    public static GrailGraph makeTinkerGraph() {
-        return new TinkerGrailGraphFactory().subgraph("0");
+public class GrailGraphTest {
+    @Test
+    public void testCustomModules() {
+        final GrailGraph grailGraph = new TinkerGrailGraphFactory().subgraph("0");
+        Assert.assertTrue( !grailGraph.v().iterator().hasNext() );
     }
 }
