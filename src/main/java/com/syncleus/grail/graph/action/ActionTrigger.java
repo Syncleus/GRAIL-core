@@ -31,7 +31,7 @@ import com.syncleus.grail.graph.*;
  *
  * @since 0.1
  */
-public interface ActionTrigger extends Node {
+public interface ActionTrigger {
     /**
      * This will initiate the execution of the action's triggered by this node. The trigger method is also annotated as
      * an action with label actionTrigger. This allows for multiple ActionTrigger classes to be chained together.
@@ -48,7 +48,7 @@ public interface ActionTrigger extends Node {
      * @since 0.1
      */
     @Adjacency(label = "triggers")
-    Iterable<? extends Node> getTriggers();
+    Iterable<?> getTriggers();
 
     /**
      * All the nodes in the graph of the specified type which are triggered by this node.
@@ -58,7 +58,7 @@ public interface ActionTrigger extends Node {
      * @return an iterable collection of nodes to be triggered and of the specified type.
      */
     @Adjacency(label = "triggers")
-    <N extends Node> Iterable<? extends N> getTriggers(Class<? extends N> type);
+    <N> Iterable<? extends N> getTriggers(Class<? extends N> type);
 
     /**
      * Remove a node from being triggered. This will remove the trigger edge connecting to the specified node.
@@ -67,7 +67,7 @@ public interface ActionTrigger extends Node {
      * @since 0.1
      */
     @Adjacency(label = "triggers")
-    void removeTrigger(Node target);
+    void removeTrigger(Object target);
 
     /**
      * All edges in the graph which connect to nodes being triggered by this node.

@@ -23,5 +23,5 @@ package com.syncleus.grail.graph;
  *
  * @since 0.1
  */
-public interface SignalNode extends Signaler, Node {
+public interface SignalNode extends Signaler {
 }

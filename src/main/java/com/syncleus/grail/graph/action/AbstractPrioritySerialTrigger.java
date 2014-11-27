@@ -19,7 +19,6 @@
 package com.syncleus.grail.graph.action;
 
 import com.syncleus.ferma.TEdge;
-import com.syncleus.grail.graph.Node;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -35,7 +34,7 @@ public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigge
         for( final PrioritySerialTriggerEdge triggerEdge : this.getPrioritizedTriggerEdges() ) {
             final String actionName = triggerEdge.getTriggerAction();
 
-            final Node triggerObject = triggerEdge.getTarget();
+            final Object triggerObject = triggerEdge.getTarget();
 
             final Class<?> parentClass = triggerObject.getClass();
 

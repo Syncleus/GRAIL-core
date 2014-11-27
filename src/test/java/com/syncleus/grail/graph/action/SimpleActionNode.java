@@ -19,11 +19,10 @@
 package com.syncleus.grail.graph.action;
 
 import com.syncleus.ferma.annotations.Property;
-import com.syncleus.grail.graph.Node;
 
 import java.util.List;
 
-public interface SimpleActionNode extends Node {
+public interface SimpleActionNode {
     @Property("isDone")
     Boolean getDone();
 

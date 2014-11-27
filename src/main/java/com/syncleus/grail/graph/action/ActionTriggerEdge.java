@@ -21,7 +21,6 @@ package com.syncleus.grail.graph.action;
 import com.syncleus.ferma.annotations.InVertex;
 import com.syncleus.ferma.annotations.OutVertex;
 import com.syncleus.ferma.annotations.Property;
-import com.syncleus.grail.graph.Node;
 
 /**
  * A graph edge which connects an action trigger to the node which it triggers actions on.
@@ -56,7 +55,7 @@ public interface ActionTriggerEdge {
      * @since 0.1
      */
     @InVertex
-    Node getTarget();
+    Object getTarget();
 
     /**
      * The action trigger capable of triggering the target node.

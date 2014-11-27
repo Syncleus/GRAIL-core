@@ -21,7 +21,6 @@ package com.syncleus.grail.graph.action;
 import com.syncleus.ferma.annotations.InVertex;
 import com.syncleus.ferma.annotations.OutVertex;
 import com.syncleus.ferma.annotations.Property;
-import com.syncleus.grail.graph.Node;
 
 /**
  * A prioritized trigger edge. These are used when trigger edges need to be executed in sequential order by a
@@ -51,7 +50,7 @@ public interface PrioritySerialTriggerEdge extends ActionTriggerEdge {
 
     @Override
     @InVertex
-    Node getTarget();
+    Object getTarget();
 
     @Override
     @OutVertex

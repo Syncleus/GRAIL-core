@@ -18,9 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FrameFactory;
 import com.syncleus.ferma.FramedGraph;
-import com.syncleus.ferma.TypeResolver;
 import com.syncleus.grail.graph.action.*;
 import com.tinkerpop.blueprints.Graph;
 

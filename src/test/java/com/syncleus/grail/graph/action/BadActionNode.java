@@ -18,9 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
-import com.syncleus.grail.graph.Node;
-
-public interface BadActionNode extends Node {
+public interface BadActionNode {
     @Action("badArguments")
     void badArguments(String thisIsBad);
 }
