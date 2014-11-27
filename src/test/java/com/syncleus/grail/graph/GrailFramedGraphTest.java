@@ -30,6 +30,6 @@ public class GrailFramedGraphTest {
     public void testCustomModules() {
         final Graph graph = new TinkerGraph();
         final GrailFramedGraph grailGraph = new GrailFramedGraph(graph);
-        Assert.assertTrue( !grailGraph.V().iterator().hasNext() );
+        Assert.assertTrue( !grailGraph.v().iterator().hasNext() );
     }
 }

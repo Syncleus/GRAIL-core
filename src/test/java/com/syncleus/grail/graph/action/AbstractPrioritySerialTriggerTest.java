@@ -36,9 +36,9 @@ public class AbstractPrioritySerialTriggerTest {
         final GrailFramedGraph graph = new GrailFramedGraph(new TinkerGraph(), TEST_TYPES);
 
         // construct graph
-        final SimpleActionNode actionNode = graph.addVertex(AbstractSimpleActionNode.class);
-        final PrioritySerialTrigger trigger = graph.addVertex(AbstractPrioritySerialTrigger.class);
-        final PrioritySerialTriggerEdge triggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) actionNode, "triggers", PrioritySerialTriggerEdge.class);
+        final SimpleActionNode actionNode = graph.addFramedVertex(AbstractSimpleActionNode.class);
+        final PrioritySerialTrigger trigger = graph.addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final PrioritySerialTriggerEdge triggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) actionNode, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerAction("action");
         triggerEdge.setTriggerPriority(0);
 
@@ -57,15 +57,15 @@ public class AbstractPrioritySerialTriggerTest {
         final List<String> triggerOrder = new ArrayList<String>(2);
 
         // construct graph
-        final SimpleActionNode firstActionNode = graph.addVertex(AbstractSimpleActionNode.class);
+        final SimpleActionNode firstActionNode = graph.addFramedVertex(AbstractSimpleActionNode.class);
         firstActionNode.setTriggerOrder(triggerOrder);
-        final SimpleActionNode secondActionNode = graph.addVertex(AbstractSimpleActionNode.class);
+        final SimpleActionNode secondActionNode = graph.addFramedVertex(AbstractSimpleActionNode.class);
         secondActionNode.setTriggerOrder(triggerOrder);
-        final PrioritySerialTrigger trigger = graph.addVertex(AbstractPrioritySerialTrigger.class);
-        final PrioritySerialTriggerEdge firstTriggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) firstActionNode, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTrigger trigger = graph.addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final PrioritySerialTriggerEdge firstTriggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) firstActionNode, "triggers", PrioritySerialTriggerEdge.class);
         firstTriggerEdge.setTriggerAction("first");
         firstTriggerEdge.setTriggerPriority(1000);
-        final PrioritySerialTriggerEdge secondTriggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) secondActionNode, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTriggerEdge secondTriggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) secondActionNode, "triggers", PrioritySerialTriggerEdge.class);
         secondTriggerEdge.setTriggerAction("second");
         secondTriggerEdge.setTriggerPriority(0);
 
@@ -90,15 +90,15 @@ public class AbstractPrioritySerialTriggerTest {
         final List<String> triggerOrder = new ArrayList<String>(2);
 
         // construct graph
-        final SimpleActionNode firstActionNode = graph.addVertex(AbstractSimpleActionNode.class);
+        final SimpleActionNode firstActionNode = graph.addFramedVertex(AbstractSimpleActionNode.class);
         firstActionNode.setTriggerOrder(triggerOrder);
-        final SimpleActionNode secondActionNode = graph.addVertex(AbstractSimpleActionNode.class);
+        final SimpleActionNode secondActionNode = graph.addFramedVertex(AbstractSimpleActionNode.class);
         secondActionNode.setTriggerOrder(triggerOrder);
-        final PrioritySerialTrigger trigger = graph.addVertex(AbstractPrioritySerialTrigger.class);
-        final PrioritySerialTriggerEdge secondTriggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) secondActionNode, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTrigger trigger = graph.addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final PrioritySerialTriggerEdge secondTriggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) secondActionNode, "triggers", PrioritySerialTriggerEdge.class);
         secondTriggerEdge.setTriggerAction("second");
         secondTriggerEdge.setTriggerPriority(0);
-        final PrioritySerialTriggerEdge firstTriggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) firstActionNode, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTriggerEdge firstTriggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) firstActionNode, "triggers", PrioritySerialTriggerEdge.class);
         firstTriggerEdge.setTriggerAction("first");
         firstTriggerEdge.setTriggerPriority(1000);
 
@@ -123,20 +123,20 @@ public class AbstractPrioritySerialTriggerTest {
         final List<String> triggerOrder = new ArrayList<String>(2);
 
         // construct graph
-        final SimpleActionNode firstActionNode = graph.addVertex(AbstractSimpleActionNode.class);
+        final SimpleActionNode firstActionNode = graph.addFramedVertex(AbstractSimpleActionNode.class);
         firstActionNode.setTriggerOrder(triggerOrder);
-        final SimpleActionNode secondActionNode = graph.addVertex(AbstractSimpleActionNode.class);
+        final SimpleActionNode secondActionNode = graph.addFramedVertex(AbstractSimpleActionNode.class);
         secondActionNode.setTriggerOrder(triggerOrder);
-        final SimpleActionNode thirdActionNode = graph.addVertex(AbstractSimpleActionNode.class);
+        final SimpleActionNode thirdActionNode = graph.addFramedVertex(AbstractSimpleActionNode.class);
         thirdActionNode.setTriggerOrder(triggerOrder);
-        final PrioritySerialTrigger trigger = graph.addVertex(AbstractPrioritySerialTrigger.class);
-        final PrioritySerialTriggerEdge firstTriggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) firstActionNode, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTrigger trigger = graph.addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final PrioritySerialTriggerEdge firstTriggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) firstActionNode, "triggers", PrioritySerialTriggerEdge.class);
         firstTriggerEdge.setTriggerAction("first");
         firstTriggerEdge.setTriggerPriority(1000);
-        final PrioritySerialTriggerEdge secondTriggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) secondActionNode, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTriggerEdge secondTriggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) secondActionNode, "triggers", PrioritySerialTriggerEdge.class);
         secondTriggerEdge.setTriggerAction("second");
         secondTriggerEdge.setTriggerPriority(1000);
-        final PrioritySerialTriggerEdge thirdTriggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) thirdActionNode, "triggers", PrioritySerialTriggerEdge.class);
+        final PrioritySerialTriggerEdge thirdTriggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) thirdActionNode, "triggers", PrioritySerialTriggerEdge.class);
         thirdTriggerEdge.setTriggerAction("third");
         thirdTriggerEdge.setTriggerPriority(0);
 
@@ -160,9 +160,9 @@ public class AbstractPrioritySerialTriggerTest {
     public void testBadArguments() {
         final GrailFramedGraph graph = new GrailFramedGraph(new TinkerGraph(), TEST_TYPES);
 
-        final BadActionNode badNode = graph.addVertex(AbstractBadActionNode.class);
-        final PrioritySerialTrigger trigger = graph.addVertex(AbstractPrioritySerialTrigger.class);
-        final PrioritySerialTriggerEdge triggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) badNode, "triggers", PrioritySerialTriggerEdge.class);
+        final BadActionNode badNode = graph.addFramedVertex(AbstractBadActionNode.class);
+        final PrioritySerialTrigger trigger = graph.addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final PrioritySerialTriggerEdge triggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) badNode, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerPriority(0);
         triggerEdge.setTriggerAction("badArguments");
         trigger.trigger();
@@ -172,9 +172,9 @@ public class AbstractPrioritySerialTriggerTest {
     public void testBadAccess() {
         final GrailFramedGraph graph = new GrailFramedGraph(new TinkerGraph(), TEST_TYPES);
 
-        final BadActionNode badNode = graph.addVertex(AbstractBadActionNode.class);
-        final PrioritySerialTrigger trigger = graph.addVertex(AbstractPrioritySerialTrigger.class);
-        final PrioritySerialTriggerEdge triggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) badNode, "triggers", PrioritySerialTriggerEdge.class);
+        final BadActionNode badNode = graph.addFramedVertex(AbstractBadActionNode.class);
+        final PrioritySerialTrigger trigger = graph.addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final PrioritySerialTriggerEdge triggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) badNode, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerPriority(0);
         triggerEdge.setTriggerAction("badAccess");
         trigger.trigger();
@@ -184,9 +184,9 @@ public class AbstractPrioritySerialTriggerTest {
     public void testUnfoundAction() {
         final GrailFramedGraph graph = new GrailFramedGraph(new TinkerGraph(), TEST_TYPES);
 
-        final BadActionNode badNode = graph.addVertex(AbstractBadActionNode.class);
-        final PrioritySerialTrigger trigger = graph.addVertex(AbstractPrioritySerialTrigger.class);
-        final PrioritySerialTriggerEdge triggerEdge = graph.addEdge((FramedVertex) trigger, (FramedVertex) badNode, "triggers", PrioritySerialTriggerEdge.class);
+        final BadActionNode badNode = graph.addFramedVertex(AbstractBadActionNode.class);
+        final PrioritySerialTrigger trigger = graph.addFramedVertex(AbstractPrioritySerialTrigger.class);
+        final PrioritySerialTriggerEdge triggerEdge = graph.addFramedEdge((FramedVertex) trigger, (FramedVertex) badNode, "triggers", PrioritySerialTriggerEdge.class);
         triggerEdge.setTriggerPriority(0);
         triggerEdge.setTriggerAction("wontFindThis");
         trigger.trigger();

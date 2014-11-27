@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
+import com.syncleus.ferma.FrameFactory;
 import com.syncleus.ferma.FramedGraph;
+import com.syncleus.ferma.TypeResolver;
 import com.syncleus.grail.graph.action.*;
 import com.tinkerpop.blueprints.Graph;
 
@@ -36,13 +38,15 @@ public class GrailFramedGraph extends FramedGraph {
                                                                           PrioritySerialTrigger.class,
                                                                           ActionTriggerEdge.class,
                                                                           PrioritySerialTriggerEdge.class}));
+
     public GrailFramedGraph(Graph delegate) {
-        super(delegate, BUILT_IN_TYPES);
+        super(delegate, true, BUILT_IN_TYPES);
     }
 
     public GrailFramedGraph(Graph delegate, Collection<? extends Class<?>> annotatedTypes) {
-        super(delegate, combineCollections(annotatedTypes));
+        super(delegate, true, combineCollections(annotatedTypes));
     }
+
 
     private static final Collection<? extends Class<?>> combineCollections(final Collection<? extends Class<?>> annotatedTypes) {
         Set<Class<?>> combined = new HashSet<>(BUILT_IN_TYPES);

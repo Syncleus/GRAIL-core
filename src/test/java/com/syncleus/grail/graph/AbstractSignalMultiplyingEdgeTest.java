@@ -34,9 +34,9 @@ public class AbstractSignalMultiplyingEdgeTest {
         final GrailFramedGraph graph = new GrailFramedGraph(new TinkerGraph());
 
         // construct graph
-        final SignalNode source = (SignalNode) graph.addVertex(SignalNode.class);
-        final SignalNode target = (SignalNode) graph.addVertex(SignalNode.class);
-        final SignalMultiplyingEdge multiplyingEdge = (SignalMultiplyingEdge) graph.addEdge(((FramedVertex)source), ((FramedVertex)target), "foo", AbstractSignalMultiplyingEdge.class);
+        final SignalNode source = graph.addFramedVertex(SignalNode.class);
+        final SignalNode target = graph.addFramedVertex(SignalNode.class);
+        final SignalMultiplyingEdge multiplyingEdge = graph.addFramedEdge(((FramedVertex)source), ((FramedVertex)target), "foo", AbstractSignalMultiplyingEdge.class);
 
         //set some inital values
         source.setSignal(SOURCE_SIGNAL);
