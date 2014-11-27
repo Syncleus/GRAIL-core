@@ -18,18 +18,22 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.thinkaurelius.titan.core.*;
-import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
-import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import org.apache.commons.configuration.*;
+import com.syncleus.grail.graph.action.ActionTriggerEdge;
+import com.syncleus.grail.graph.action.PrioritySerialTrigger;
+import com.syncleus.grail.graph.action.PrioritySerialTriggerEdge;
 
-import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.INDEX_BACKEND_KEY;
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.STORAGE_DIRECTORY_KEY;
+public interface GrailGraphFactory {
+    public static final Set<Class<?>> BUILT_IN_TYPES = new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
+            SignalMultiplyingEdge.class,
+            PrioritySerialTrigger.class,
+            ActionTriggerEdge.class,
+            PrioritySerialTriggerEdge.class}));
 
-public final class BlankGraphFactory {
-    public static GrailGraph makeTinkerGraph() {
-        return new TinkerGrailGraphFactory().subgraph("0");
-    }
+    GrailGraphFactory getParent();
+    <N> N getId();
+    GrailGraph subgraph(Object id);
 }

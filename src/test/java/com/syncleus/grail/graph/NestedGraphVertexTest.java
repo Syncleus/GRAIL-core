@@ -18,18 +18,23 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.thinkaurelius.titan.core.*;
-import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
-import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import org.apache.commons.configuration.*;
+import junit.framework.Assert;
+import org.junit.Test;
 
-import java.io.File;
+public class NestedGraphVertexTest {
+    @Test
+    public void testCreateSubnodes() {
+        final GrailGraph graph = new TinkerGrailGraphFactory().subgraph("0");
 
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.INDEX_BACKEND_KEY;
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.STORAGE_DIRECTORY_KEY;
+        // construct graph
+        NestedGod nestedGod = graph.addFramedVertex(NestedGod.class);
 
-public final class BlankGraphFactory {
-    public static GrailGraph makeTinkerGraph() {
-        return new TinkerGrailGraphFactory().subgraph("0");
+        Assert.assertEquals(0, nestedGod.countSubnodes());
+        nestedGod.createSubgraph();
+        Assert.assertEquals(3, nestedGod.countSubnodes());
+
+        //reaquire the nested object and make sure it still has 3 subnodes
+        nestedGod = graph.v().next(NestedGod.class);
+        Assert.assertEquals(3, nestedGod.countSubnodes());
     }
 }

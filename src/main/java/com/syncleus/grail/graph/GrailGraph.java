@@ -18,18 +18,50 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.thinkaurelius.titan.core.*;
-import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
-import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import org.apache.commons.configuration.*;
+import com.syncleus.ferma.FramedGraph;
+import com.syncleus.ferma.ReflectionCache;
+import com.syncleus.grail.graph.action.*;
+import com.tinkerpop.blueprints.Graph;
 
-import java.io.File;
+import java.util.*;
 
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.INDEX_BACKEND_KEY;
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.STORAGE_DIRECTORY_KEY;
+/**
+ * The GrailGraph represents a TinkerPop graph compatible with the GRAIL library typing. Using this Graph instead of the
+ * built-in TinkerPop Graph ensures that the proper class typing is instantiated and annotations are enabled.
+ *
+ * @since 0.1
+ */
+public class GrailGraph extends FramedGraph implements GrailGraphFactory {
 
-public final class BlankGraphFactory {
-    public static GrailGraph makeTinkerGraph() {
-        return new TinkerGrailGraphFactory().subgraph("0");
+
+    private final Object id;
+    private final GrailGraphFactory parentGraphFactory;
+
+    public GrailGraph(final Graph delegate, final GrailGraphFactory parentGraphFactory, final Object id) {
+        super(delegate, true, BUILT_IN_TYPES);
+        this.id = id;
+        this.parentGraphFactory = parentGraphFactory;
+    }
+
+    public GrailGraph(Graph delegate, ReflectionCache reflections, GrailGraphFactory parentGraphFactory, Object id) {
+        super(delegate, reflections, true, true);
+        this.id = id;
+        this.parentGraphFactory = parentGraphFactory;
+    }
+
+
+    @Override
+    public GrailGraphFactory getParent() {
+        return this.parentGraphFactory;
+    }
+
+    @Override
+    public <N> N getId() {
+        return (N) this.id;
+    }
+
+    @Override
+    public GrailGraph subgraph(Object id) {
+        return this.parentGraphFactory.subgraph(this.id.toString() + "." + id.toString());
     }
 }

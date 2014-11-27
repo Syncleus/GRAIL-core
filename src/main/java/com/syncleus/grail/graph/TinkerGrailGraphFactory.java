@@ -18,33 +18,46 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FramedGraph;
-import com.syncleus.grail.graph.action.*;
-import com.tinkerpop.blueprints.Graph;
+import com.syncleus.ferma.ReflectionCache;
+import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 
 import java.util.*;
 
-/**
- * The GrailGraph represents a TinkerPop graph compatible with the GRAIL library typing. Using this Graph instead of the
- * built-in TinkerPop Graph ensures that the proper class typing is instantiated and annotations are enabled.
- *
- * @since 0.1
- */
-public class GrailFramedGraph extends FramedGraph {
-    private static final Set<Class<?>> BUILT_IN_TYPES = new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
-                                                                          SignalMultiplyingEdge.class,
-                                                                          PrioritySerialTrigger.class,
-                                                                          ActionTriggerEdge.class,
-                                                                          PrioritySerialTriggerEdge.class}));
+public class TinkerGrailGraphFactory implements GrailGraphFactory {
+    private final Map<Object, GrailGraph> graphs = new HashMap<>();
+    private final ReflectionCache reflections;
 
-    public GrailFramedGraph(Graph delegate) {
-        super(delegate, true, BUILT_IN_TYPES);
+    public TinkerGrailGraphFactory() {
+        this.reflections = new ReflectionCache(BUILT_IN_TYPES);
     }
 
-    public GrailFramedGraph(Graph delegate, Collection<? extends Class<?>> annotatedTypes) {
-        super(delegate, true, combineCollections(annotatedTypes));
+    public TinkerGrailGraphFactory(final Collection<? extends Class<?>> annotatedTypes) {
+        this.reflections = new ReflectionCache(combineCollections(annotatedTypes));
     }
 
+    public TinkerGrailGraphFactory(final ReflectionCache reflections) {
+        this.reflections = reflections;
+    }
+
+    @Override
+    public GrailGraphFactory getParent() {
+        return null;
+    }
+
+    @Override
+    public <N> N getId() {
+        return null;
+    }
+
+    @Override
+    public GrailGraph subgraph(Object id) {
+        GrailGraph graph = this.graphs.get(id);
+        if( graph == null ) {
+            graph = new GrailGraph(new TinkerGraph(), this.reflections, this, id);
+            this.graphs.put(id, graph);
+        }
+        return graph;
+    }
 
     private static final Collection<? extends Class<?>> combineCollections(final Collection<? extends Class<?>> annotatedTypes) {
         Set<Class<?>> combined = new HashSet<>(BUILT_IN_TYPES);

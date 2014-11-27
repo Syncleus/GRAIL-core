@@ -18,18 +18,19 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.thinkaurelius.titan.core.*;
-import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
-import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import org.apache.commons.configuration.*;
+import com.syncleus.ferma.FramedGraph;
+import com.tinkerpop.blueprints.Element;
 
-import java.io.File;
+public class NestedGraphVertex extends GrailFramedVertex {
+    public GrailGraph getNestedGraph() {
+        return nestedGraph;
+    }
 
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.INDEX_BACKEND_KEY;
-import static com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration.STORAGE_DIRECTORY_KEY;
+    private GrailGraph nestedGraph;
 
-public final class BlankGraphFactory {
-    public static GrailGraph makeTinkerGraph() {
-        return new TinkerGrailGraphFactory().subgraph("0");
+    @Override
+    protected void init(FramedGraph graph, Element element) {
+        super.init(graph, element);
+        this.nestedGraph = this.graph().subgraph(this.getId());
     }
 }
