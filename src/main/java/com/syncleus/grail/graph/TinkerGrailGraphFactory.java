@@ -53,7 +53,7 @@ public class TinkerGrailGraphFactory implements GrailGraphFactory {
     public GrailGraph subgraph(Object id) {
         GrailGraph graph = this.graphs.get(id);
         if( graph == null ) {
-            graph = new GrailGraph(new TinkerGraph(), this.reflections, this, id);
+            graph = new GrailGraph(new MockTransactionalGraph(new TinkerGraph()), this.reflections, this, id);
             this.graphs.put(id, graph);
         }
         return graph;

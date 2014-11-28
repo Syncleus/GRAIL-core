@@ -19,9 +19,9 @@
 package com.syncleus.grail.graph;
 
 import com.syncleus.ferma.FramedGraph;
+import com.syncleus.ferma.FramedTransactionalGraph;
 import com.syncleus.ferma.ReflectionCache;
-import com.syncleus.grail.graph.action.*;
-import com.tinkerpop.blueprints.Graph;
+import com.tinkerpop.blueprints.TransactionalGraph;
 
 import java.util.*;
 
@@ -31,19 +31,19 @@ import java.util.*;
  *
  * @since 0.1
  */
-public class GrailGraph extends FramedGraph implements GrailGraphFactory {
+public class GrailGraph extends FramedTransactionalGraph implements GrailGraphFactory {
 
 
     private final Object id;
     private final GrailGraphFactory parentGraphFactory;
 
-    public GrailGraph(final Graph delegate, final GrailGraphFactory parentGraphFactory, final Object id) {
+    public GrailGraph(final TransactionalGraph delegate, final GrailGraphFactory parentGraphFactory, final Object id) {
         super(delegate, true, BUILT_IN_TYPES);
         this.id = id;
         this.parentGraphFactory = parentGraphFactory;
     }
 
-    public GrailGraph(Graph delegate, ReflectionCache reflections, GrailGraphFactory parentGraphFactory, Object id) {
+    public GrailGraph(TransactionalGraph delegate, ReflectionCache reflections, GrailGraphFactory parentGraphFactory, Object id) {
         super(delegate, reflections, true, true);
         this.id = id;
         this.parentGraphFactory = parentGraphFactory;
