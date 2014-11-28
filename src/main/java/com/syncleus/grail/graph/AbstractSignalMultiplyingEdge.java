@@ -28,7 +28,7 @@ import java.util.Random;
  * 
  * @since 0.1
  */
-public abstract class AbstractSignalMultiplyingEdge extends FramedEdge implements SignalMultiplyingEdge {
+public abstract class AbstractSignalMultiplyingEdge extends GrailFramedEdge implements SignalMultiplyingEdge {
     private static final Random RANDOM = new Random();
     private static final double RANGE = 2.0;
     private static final double OFFSET = -1.0;
@@ -39,6 +39,7 @@ public abstract class AbstractSignalMultiplyingEdge extends FramedEdge implement
      *
      * @since 0.1
      */
+    @Override
     public void init() {
         this.setWeight(((AbstractSignalMultiplyingEdge.RANDOM.nextDouble() * AbstractSignalMultiplyingEdge.RANGE) + AbstractSignalMultiplyingEdge.OFFSET) * AbstractSignalMultiplyingEdge.SCALE);
     }
