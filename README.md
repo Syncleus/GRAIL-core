@@ -19,7 +19,6 @@ database available to you. A few examples of supported Graph Databases are as fo
 TinkerPop also provides several tools which can be used to work with GRAIL backed algorithms.
 
 * **Furnace** - Graph analysis utilities
-* **Frames** - An object-to-graph mapping similar to ORM for relational databases
 * **Pipes** - A data-flow framework for splitting, merging, filtering, and transforming of data
 * **Gremlin** - A graph query language
 * **Blueprints** - A standard graph API
