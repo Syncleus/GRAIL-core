@@ -18,10 +18,12 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
+import com.syncleus.ferma.VertexFrame;
+
 /**
  * A graph node which has a signal property.
  *
  * @since 0.1
  */
-public interface SignalNode extends Signaler {
+public interface SignalNode extends Signaler, VertexFrame {
 }

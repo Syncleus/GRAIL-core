@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
+import com.syncleus.ferma.VertexFrame;
 import com.syncleus.ferma.annotations.Adjacency;
 import com.syncleus.ferma.annotations.Incidence;
-import com.syncleus.grail.graph.*;
 
 /**
  * An ActionTrigger is a graph node which coordinates the firing of action methods across a graph. Action triggers have
@@ -31,7 +31,7 @@ import com.syncleus.grail.graph.*;
  *
  * @since 0.1
  */
-public interface ActionTrigger {
+public interface ActionTrigger extends VertexFrame {
     /**
      * This will initiate the execution of the action's triggered by this node. The trigger method is also annotated as
      * an action with label actionTrigger. This allows for multiple ActionTrigger classes to be chained together.

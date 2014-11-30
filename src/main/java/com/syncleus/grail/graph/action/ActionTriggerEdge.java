@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
+import com.syncleus.ferma.EdgeFrame;
 import com.syncleus.ferma.annotations.InVertex;
 import com.syncleus.ferma.annotations.OutVertex;
 import com.syncleus.ferma.annotations.Property;
@@ -27,7 +28,7 @@ import com.syncleus.ferma.annotations.Property;
  *
  * @since 0.1
  */
-public interface ActionTriggerEdge {
+public interface ActionTriggerEdge extends EdgeFrame {
     /**
      * Gets the name of the action to be triggered. The target node must have at least one valid method annotated as an
      * action with this name.

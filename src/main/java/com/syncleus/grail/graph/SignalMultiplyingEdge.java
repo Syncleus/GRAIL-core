@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
+import com.syncleus.ferma.EdgeFrame;
 import com.syncleus.ferma.annotations.OutVertex;
 
 /**
@@ -26,7 +27,7 @@ import com.syncleus.ferma.annotations.OutVertex;
  *
  * @since 0.1
  */
-public interface SignalMultiplyingEdge extends Weighted, Signaler {
+public interface SignalMultiplyingEdge extends Weighted, Signaler, EdgeFrame {
     /**
      * The node connected to the source end of this edge.
      *

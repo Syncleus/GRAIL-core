@@ -18,8 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
-import com.syncleus.ferma.FramedVertex;
-import com.syncleus.grail.graph.GrailFramedVertex;
+import com.syncleus.grail.graph.AbstractGrailVertexFrame;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -30,7 +29,7 @@ import java.util.*;
  *
  * @since 0.1
  */
-public abstract class AbstractActionTrigger extends GrailFramedVertex implements ActionTrigger {
+public abstract class AbstractActionTrigger extends AbstractGrailVertexFrame implements ActionTrigger {
     private static final Map<Class<?>, Map<String, Set<Method>>> ACTION_METHOD_CACHE = new HashMap<>();
 
     protected static final Map<String, Set<Method>> populateCache(final Class<?> parentClass) {

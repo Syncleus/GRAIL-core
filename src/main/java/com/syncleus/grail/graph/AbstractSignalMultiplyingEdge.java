@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FramedEdge;
-
 import java.util.Random;
 
 /**
@@ -28,7 +26,7 @@ import java.util.Random;
  * 
  * @since 0.1
  */
-public abstract class AbstractSignalMultiplyingEdge extends GrailFramedEdge implements SignalMultiplyingEdge {
+public abstract class AbstractSignalMultiplyingEdge extends AbstractGrailEdgeFrame implements SignalMultiplyingEdge {
     private static final Random RANDOM = new Random();
     private static final double RANGE = 2.0;
     private static final double OFFSET = -1.0;

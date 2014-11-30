@@ -18,19 +18,11 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FramedGraph;
-import com.tinkerpop.blueprints.Element;
+import com.syncleus.ferma.AbstractVertexFrame;
 
-public class NestedGraphVertex extends AbstractGrailVertexFrame {
-    public GrailGraph getNestedGraph() {
-        return nestedGraph;
-    }
-
-    private GrailGraph nestedGraph;
-
+public abstract class AbstractGrailVertexFrame extends AbstractVertexFrame implements GrailVertexFrame {
     @Override
-    protected void init(FramedGraph graph, Element element) {
-        super.init(graph, element);
-        this.nestedGraph = this.graph().subgraph(this.getId());
+    public GrailGraph graph() {
+        return (GrailGraph)super.graph();
     }
 }

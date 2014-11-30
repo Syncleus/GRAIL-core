@@ -18,11 +18,12 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
+import com.syncleus.ferma.VertexFrame;
 import com.syncleus.ferma.annotations.Property;
 
 import java.util.List;
 
-public interface SimpleActionNode {
+public interface SimpleActionNode extends VertexFrame {
     @Property("isDone")
     Boolean getDone();
 

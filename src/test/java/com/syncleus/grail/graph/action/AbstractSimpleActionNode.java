@@ -18,11 +18,10 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
-import com.syncleus.ferma.FramedVertex;
-
+import com.syncleus.ferma.AbstractVertexFrame;
 import java.util.List;
 
-public abstract class AbstractSimpleActionNode extends FramedVertex implements SimpleActionNode {
+public abstract class AbstractSimpleActionNode extends AbstractVertexFrame implements SimpleActionNode {
     private static List<String> triggerOrder;
 
     @Override

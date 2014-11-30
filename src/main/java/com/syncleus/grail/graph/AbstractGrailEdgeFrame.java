@@ -18,11 +18,12 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FramedVertex;
+import com.syncleus.ferma.AbstractEdgeFrame;
+import com.syncleus.ferma.EdgeFrame;
 
-public abstract class GrailFramedVertex extends FramedVertex {
+public abstract class AbstractGrailEdgeFrame extends AbstractEdgeFrame implements EdgeFrame {
     @Override
     public GrailGraph graph() {
-        return (GrailGraph)super.graph();
+        return (GrailGraph) super.graph();
     }
 }

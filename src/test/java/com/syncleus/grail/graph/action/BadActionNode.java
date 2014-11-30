@@ -18,7 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
-public interface BadActionNode {
+import com.syncleus.ferma.VertexFrame;
+
+public interface BadActionNode extends VertexFrame {
     @Action("badArguments")
     void badArguments(String thisIsBad);
 }

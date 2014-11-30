@@ -18,8 +18,6 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FramedVertex;
-import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -35,7 +33,7 @@ public class AbstractSignalMultiplyingEdgeTest {
         // construct graph
         final SignalNode source = graph.addFramedVertex(SignalNode.class);
         final SignalNode target = graph.addFramedVertex(SignalNode.class);
-        final SignalMultiplyingEdge multiplyingEdge = graph.addFramedEdge(((FramedVertex)source), ((FramedVertex)target), "foo", AbstractSignalMultiplyingEdge.class);
+        final SignalMultiplyingEdge multiplyingEdge = graph.addFramedEdge(source, target, "foo", AbstractSignalMultiplyingEdge.class);
 
         //set some inital values
         source.setSignal(SOURCE_SIGNAL);

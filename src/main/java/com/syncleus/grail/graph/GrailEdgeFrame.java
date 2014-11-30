@@ -18,11 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FramedEdge;
+import com.syncleus.ferma.EdgeFrame;
 
-public abstract class GrailFramedEdge extends FramedEdge {
+public interface GrailEdgeFrame extends EdgeFrame {
     @Override
-    public GrailGraph graph() {
-        return (GrailGraph) super.graph();
-    }
+    public GrailGraph graph();
 }
