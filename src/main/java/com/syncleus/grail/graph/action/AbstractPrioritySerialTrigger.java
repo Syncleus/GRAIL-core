@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.action;
 
+import com.syncleus.ferma.EdgeFrame;
 import com.syncleus.ferma.TEdge;
 import java.lang.reflect.*;
 import java.util.*;
@@ -61,9 +62,9 @@ public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigge
 
     @Override
     public Iterable<? extends PrioritySerialTriggerEdge> getPrioritizedTriggerEdges() {
-        return this.outE("triggers").order(new Comparator<TEdge>() {
+        return this.outE("triggers").order(new Comparator<EdgeFrame>() {
             @Override
-            public int compare(TEdge tEdge, TEdge t1) {
+            public int compare(EdgeFrame tEdge, EdgeFrame t1) {
                 final int priorityA = java.lang.Integer.parseInt(tEdge.getProperty("triggerPriority").toString());
                 final int priorityB = java.lang.Integer.parseInt(t1.getProperty("triggerPriority").toString());
                 if( priorityA == priorityB )
