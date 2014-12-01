@@ -18,7 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FramedTransactionalGraph;
+import com.syncleus.ferma.DelegatingFramedTransactionalGraph;
 import com.syncleus.ferma.ReflectionCache;
 import com.tinkerpop.blueprints.TransactionalGraph;
 
@@ -28,7 +28,7 @@ import com.tinkerpop.blueprints.TransactionalGraph;
  *
  * @since 0.1
  */
-public class GrailGraph extends FramedTransactionalGraph implements GrailGraphFactory {
+public class GrailGraph extends DelegatingFramedTransactionalGraph implements GrailGraphFactory {
 
 
     private final Object id;
