@@ -22,5 +22,5 @@ import com.syncleus.ferma.ElementFrame;
 
 public interface GrailElementFrame extends ElementFrame {
     @Override
-    public GrailGraph graph();
+    public GrailGraph getGraph();
 }

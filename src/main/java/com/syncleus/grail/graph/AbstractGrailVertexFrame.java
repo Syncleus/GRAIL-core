@@ -22,7 +22,7 @@ import com.syncleus.ferma.AbstractVertexFrame;
 
 public abstract class AbstractGrailVertexFrame extends AbstractVertexFrame implements GrailVertexFrame {
     @Override
-    public GrailGraph graph() {
-        return (GrailGraph)super.graph();
+    public GrailGraph getGraph() {
+        return (GrailGraph)super.getGraph();
     }
 }

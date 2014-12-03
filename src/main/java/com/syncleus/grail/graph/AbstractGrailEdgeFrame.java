@@ -23,7 +23,7 @@ import com.syncleus.ferma.EdgeFrame;
 
 public abstract class AbstractGrailEdgeFrame extends AbstractEdgeFrame implements EdgeFrame {
     @Override
-    public GrailGraph graph() {
-        return (GrailGraph) super.graph();
+    public GrailGraph getGraph() {
+        return (GrailGraph) super.getGraph();
     }
 }

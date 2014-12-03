@@ -18,20 +18,18 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FramedGraph;
-import com.tinkerpop.blueprints.Element;
 
-public abstract class NestedGod extends NestedGraphElement implements God {
+public abstract class NestedGod extends AbstractGrailVertexFrame implements God {
     public void createSubgraph() {
         if( this.countSubnodes() == 0 )
         {
-            this.getNestedGraph().addVertex(God.class);
-            this.getNestedGraph().addVertex(God.class);
-            this.getNestedGraph().addVertex(God.class);
+            this.getGraph().subgraph(this.getId()).addVertex(God.class);
+            this.getGraph().subgraph(this.getId()).addVertex(God.class);
+            this.getGraph().subgraph(this.getId()).addVertex(God.class);
         }
     }
 
     public long countSubnodes() {
-        return this.getNestedGraph().v().aggregate().count();
+        return this.getGraph().subgraph(this.getId()).v().aggregate().count();
     }
 }

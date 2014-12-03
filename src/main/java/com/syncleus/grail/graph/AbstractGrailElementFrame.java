@@ -23,7 +23,7 @@ import com.syncleus.ferma.ElementFrame;
 
 public class AbstractGrailElementFrame extends AbstractElementFrame implements ElementFrame {
     @Override
-    public GrailGraph graph() {
-        return (GrailGraph)super.graph();
+    public GrailGraph getGraph() {
+        return (GrailGraph)super.getGraph();
     }
 }
