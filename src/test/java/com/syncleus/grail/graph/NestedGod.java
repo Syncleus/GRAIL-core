@@ -21,7 +21,7 @@ package com.syncleus.grail.graph;
 import com.syncleus.ferma.FramedGraph;
 import com.tinkerpop.blueprints.Element;
 
-public abstract class NestedGod extends NestedGraphVertex implements God {
+public abstract class NestedGod extends NestedGraphElement implements God {
     public void createSubgraph() {
         if( this.countSubnodes() == 0 )
         {

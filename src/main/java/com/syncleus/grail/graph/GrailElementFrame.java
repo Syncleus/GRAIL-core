@@ -18,19 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.FramedGraph;
-import com.tinkerpop.blueprints.Element;
+import com.syncleus.ferma.ElementFrame;
 
-public class NestedGraphEdge extends AbstractGrailEdgeFrame {
-    public GrailGraph getNestedGraph() {
-        return nestedGraph;
-    }
-
-    private GrailGraph nestedGraph;
-
+public interface GrailElementFrame extends ElementFrame {
     @Override
-    protected void init(FramedGraph graph, Element element) {
-        super.init(graph, element);
-        this.nestedGraph = this.graph().subgraph(this.getId());
-    }
+    public GrailGraph graph();
 }

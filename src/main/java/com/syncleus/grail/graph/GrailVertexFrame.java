@@ -20,7 +20,5 @@ package com.syncleus.grail.graph;
 
 import com.syncleus.ferma.VertexFrame;
 
-public interface GrailVertexFrame extends VertexFrame {
-    @Override
-    public GrailGraph graph();
+public interface GrailVertexFrame extends VertexFrame, GrailElementFrame {
 }
