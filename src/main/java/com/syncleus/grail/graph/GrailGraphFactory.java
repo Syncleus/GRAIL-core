@@ -18,10 +18,8 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.grail.graph.action.ActionTriggerEdge;
-import com.syncleus.grail.graph.action.PrioritySerialTrigger;
-import com.syncleus.grail.graph.action.PrioritySerialTriggerEdge;
 
+import com.syncleus.grail.graph.action.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,8 +27,11 @@ import java.util.Set;
 public interface GrailGraphFactory {
     public static final Set<Class<?>> BUILT_IN_TYPES = new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
             SignalMultiplyingEdge.class,
+            AbstractSignalMultiplyingEdge.class,
             PrioritySerialTrigger.class,
+            AbstractPrioritySerialTrigger.class,
             ActionTriggerEdge.class,
+            AbstractActionTrigger.class,
             PrioritySerialTriggerEdge.class}));
 
     GrailGraphFactory getParent();

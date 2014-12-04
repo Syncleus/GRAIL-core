@@ -59,6 +59,9 @@ public class GrailGraph extends DelegatingFramedTransactionalGraph implements Gr
 
     @Override
     public GrailGraph subgraph(Object id) {
+        if( id == null )
+            throw new IllegalArgumentException("id can not be null");
+
         return this.parentGraphFactory.subgraph(this.id.toString() + "." + id.toString());
     }
 }

@@ -19,7 +19,6 @@
 package com.syncleus.grail.graph.action;
 
 import com.syncleus.ferma.EdgeFrame;
-import com.syncleus.ferma.TEdge;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -50,9 +49,11 @@ public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigge
                     triggerMethod.invoke(triggerObject, null);
                 }
                 catch (final IllegalAccessException caught) {
+                    caught.printStackTrace();
                     throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
                 }
                 catch (final InvocationTargetException caught) {
+                    caught.printStackTrace();
                     throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
                 }
             }

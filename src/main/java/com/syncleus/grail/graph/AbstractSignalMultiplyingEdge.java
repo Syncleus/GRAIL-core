@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
+import com.syncleus.ferma.VertexFrame;
 import java.util.Random;
 
 /**
