@@ -16,43 +16,41 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph.unit.action;
 
-import com.syncleus.ferma.annotations.InVertex;
-import com.syncleus.ferma.annotations.OutVertex;
-import com.syncleus.ferma.annotations.Property;
+import com.syncleus.ferma.AbstractVertexFrame;
+import java.util.List;
 
-/**
- * A prioritized trigger edge. These are used when trigger edges need to be executed in sequential order by a
- * PrioritySerialTrigger.
- *
- * @since 0.1
- */
-public interface PrioritySerialTriggerEdge extends ActionTriggerEdge {
-    /**
-     * Get the triggerPriority property, an integer value indicating the priority of this edge and its associated
-     * action.
-     *
-     * @return an integer value representing the trigger priority.
-     * @since 0.1
-     */
-    @Property("triggerPriority")
-    Integer getTriggerPriority();
-
-    /**
-     * Set the triggerPriority property, an integer value indicating the priority of this edge and its associated
-     * action.
-     * @param triggerPriority the new priority value.
-     * @since 0.1
-     */
-    @Property("triggerPriority")
-    void setTriggerPriority(int triggerPriority);
+public abstract class AbstractSimpleActionNode extends AbstractVertexFrame implements SimpleActionNode {
+    private static List<String> triggerOrder;
 
     @Override
-    @InVertex
-    Object getTarget();
+    public void setTriggerOrder(final List<String> triggerOrder) {
+        this.triggerOrder = triggerOrder;
+    }
 
     @Override
-    @OutVertex
-    ActionTrigger getSource();
+    public List<String> getTriggerOrder() {
+        return this.triggerOrder;
+    }
+
+    @Override
+    public void doSomething() {
+        this.setDone(true);
+    }
+
+    @Override
+    public void doSomethingFirst() {
+        this.triggerOrder.add("first");
+    }
+
+    @Override
+    public void doSomethingSecond() {
+        this.triggerOrder.add("second");
+    }
+
+    @Override
+    public void doSomethingThird() {
+        this.triggerOrder.add("third");
+    }
 }

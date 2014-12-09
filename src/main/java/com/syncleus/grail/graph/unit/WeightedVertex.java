@@ -16,33 +16,9 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph.unit;
 
 import com.syncleus.ferma.VertexFrame;
-import com.syncleus.ferma.annotations.Property;
 
-import java.util.List;
-
-public interface SimpleActionNode extends VertexFrame {
-    @Property("isDone")
-    Boolean getDone();
-
-    @Property("isDone")
-    void setDone(boolean isDone);
-
-    void setTriggerOrder(List<String> triggerOrder);
-
-    List<String> getTriggerOrder();
-
-    @Action("action")
-    void doSomething();
-
-    @Action("first")
-    void doSomethingFirst();
-
-    @Action("second")
-    void doSomethingSecond();
-
-    @Action("third")
-    void doSomethingThird();
+public interface WeightedVertex extends Weighted, VertexFrame {
 }

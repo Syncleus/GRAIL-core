@@ -16,11 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph.unit;
 
-import com.syncleus.ferma.VertexFrame;
-
-public interface BadActionNode extends VertexFrame {
-    @Action("badArguments")
-    void badArguments(String thisIsBad);
+public interface SignalPropagatorEdge extends SignalPropagator, SignalerEdge {
 }

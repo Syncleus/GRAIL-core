@@ -16,30 +16,34 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
+package com.syncleus.grail.graph.unit.action;
 
+import com.syncleus.grail.graph.unit.action.Action;
+import com.syncleus.ferma.VertexFrame;
+import com.syncleus.ferma.annotations.Property;
 
-import com.syncleus.grail.graph.unit.action.SerialPriorityTrigger;
-import com.syncleus.grail.graph.unit.action.AbstractPriorityTrigger;
-import com.syncleus.grail.graph.unit.action.AbstractActionTrigger;
-import com.syncleus.grail.graph.unit.action.ActionTriggerEdge;
-import com.syncleus.grail.graph.unit.action.PrioritySerialTriggerEdge;
-import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
-public interface GrailGraphFactory {
-    public static final Set<Class<?>> BUILT_IN_TYPES = new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
-            SignalMultiplyingEdge.class,
-            SignalMultiplyingEdge.class,
-            AbstractPriorityTrigger.class,
-            SerialPriorityTrigger.class,
-            ActionTriggerEdge.class,
-            AbstractActionTrigger.class,
-            PrioritySerialTriggerEdge.class}));
+public interface SimpleActionNode extends VertexFrame {
+    @Property("isDone")
+    Boolean getDone();
 
-    GrailGraphFactory getParent();
-    <N> N getId();
-    GrailGraph subgraph(Object id);
+    @Property("isDone")
+    void setDone(boolean isDone);
+
+    void setTriggerOrder(List<String> triggerOrder);
+
+    List<String> getTriggerOrder();
+
+    @Action("action")
+    void doSomething();
+
+    @Action("first")
+    void doSomethingFirst();
+
+    @Action("second")
+    void doSomethingSecond();
+
+    @Action("third")
+    void doSomethingThird();
 }

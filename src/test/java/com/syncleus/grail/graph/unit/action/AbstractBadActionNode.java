@@ -16,35 +16,18 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
+package com.syncleus.grail.graph.unit.action;
 
-import com.syncleus.ferma.VertexFrame;
-import java.util.Random;
+import com.syncleus.grail.graph.unit.action.Action;
+import com.syncleus.ferma.AbstractVertexFrame;
 
-/**
- * This is the Java handler class associated with the SignalMultiplyingEdge type. It ensures initial weights are set
- * to a random value as well as defines how to propagate the signal.
- * 
- * @since 0.1
- */
-public abstract class AbstractSignalMultiplyingEdge extends AbstractGrailEdgeFrame implements SignalMultiplyingEdge {
-    private static final Random RANDOM = new Random();
-    private static final double RANGE = 2.0;
-    private static final double OFFSET = -1.0;
-    private static final double SCALE = 0.1;
-
-    /**
-     * Initializes newly constructed elements with default values.
-     *
-     * @since 0.1
-     */
+public abstract class AbstractBadActionNode extends AbstractVertexFrame implements BadActionNode {
     @Override
-    public void init() {
-        this.setWeight(((AbstractSignalMultiplyingEdge.RANDOM.nextDouble() * AbstractSignalMultiplyingEdge.RANGE) + AbstractSignalMultiplyingEdge.OFFSET) * AbstractSignalMultiplyingEdge.SCALE);
+    public void badArguments(final String thisIsBad) {
     }
 
-    @Override
-    public void propagate() {
-        this.setSignal(this.getSource().getSignal() * this.getWeight());
+    @Action("badAccess")
+    protected void badAccess() {
+
     }
 }

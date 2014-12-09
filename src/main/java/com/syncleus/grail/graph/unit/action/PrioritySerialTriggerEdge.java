@@ -16,14 +16,43 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
+package com.syncleus.grail.graph.unit.action;
 
-import com.syncleus.ferma.VertexFrame;
+import com.syncleus.ferma.annotations.InVertex;
+import com.syncleus.ferma.annotations.OutVertex;
+import com.syncleus.ferma.annotations.Property;
 
 /**
- * A graph node which has a signal property.
+ * A prioritized trigger edge. These are used when trigger edges need to be executed in sequential order by a
+ * PrioritySerialTrigger.
  *
  * @since 0.1
  */
-public interface SignalNode extends Signaler, VertexFrame {
+public interface PrioritySerialTriggerEdge extends ActionTriggerEdge {
+    /**
+     * Get the triggerPriority property, an integer value indicating the priority of this edge and its associated
+     * action.
+     *
+     * @return an integer value representing the trigger priority.
+     * @since 0.1
+     */
+    @Property("triggerPriority")
+    Integer getTriggerPriority();
+
+    /**
+     * Set the triggerPriority property, an integer value indicating the priority of this edge and its associated
+     * action.
+     * @param triggerPriority the new priority value.
+     * @since 0.1
+     */
+    @Property("triggerPriority")
+    void setTriggerPriority(int triggerPriority);
+
+    @Override
+    @InVertex
+    Object getTarget();
+
+    @Override
+    @OutVertex
+    ActionTrigger getSource();
 }

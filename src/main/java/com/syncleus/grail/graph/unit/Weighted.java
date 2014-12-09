@@ -16,30 +16,32 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
+package com.syncleus.grail.graph.unit;
 
+import com.syncleus.ferma.annotations.Property;
 
-import com.syncleus.grail.graph.unit.action.SerialPriorityTrigger;
-import com.syncleus.grail.graph.unit.action.AbstractPriorityTrigger;
-import com.syncleus.grail.graph.unit.action.AbstractActionTrigger;
-import com.syncleus.grail.graph.unit.action.ActionTriggerEdge;
-import com.syncleus.grail.graph.unit.action.PrioritySerialTriggerEdge;
-import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+/**
+ * A weighted graph object. This interface represents any object in a graph with a weight property. A weight is simply
+ * a double value that may or may not change over time.
+ *
+ * @since 0.1
+ */
+public interface Weighted {
+    /**
+     * Get the weight property for this object.
+     *
+     * @return the weight property.
+     * @since 0.1
+     */
+    @Property("weight")
+    Double getWeight();
 
-public interface GrailGraphFactory {
-    public static final Set<Class<?>> BUILT_IN_TYPES = new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
-            SignalMultiplyingEdge.class,
-            SignalMultiplyingEdge.class,
-            AbstractPriorityTrigger.class,
-            SerialPriorityTrigger.class,
-            ActionTriggerEdge.class,
-            AbstractActionTrigger.class,
-            PrioritySerialTriggerEdge.class}));
-
-    GrailGraphFactory getParent();
-    <N> N getId();
-    GrailGraph subgraph(Object id);
+    /**
+     * Set the weight property for this object.
+     *
+     * @param weight new weight to set.
+     * @since 0.1
+     */
+    @Property("weight")
+    void setWeight(double weight);
 }

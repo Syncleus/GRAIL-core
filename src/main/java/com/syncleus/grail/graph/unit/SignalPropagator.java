@@ -16,35 +16,14 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph.unit;
 
-/**
- * An action trigger which triggers its actions in serial and ordered by their priority. Each out trigger edge from this
- * node will be a PrioritySerialTriggerEdge which has a triggerPriority property. This property is an integer value
- * which determines the priority of the edge, a higher value means preferential priority over a lower value. When
- * triggered the actions associated with each edge will be triggered in series ordered by priority.
- *
- * @since 0.1
- */
-public interface PrioritySerialTrigger extends ActionTrigger {
+public interface SignalPropagator extends Signaler {
     /**
-     * This will initiate the execution of the action's triggered by this node. The trigger method is also annotated as
-     * an action with label actionTrigger. This allows for multiple ActionTrigger classes to be chained together.
-     * Specifically this class executes the triggers in serial by order of the edge's priority value property. All the
-     * actions are executed in series in the existing thread.
+     * This method will propagate the signal from the source node into this edges signal. It will multiply the source
+     * node's signal by this edges weight and set that value as this edge's new signal.
      *
      * @since 0.1
      */
-    @Action("actionTrigger")
-    @Override
-    void trigger();
-
-    /**
-     * Get all the prioritized trigger edges connecting to the target nodes to act on. These edges will be returned such
-     * that they are sorted from highest priority to the lowest.
-     *
-     * @return An iterable collection of PrioritySerialTriggerEdges from highest to lowest priority.
-     * @since 0.1
-     */
-    Iterable<? extends PrioritySerialTriggerEdge> getPrioritizedTriggerEdges();
+    void propagate();
 }

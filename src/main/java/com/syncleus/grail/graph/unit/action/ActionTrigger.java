@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph.unit.action;
 
 import com.syncleus.ferma.VertexFrame;
 import com.syncleus.ferma.annotations.Adjacency;

@@ -16,17 +16,41 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph.unit;
 
-import com.syncleus.ferma.AbstractVertexFrame;
+import com.syncleus.grail.graph.GrailGraph;
+import com.syncleus.grail.graph.TinkerGrailGraphFactory;
+import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
+import com.syncleus.grail.graph.unit.SignalerVertex;
+import junit.framework.Assert;
+import org.junit.Test;
 
-public abstract class AbstractBadActionNode extends AbstractVertexFrame implements BadActionNode {
-    @Override
-    public void badArguments(final String thisIsBad) {
+public class SignalMultiplyingEdgeTest {
+    private static final double SOURCE_SIGNAL = 5.0;
+    private static final double MULTIPLIER = 7.0;
+    private static final double RESULT = 35.0;
+
+    @Test
+    public void testDoesMultiply() {
+        final GrailGraph graph = new TinkerGrailGraphFactory().subgraph("0");
+
+        // construct graph
+        final SignalerVertex source = graph.addFramedVertex(SignalerVertex.class);
+        final SignalerVertex target = graph.addFramedVertex(SignalerVertex.class);
+        final SignalMultiplyingEdge multiplyingEdge = graph.addFramedEdge(source, target, "foo", SignalMultiplyingEdge.class);
+
+        //set some inital values
+        source.setSignal(SOURCE_SIGNAL);
+        multiplyingEdge.setWeight(MULTIPLIER);
+
+        //process the weight
+        multiplyingEdge.propagate();
+
+        //check to make sure the edge now has the correct signal
+        Assert.assertTrue(checkResult(RESULT, multiplyingEdge.getSignal()));
     }
 
-    @Action("badAccess")
-    protected void badAccess() {
-
+    private static boolean checkResult(final double firstValue, final double secondValue) {
+        return (Math.abs(firstValue - secondValue) < 0.0000001);
     }
 }

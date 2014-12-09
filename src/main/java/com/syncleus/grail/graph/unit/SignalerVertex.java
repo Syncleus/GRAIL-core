@@ -16,32 +16,14 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
+package com.syncleus.grail.graph.unit;
 
-import com.syncleus.ferma.EdgeFrame;
-import com.syncleus.ferma.annotations.OutVertex;
+import com.syncleus.ferma.VertexFrame;
 
 /**
- * A graph edge which multiplies the signal from the source node by the edges weight. It then stores the result in the
- * signal for this edge.
+ * A graph node which has a signal property.
  *
  * @since 0.1
  */
-public interface SignalMultiplyingEdge extends Weighted, Signaler, EdgeFrame {
-    /**
-     * The node connected to the source end of this edge.
-     *
-     * @return the source node.
-     * @since 0.1
-     */
-    @OutVertex
-    Signaler getSource();
-
-    /**
-     * This method will propagate the signal from the source node into this edges signal. It will multiply the source
-     * node's signal by this edges weight and set that value as this edge's new signal.
-     *
-     * @since 0.1
-     */
-    void propagate();
+public interface SignalerVertex extends Signaler, VertexFrame {
 }

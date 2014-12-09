@@ -16,30 +16,45 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
+package com.syncleus.grail.graph.unit;
 
+import com.syncleus.ferma.annotations.OutVertex;
+import com.syncleus.grail.graph.AbstractGrailEdgeFrame;
+import java.util.Random;
 
-import com.syncleus.grail.graph.unit.action.SerialPriorityTrigger;
-import com.syncleus.grail.graph.unit.action.AbstractPriorityTrigger;
-import com.syncleus.grail.graph.unit.action.AbstractActionTrigger;
-import com.syncleus.grail.graph.unit.action.ActionTriggerEdge;
-import com.syncleus.grail.graph.unit.action.PrioritySerialTriggerEdge;
-import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+/**
+ * This is the Java handler class associated with the SignalMultiplyingEdge type. It ensures initial weights are set
+ * to a random value as well as defines how to propagate the signal.
+ * 
+ * @since 0.1
+ */
+public abstract class SignalMultiplyingEdge extends AbstractGrailEdgeFrame implements WeightedEdge, SignalPropagatorEdge {
+    private static final Random RANDOM = new Random();
+    private static final double RANGE = 2.0;
+    private static final double OFFSET = -1.0;
+    private static final double SCALE = 0.1;
+    
+    /**
+     * Initializes newly constructed elements with default values.
+     *
+     * @since 0.1
+     */
+    @Override
+    public void init() {
+        this.setWeight(((SignalMultiplyingEdge.RANDOM.nextDouble() * SignalMultiplyingEdge.RANGE) + SignalMultiplyingEdge.OFFSET) * SignalMultiplyingEdge.SCALE);
+    }
 
-public interface GrailGraphFactory {
-    public static final Set<Class<?>> BUILT_IN_TYPES = new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
-            SignalMultiplyingEdge.class,
-            SignalMultiplyingEdge.class,
-            AbstractPriorityTrigger.class,
-            SerialPriorityTrigger.class,
-            ActionTriggerEdge.class,
-            AbstractActionTrigger.class,
-            PrioritySerialTriggerEdge.class}));
-
-    GrailGraphFactory getParent();
-    <N> N getId();
-    GrailGraph subgraph(Object id);
+    @Override
+    public void propagate() {
+        this.setSignal(this.getSource().getSignal() * this.getWeight());
+    }
+    
+    /**
+     * The node connected to the source end of this edge.
+     *
+     * @return the source node.
+     * @since 0.1
+     */
+    @OutVertex
+    public abstract Signaler getSource();
 }

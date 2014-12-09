@@ -16,12 +16,32 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
+package com.syncleus.grail.graph.unit;
+
+import com.syncleus.ferma.annotations.Property;
 
 /**
- * The action package houses all the framework to facilitate action triggers. Action triggers are responsible for
- * triggering and propagating actions across a graph. Action triggers can define the order in which actions take place
- * as well as how they are executed.
+ * A signaler is any graph object which has a signal. A signal is just a double value that varies with time and is
+ * represented as a property of the graph object.
  *
  * @since 0.1
  */
-package com.syncleus.grail.graph.action;
+public interface Signaler {
+    /**
+     * Get the signal property of the graph object.
+     *
+     * @return the signal.
+     * @since 0.1
+     */
+    @Property("signal")
+    Double getSignal();
+
+    /**
+     * Set the signal property of the graph object.
+     *
+     * @param signal the signal.
+     * @since 0.1
+     */
+    @Property("signal")
+    void setSignal(double signal);
+}

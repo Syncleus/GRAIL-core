@@ -16,52 +16,27 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph.unit.action;
 
 import com.syncleus.ferma.EdgeFrame;
-import java.lang.reflect.*;
-import java.util.*;
+import java.util.Comparator;
 
 /**
- * This is the Java handler class associated with the ActionTrigger type. It defines how the Trigger is to be executed.
- * In this case all triggers are executed in serial within the current thread.
+ * An action trigger which triggers its actions in serial and ordered by their priority. Each out trigger edge from this
+ * node will be a PrioritySerialTriggerEdge which has a triggerPriority property. This property is an integer value
+ * which determines the priority of the edge, a higher value means preferential priority over a lower value. When
+ * triggered the actions associated with each edge will be triggered in series ordered by priority.
  *
  * @since 0.1
  */
-public abstract class AbstractPrioritySerialTrigger extends AbstractActionTrigger implements PrioritySerialTrigger {
-    @Override
-    public void trigger() {
-        for( final PrioritySerialTriggerEdge triggerEdge : this.getPrioritizedTriggerEdges() ) {
-            final String actionName = triggerEdge.getTriggerAction();
-
-            final Object triggerObject = triggerEdge.getTarget();
-
-            final Class<?> parentClass = triggerObject.getClass();
-
-            final Map<String, Set<Method>> actionMethods = AbstractPrioritySerialTrigger.populateCache(parentClass);
-
-            final Set<Method> triggerMethods = actionMethods.get(actionName);
-            if( triggerMethods == null || triggerMethods.isEmpty() )
-                throw new IllegalStateException("A ActionTrigger was configured to trigger an action which does not exist on the current object");
-
-            for( final Method triggerMethod : triggerMethods ) {
-                try {
-                    triggerMethod.invoke(triggerObject, null);
-                }
-                catch (final IllegalAccessException caught) {
-                    caught.printStackTrace();
-                    throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
-                }
-                catch (final InvocationTargetException caught) {
-                    caught.printStackTrace();
-                    throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
-                }
-            }
-        }
-    }
-
-
-    @Override
+public abstract class AbstractPriorityTrigger extends AbstractActionTrigger implements ActionTrigger {
+    /**
+     * Get all the prioritized trigger edges connecting to the target nodes to act on. These edges will be returned such
+     * that they are sorted from highest priority to the lowest.
+     *
+     * @return An iterable collection of PrioritySerialTriggerEdges from highest to lowest priority.
+     * @since 0.1
+     */
     public Iterable<? extends PrioritySerialTriggerEdge> getPrioritizedTriggerEdges() {
         return this.outE("triggers").order(new Comparator<EdgeFrame>() {
             @Override

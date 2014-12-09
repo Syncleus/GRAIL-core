@@ -16,25 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph.unit.action;
 
-import java.lang.annotation.*;
+import com.syncleus.grail.graph.unit.action.Action;
+import com.syncleus.ferma.VertexFrame;
 
-/**
- * Graph object methods can be annotated with an Action annotation to indicate methods which process the internal state
- * of a node or edge. Using reflection these methods may be triggered by other objects in the graph such as ActionNodes.
- * An action node graph will coordinate the firing of actions across a graph.
- *
- * @since 0.1
- */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface Action {
-    /**
-     * The name to be given to the action. This allows an action node to select which action to trigger on an object.
-     *
-     * @return the action name.
-     * @since 0.1
-     */
-    String value();
+public interface BadActionNode extends VertexFrame {
+    @Action("badArguments")
+    void badArguments(String thisIsBad);
 }

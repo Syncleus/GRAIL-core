@@ -16,32 +16,9 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
+package com.syncleus.grail.graph.unit;
 
-import com.syncleus.ferma.annotations.Property;
+import com.syncleus.ferma.EdgeFrame;
 
-/**
- * A weighted graph object. This interface represents any object in a graph with a weight property. A weight is simply
- * a double value that may or may not change over time.
- *
- * @since 0.1
- */
-public interface Weighted {
-    /**
-     * Get the weight property for this object.
-     *
-     * @return the weight property.
-     * @since 0.1
-     */
-    @Property("weight")
-    Double getWeight();
-
-    /**
-     * Set the weight property for this object.
-     *
-     * @param weight new weight to set.
-     * @since 0.1
-     */
-    @Property("weight")
-    void setWeight(double weight);
+public interface WeightedEdge extends Weighted, EdgeFrame {
 }

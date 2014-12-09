@@ -16,32 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph;
+package com.syncleus.grail.graph.unit;
 
-import com.syncleus.ferma.annotations.Property;
-
-/**
- * A signaler is any graph object which has a signal. A signal is just a double value that varies with time and is
- * represented as a property of the graph object.
- *
- * @since 0.1
- */
-public interface Signaler {
-    /**
-     * Get the signal property of the graph object.
-     *
-     * @return the signal.
-     * @since 0.1
-     */
-    @Property("signal")
-    Double getSignal();
-
-    /**
-     * Set the signal property of the graph object.
-     *
-     * @param signal the signal.
-     * @since 0.1
-     */
-    @Property("signal")
-    void setSignal(double signal);
+public interface SignalPropagatorVertex extends SignalPropagator, SignalerVertex {
 }

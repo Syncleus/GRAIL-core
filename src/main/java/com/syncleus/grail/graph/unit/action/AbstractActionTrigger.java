@@ -16,7 +16,7 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
+package com.syncleus.grail.graph.unit.action;
 
 import com.syncleus.grail.graph.AbstractGrailVertexFrame;
 
@@ -36,7 +36,7 @@ public abstract class AbstractActionTrigger extends AbstractGrailVertexFrame imp
         Map<String, Set<Method>> actionMethods = AbstractActionTrigger.ACTION_METHOD_CACHE.get(parentClass);
         if( actionMethods != null )
             return actionMethods;
-        actionMethods = new HashMap<String, Set<Method>>();
+        actionMethods = new HashMap<>();
         AbstractActionTrigger.ACTION_METHOD_CACHE.put(parentClass, actionMethods);
 
         recursivePopulateCache(parentClass, actionMethods);
@@ -44,7 +44,7 @@ public abstract class AbstractActionTrigger extends AbstractGrailVertexFrame imp
         return Collections.unmodifiableMap(actionMethods);
     }
 
-    private static final void recursivePopulateCache(final Class<?> clazz, final Map<String, Set<Method>> actionMethods) {
+    private static void recursivePopulateCache(final Class<?> clazz, final Map<String, Set<Method>> actionMethods) {
         if(clazz == null)
             return;
 
@@ -55,7 +55,7 @@ public abstract class AbstractActionTrigger extends AbstractGrailVertexFrame imp
         recursivePopulateCache(clazz.getSuperclass(), actionMethods);
     }
 
-    private static final void cacheClass(final Class<?> triggerClass, final Map<String, Set<Method>> actionMethods) {
+    private static void cacheClass(final Class<?> triggerClass, final Map<String, Set<Method>> actionMethods) {
         final Method[] triggerMethods = triggerClass.getMethods();
         for (final Method triggerMethod : triggerMethods) {
             final Action actionAnnotation = triggerMethod.getDeclaredAnnotation(Action.class);

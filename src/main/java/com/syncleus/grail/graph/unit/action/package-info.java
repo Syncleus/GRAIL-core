@@ -16,41 +16,12 @@
  *  Philadelphia, PA 19148                                                     *
  *                                                                             *
  ******************************************************************************/
-package com.syncleus.grail.graph.action;
 
-import com.syncleus.ferma.AbstractVertexFrame;
-import java.util.List;
-
-public abstract class AbstractSimpleActionNode extends AbstractVertexFrame implements SimpleActionNode {
-    private static List<String> triggerOrder;
-
-    @Override
-    public void setTriggerOrder(final List<String> triggerOrder) {
-        this.triggerOrder = triggerOrder;
-    }
-
-    @Override
-    public List<String> getTriggerOrder() {
-        return this.triggerOrder;
-    }
-
-    @Override
-    public void doSomething() {
-        this.setDone(true);
-    }
-
-    @Override
-    public void doSomethingFirst() {
-        this.triggerOrder.add("first");
-    }
-
-    @Override
-    public void doSomethingSecond() {
-        this.triggerOrder.add("second");
-    }
-
-    @Override
-    public void doSomethingThird() {
-        this.triggerOrder.add("third");
-    }
-}
+/**
+ * The action package houses all the framework to facilitate action triggers. Action triggers are responsible for
+ * triggering and propagating actions across a graph. Action triggers can define the order in which actions take place
+ * as well as how they are executed.
+ *
+ * @since 0.1
+ */
+package com.syncleus.grail.graph.unit.action;
