@@ -1,6 +1,8 @@
 # GRAIL
 _Graph Represented Algorithm Implementation Layer_
 
+[![Build Status](http://builds.syncleus.com/buildStatus/icon?job=GRAIL Core)](http://builds.syncleus.com/job/GRAIL%20Core/)
+
 GRAIL is an algorithm implementation layer that allows arbitrary algorithms to be backed, and executed, from a graph
 database. The backing graph database can be either an on-disk server instance or a purely local in-memory instance. This
 allows generic tools to be interfaced to accomplish an assortment of extensions such as: distributed processing,
