@@ -163,24 +163,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.thinkaurelius.titan</groupId>
-            <artifactId>titan-core</artifactId>
-            <version>0.5.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.thinkaurelius.titan</groupId>
-            <artifactId>titan-berkeleyje</artifactId>
-            <version>0.5.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.thinkaurelius.titan</groupId>
-            <artifactId>titan-es</artifactId>
-            <version>0.5.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.apache.tinkerpop</groupId>
             <artifactId>gremlin-core</artifactId>
             <version>3.2.3</version>
