@@ -18,8 +18,8 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.unit.action;
 
-import com.syncleus.ferma.EdgeFrame;
-import java.util.Comparator;
+import org.apache.tinkerpop.gremlin.process.traversal.Order;
+import java.util.Iterator;
 
 /**
  * An action trigger which triggers its actions in serial and ordered by their priority. Each out trigger edge from this
@@ -37,19 +37,7 @@ public abstract class AbstractPriorityTrigger extends AbstractActionTrigger impl
      * @return An iterable collection of PrioritySerialTriggerEdges from highest to lowest priority.
      * @since 0.1
      */
-    public Iterable<? extends PrioritySerialTriggerEdge> getPrioritizedTriggerEdges() {
-        return this.outE("triggers").order(new Comparator<EdgeFrame>() {
-            @Override
-            public int compare(EdgeFrame tEdge, EdgeFrame t1) {
-                final int priorityA = java.lang.Integer.parseInt(tEdge.getProperty("triggerPriority").toString());
-                final int priorityB = java.lang.Integer.parseInt(t1.getProperty("triggerPriority").toString());
-                if( priorityA == priorityB )
-                    return 0;
-                else if(priorityA < priorityB)
-                    return 1;
-                else
-                    return -1;
-            }
-        }).frame(PrioritySerialTriggerEdge.class);
+    public Iterator<? extends PrioritySerialTriggerEdge> getPrioritizedTriggerEdges() {
+        return this.traverse((v) -> v.outE("triggers").order().by("triggerPriority", Order.decr)).<PrioritySerialTriggerEdge>frame(PrioritySerialTriggerEdge.class);
     }
 }

@@ -18,28 +18,29 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import junit.framework.Assert;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class NestedGraphVertexTest {
     @Test
     public void testCreateSubnodes() {
-        final GrailGraph graph = new TinkerGrailGraphFactory().subgraph("0");
+        final GrailGraph<TinkerGraph> graph = new TinkerGrailGraphFactory().subgraph("0");
 
         //make sure we started with an empty graph
-        Assert.assertEquals(0, graph.v().aggregate().count());
+        Assert.assertEquals((Long) 0L, graph.getRawTraversal().V().count().next());
 
         // construct graph
         NestedGod nestedGod = graph.addFramedVertex(NestedGod.class);
-        Assert.assertEquals(1, graph.v().aggregate().count());
+        Assert.assertEquals((Long) 1L, graph.getRawTraversal().V().count().next());
 
         Assert.assertEquals(0, nestedGod.countSubnodes());
         nestedGod.createSubgraph();
         Assert.assertEquals(3, nestedGod.countSubnodes());
-        Assert.assertEquals(1, graph.v().aggregate().count());
+        Assert.assertEquals((Long) 1L, graph.getRawTraversal().V().count().next());
 
         //reaquire the nested object and make sure it still has 3 subnodes
-        nestedGod = graph.v().next(NestedGod.class);
+        nestedGod = graph.traverse((g) -> g.V()).next(NestedGod.class);
         Assert.assertEquals(3, nestedGod.countSubnodes());
     }
 }

@@ -23,13 +23,13 @@ public abstract class NestedGod extends AbstractGrailVertexFrame implements God 
     public void createSubgraph() {
         if( this.countSubnodes() == 0 )
         {
-            this.getGraph().subgraph(this.getId()).addVertex(God.class);
-            this.getGraph().subgraph(this.getId()).addVertex(God.class);
-            this.getGraph().subgraph(this.getId()).addVertex(God.class);
+            this.getGraph().subgraph(this.getId()).addFramedVertex(God.class);
+            this.getGraph().subgraph(this.getId()).addFramedVertex(God.class);
+            this.getGraph().subgraph(this.getId()).addFramedVertex(God.class);
         }
     }
 
     public long countSubnodes() {
-        return this.getGraph().subgraph(this.getId()).v().aggregate().count();
+        return this.getGraph().subgraph(this.getId()).getRawTraversal().V().count().next();
     }
 }

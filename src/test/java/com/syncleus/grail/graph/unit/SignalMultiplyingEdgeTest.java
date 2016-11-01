@@ -20,9 +20,8 @@ package com.syncleus.grail.graph.unit;
 
 import com.syncleus.grail.graph.GrailGraph;
 import com.syncleus.grail.graph.TinkerGrailGraphFactory;
-import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
-import com.syncleus.grail.graph.unit.SignalerVertex;
-import junit.framework.Assert;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class SignalMultiplyingEdgeTest {
@@ -32,7 +31,7 @@ public class SignalMultiplyingEdgeTest {
 
     @Test
     public void testDoesMultiply() {
-        final GrailGraph graph = new TinkerGrailGraphFactory().subgraph("0");
+        final GrailGraph<TinkerGraph> graph = new TinkerGrailGraphFactory().subgraph("0");
 
         // construct graph
         final SignalerVertex source = graph.addFramedVertex(SignalerVertex.class);

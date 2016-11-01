@@ -18,11 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.unit.action;
 
-import com.syncleus.grail.graph.unit.action.SerialPriorityTrigger;
-import com.syncleus.grail.graph.unit.action.PrioritySerialTriggerEdge;
-import com.syncleus.grail.graph.unit.action.AbstractPriorityTrigger;
 import com.syncleus.grail.graph.*;
-import junit.framework.Assert;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
@@ -36,7 +34,7 @@ public class AbstractPrioritySerialTriggerTest {
 
     @Test
     public void testDoesTrigger() {
-        final GrailGraph graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
+        final GrailGraph<TinkerGraph> graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
 
         // construct graph
         final SimpleActionNode actionNode = graph.addFramedVertex(AbstractSimpleActionNode.class);
@@ -55,7 +53,7 @@ public class AbstractPrioritySerialTriggerTest {
 
     @Test
     public void testDoesTriggerInOrder() {
-        final GrailGraph graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
+        final GrailGraph<TinkerGraph> graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
 
         final List<String> triggerOrder = new ArrayList<String>(2);
 
@@ -88,7 +86,7 @@ public class AbstractPrioritySerialTriggerTest {
 
     @Test
     public void testDoesTriggerInOrderReversed() {
-        final GrailGraph graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
+        final GrailGraph<TinkerGraph> graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
 
         final List<String> triggerOrder = new ArrayList<String>(2);
 
@@ -121,7 +119,7 @@ public class AbstractPrioritySerialTriggerTest {
 
     @Test
     public void testDoesTriggerInOrderSameOrdering() {
-        final GrailGraph graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
+        final GrailGraph<TinkerGraph> graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
 
         final List<String> triggerOrder = new ArrayList<String>(2);
 
@@ -161,7 +159,7 @@ public class AbstractPrioritySerialTriggerTest {
 
     @Test(expected = IllegalStateException.class )
     public void testBadArguments() {
-        final GrailGraph graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
+        final GrailGraph<TinkerGraph> graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
 
         final BadActionNode badNode = graph.addFramedVertex(AbstractBadActionNode.class);
         final AbstractPriorityTrigger trigger = graph.addFramedVertex(SerialPriorityTrigger.class);
@@ -173,7 +171,7 @@ public class AbstractPrioritySerialTriggerTest {
 
     @Test(expected = IllegalStateException.class)
     public void testBadAccess() {
-        final GrailGraph graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
+        final GrailGraph<TinkerGraph> graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
 
         final BadActionNode badNode = graph.addFramedVertex(AbstractBadActionNode.class);
         final AbstractPriorityTrigger trigger = graph.addFramedVertex(SerialPriorityTrigger.class);
@@ -185,7 +183,7 @@ public class AbstractPrioritySerialTriggerTest {
 
     @Test(expected = IllegalStateException.class)
     public void testUnfoundAction() {
-        final GrailGraph graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
+        final GrailGraph<TinkerGraph> graph = new TinkerGrailGraphFactory(TEST_TYPES).subgraph("0");
 
         final BadActionNode badNode = graph.addFramedVertex(AbstractBadActionNode.class);
         final AbstractPriorityTrigger trigger = graph.addFramedVertex(SerialPriorityTrigger.class);

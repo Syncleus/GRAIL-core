@@ -20,7 +20,7 @@ package com.syncleus.grail.graph;
 
 import com.syncleus.ferma.annotations.Adjacency;
 import com.syncleus.ferma.annotations.Property;
-import com.tinkerpop.blueprints.Direction;
+import org.apache.tinkerpop.gremlin.structure.Direction;
 
 public interface Location {
     @Property("name")

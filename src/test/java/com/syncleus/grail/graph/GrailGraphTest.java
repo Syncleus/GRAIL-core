@@ -18,15 +18,14 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.tinkerpop.blueprints.Graph;
-import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
-import junit.framework.Assert;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class GrailGraphTest {
     @Test
     public void testCustomModules() {
-        final GrailGraph grailGraph = new TinkerGrailGraphFactory().subgraph("0");
-        Assert.assertTrue( !grailGraph.v().iterator().hasNext() );
+        final GrailGraph<TinkerGraph> grailGraph = new TinkerGrailGraphFactory().subgraph("0");
+        Assert.assertTrue( !grailGraph.getRawTraversal().V().hasNext() );
     }
 }

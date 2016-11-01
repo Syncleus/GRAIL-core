@@ -19,12 +19,12 @@
 package com.syncleus.grail.graph;
 
 import com.syncleus.ferma.ReflectionCache;
-import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 
 import java.util.*;
 
 public class TinkerGrailGraphFactory implements GrailGraphFactory {
-    private final Map<Object, GrailGraph> graphs = new HashMap<>();
+    private final Map<Object, GrailGraph<TinkerGraph>> graphs = new HashMap<>();
     private final ReflectionCache reflections;
 
     public TinkerGrailGraphFactory() {
@@ -50,10 +50,10 @@ public class TinkerGrailGraphFactory implements GrailGraphFactory {
     }
 
     @Override
-    public GrailGraph subgraph(Object id) {
-        GrailGraph graph = this.graphs.get(id);
+    public GrailGraph<TinkerGraph> subgraph(Object id) {
+        GrailGraph<TinkerGraph> graph = this.graphs.get(id);
         if( graph == null ) {
-            graph = new GrailGraph(new MockTransactionalGraph(new TinkerGraph()), this.reflections, this, id);
+            graph = new GrailGraph<>(TinkerGraph.open(), this.reflections, this, id);
             this.graphs.put(id, graph);
         }
         return graph;

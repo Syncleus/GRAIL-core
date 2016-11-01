@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.unit.action;
 
-import com.syncleus.grail.graph.unit.action.Action;
 import com.syncleus.ferma.AbstractVertexFrame;
 
 public abstract class AbstractBadActionNode extends AbstractVertexFrame implements BadActionNode {

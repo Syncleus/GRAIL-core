@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph;
 
-import com.syncleus.ferma.DelegatingFramedTransactionalGraph;
+import com.syncleus.ferma.DelegatingFramedGraph;
 import com.syncleus.ferma.ReflectionCache;
-import com.tinkerpop.blueprints.TransactionalGraph;
+import org.apache.tinkerpop.gremlin.structure.Graph;
 
 /**
  * The GrailGraph represents a TinkerPop graph compatible with the GRAIL library typing. Using this Graph instead of the
@@ -28,19 +28,19 @@ import com.tinkerpop.blueprints.TransactionalGraph;
  *
  * @since 0.1
  */
-public class GrailGraph extends DelegatingFramedTransactionalGraph implements GrailGraphFactory {
+public class GrailGraph<G extends Graph> extends DelegatingFramedGraph<G> implements GrailGraphFactory {
 
 
     private final Object id;
     private final GrailGraphFactory parentGraphFactory;
 
-    public GrailGraph(final TransactionalGraph delegate, final GrailGraphFactory parentGraphFactory, final Object id) {
+    public GrailGraph(final G delegate, final GrailGraphFactory parentGraphFactory, final Object id) {
         super(delegate, true, BUILT_IN_TYPES);
         this.id = id;
         this.parentGraphFactory = parentGraphFactory;
     }
 
-    public GrailGraph(TransactionalGraph delegate, ReflectionCache reflections, GrailGraphFactory parentGraphFactory, Object id) {
+    public GrailGraph(G delegate, ReflectionCache reflections, GrailGraphFactory parentGraphFactory, Object id) {
         super(delegate, reflections, true, true);
         this.id = id;
         this.parentGraphFactory = parentGraphFactory;

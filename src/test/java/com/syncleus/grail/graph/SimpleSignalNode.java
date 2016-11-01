@@ -22,9 +22,7 @@ import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
 import com.syncleus.grail.graph.unit.SignalerVertex;
 import com.syncleus.ferma.annotations.Adjacency;
 import com.syncleus.ferma.annotations.Incidence;
-import com.syncleus.grail.graph.unit.SignalMultiplyingEdge;
-import com.syncleus.grail.graph.unit.SignalerVertex;
-import com.tinkerpop.blueprints.Direction;
+import org.apache.tinkerpop.gremlin.structure.Direction;
 
 public interface SimpleSignalNode extends SignalerVertex {
     @Adjacency(label="parent", direction= Direction.IN)

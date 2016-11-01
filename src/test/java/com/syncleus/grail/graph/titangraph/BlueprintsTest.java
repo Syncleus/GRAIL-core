@@ -18,17 +18,19 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.titangraph;
 
-import com.tinkerpop.blueprints.Graph;
-import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.blueprints.impls.tg.TinkerGraph;
+import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph;
 import org.junit.*;
+
+import java.util.Iterator;
 
 public class BlueprintsTest {
     @Test
     public void testApp() {
-        final Graph godGraph = new TinkerGraph();
+        final Graph godGraph = TinkerGraph.open();
         GodGraphLoader.load(godGraph);
-        Iterable<Vertex> skyVertices = godGraph.getVertices("name", "sky");
-        Assert.assertTrue("no sky vertices found", skyVertices.iterator().hasNext());
+        Iterator<Vertex> skyVertices = godGraph.traversal().V().has("name", "sky");
+        Assert.assertTrue("no sky vertices found", skyVertices.hasNext());
     }
 }

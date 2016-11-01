@@ -18,9 +18,9 @@
  ******************************************************************************/
 package com.syncleus.grail.graph.unit.action;
 
-import com.syncleus.ferma.EdgeFrame;
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * This is the Java handler class associated with the ActionTrigger type. It defines how the Trigger is to be executed.
@@ -39,32 +39,35 @@ public abstract class SerialPriorityTrigger extends AbstractPriorityTrigger {
      */
     @Override
     public void trigger() {
-        for( final PrioritySerialTriggerEdge triggerEdge : this.getPrioritizedTriggerEdges() ) {
-            final String actionName = triggerEdge.getTriggerAction();
+        this.getPrioritizedTriggerEdges().forEachRemaining(new Consumer<PrioritySerialTriggerEdge>() {
+            @Override
+            public void accept(PrioritySerialTriggerEdge triggerEdge) {
+                final String actionName = triggerEdge.getTriggerAction();
 
-            final Object triggerObject = triggerEdge.getTarget();
+                final Object triggerObject = triggerEdge.getTarget();
 
-            final Class<?> parentClass = triggerObject.getClass();
+                final Class<?> parentClass = triggerObject.getClass();
 
-            final Map<String, Set<Method>> actionMethods = SerialPriorityTrigger.populateCache(parentClass);
+                final Map<String, Set<Method>> actionMethods = SerialPriorityTrigger.populateCache(parentClass);
 
-            final Set<Method> triggerMethods = actionMethods.get(actionName);
-            if( triggerMethods == null || triggerMethods.isEmpty() )
-                throw new IllegalStateException("A ActionTrigger was configured to trigger an action which does not exist on the current object");
+                final Set<Method> triggerMethods = actionMethods.get(actionName);
+                if( triggerMethods == null || triggerMethods.isEmpty() )
+                    throw new IllegalStateException("A ActionTrigger was configured to trigger an action which does not exist on the current object");
 
-            for( final Method triggerMethod : triggerMethods ) {
-                try {
-                    triggerMethod.invoke(triggerObject, null);
-                }
-                catch (final IllegalAccessException caught) {
-                    caught.printStackTrace();
-                    throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
-                }
-                catch (final InvocationTargetException caught) {
-                    caught.printStackTrace();
-                    throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
+                for( final Method triggerMethod : triggerMethods ) {
+                    try {
+                        triggerMethod.invoke(triggerObject, null);
+                    }
+                    catch (final IllegalAccessException caught) {
+                        caught.printStackTrace();
+                        throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
+                    }
+                    catch (final InvocationTargetException caught) {
+                        caught.printStackTrace();
+                        throw new IllegalStateException("Tried to trigger an action method but can not access", caught);
+                    }
                 }
             }
-        }
+        });
     }
 }

@@ -21,7 +21,7 @@ package com.syncleus.grail.graph;
 import com.syncleus.ferma.annotations.Adjacency;
 import com.syncleus.ferma.annotations.Incidence;
 import com.syncleus.ferma.annotations.Property;
-import com.tinkerpop.blueprints.*;
+import org.apache.tinkerpop.gremlin.structure.Direction;
 
 public interface God {
     @Property("name")
